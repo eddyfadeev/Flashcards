@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
+using IConfigurationProvider = Flashcards.Interfaces.Database.IConfigurationProvider;
 
-namespace Flashcards;
+namespace Flashcards.Database;
 
 public class ConfigurationProvider : IConfigurationProvider
 {

@@ -1,6 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using Flashcards.Interfaces.Database;
+using Microsoft.Data.SqlClient;
 
-namespace Flashcards;
+namespace Flashcards.Database;
 
 internal class ConnectionProvider : IConnectionProvider
 {

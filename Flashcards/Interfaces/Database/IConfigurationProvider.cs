@@ -1,4 +1,4 @@
-﻿namespace Flashcards;
+﻿namespace Flashcards.Interfaces.Database;
 
 public interface IConfigurationProvider
 {

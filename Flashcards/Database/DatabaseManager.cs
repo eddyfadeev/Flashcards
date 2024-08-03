@@ -1,6 +1,7 @@
 ﻿using Dapper;
+using Flashcards.Interfaces.Database;
 
-namespace Flashcards;
+namespace Flashcards.Database;
 
 public class DatabaseManager : IDatabaseManager
 {
