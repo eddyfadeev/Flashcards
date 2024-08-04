@@ -1,0 +1,11 @@
+﻿using Flashcards.Interfaces.Models;
+
+namespace Flashcards.Models.Entity;
+
+public class Flashcard : IFlashcard
+{
+    public int Id { get; set; }
+    public string? Question { get; set; }
+    public string? Answer { get; set; }
+    public int StackId { get; set; }
+}
