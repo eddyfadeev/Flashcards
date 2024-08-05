@@ -1,8 +1,6 @@
 ﻿using Flashcards.Database;
 using Flashcards.Interfaces.Database;
-using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
-using Flashcards.Models.Entity;
 using Flashcards.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
