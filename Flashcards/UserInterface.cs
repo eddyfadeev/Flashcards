@@ -1,4 +1,5 @@
 ﻿using Flashcards.Enums;
+using Flashcards.Extensions;
 using Spectre.Console;
 
 namespace Flashcards;
@@ -11,15 +12,8 @@ public class UserInterface
 
         while (isMenuRunning)
         {
-            var userChoice = AnsiConsole.Prompt(
-                new SelectionPrompt<MainMenuChoices>()
-                    .Title("What would you like to do?")
-                    .AddChoices(
-                        MainMenuChoices.StartStudySession,
-                        MainMenuChoices.ManageStacks,
-                        MainMenuChoices.ManageFlashcards,
-                        MainMenuChoices.Exit)
-            );
+            var choices = GetMenuChoices<MainMenuChoices>();
+            var userChoice = GetUserChoice<MainMenuChoices>(choices);
 
             switch (userChoice)
             {
@@ -39,25 +33,15 @@ public class UserInterface
             }
         }
     }
-
+    
     private static void StacksMenu()
     {
         var isMenuRunning = true;
 
         while (isMenuRunning)
         {
-
-
-            var userChoice = AnsiConsole.Prompt(
-                new SelectionPrompt<StackChoices>()
-                    .Title("What would you like to do?")
-                    .AddChoices(
-                        StackChoices.ViewStacks,
-                        StackChoices.AddStack,
-                        StackChoices.EditStack,
-                        StackChoices.DeleteStack,
-                        StackChoices.ReturnToMainMenu)
-            );
+            var choices = GetMenuChoices<StackChoices>();
+            var userChoice = GetUserChoice<StackChoices>(choices);
 
             switch (userChoice)
             {
@@ -94,17 +78,8 @@ public class UserInterface
 
         while (isMenuRunning)
         {
-            var userChoice = AnsiConsole.Prompt(
-                new SelectionPrompt<FlashcardChoices>()
-                    .Title("What would you like to do?")
-                    .AddChoices(
-                        FlashcardChoices.ViewFlashcards,
-                        FlashcardChoices.AddFlashcard,
-                        FlashcardChoices.EditFlashcard,
-                        FlashcardChoices.DeleteFlashcard,
-                        FlashcardChoices.ReturnToMainMenu
-                        )
-            );
+            var choices = GetMenuChoices<FlashcardChoices>();
+            var userChoice = GetUserChoice<FlashcardChoices>(choices);
 
             switch (userChoice)
             {
@@ -134,4 +109,12 @@ public class UserInterface
     private static void EditFlashcard() => throw new NotImplementedException();
     
     private static void DeleteFlashcard() => throw new NotImplementedException();
+    
+    private static SelectionPrompt<string> GetMenuChoices<T>() where T : Enum => 
+        new SelectionPrompt<string>()
+            .Title("What would you like to do?")
+            .AddChoices(EnumExtensions.GetDisplayNames<T>().ToArray());
+    
+    private static T GetUserChoice<T>(SelectionPrompt<string> choices) where T : Enum => 
+        AnsiConsole.Prompt(choices).GetValueFromDisplayName<T>();
 }
