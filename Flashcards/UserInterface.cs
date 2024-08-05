@@ -1,12 +1,24 @@
 ﻿using Flashcards.Enums;
 using Flashcards.Extensions;
+using Flashcards.Interfaces.Models;
+using Flashcards.Interfaces.Repositories;
+using Flashcards.Models.Entity;
 using Spectre.Console;
 
 namespace Flashcards;
 
 public class UserInterface
 {
-    internal static void MainMenu()
+    private readonly IStacksRepository _stacksRepository;
+    private readonly IFlashcardsRepository _flashcardsRepository;
+    
+    public UserInterface(IStacksRepository stacksRepository, IFlashcardsRepository flashcardsRepository)
+    {
+        _stacksRepository = stacksRepository;
+        _flashcardsRepository = flashcardsRepository;
+    }
+    
+    internal void MainMenu()
     {
         var isMenuRunning = true;
 
@@ -34,7 +46,7 @@ public class UserInterface
         }
     }
     
-    private static void StacksMenu()
+    private void StacksMenu()
     {
         var isMenuRunning = true;
 
@@ -63,16 +75,59 @@ public class UserInterface
             }
         }
     }
-
-    private static void ViewStacks() => throw new NotImplementedException();
-
-    private static void AddStack() => throw new NotImplementedException();
     
-    private static void EditStack() => throw new NotImplementedException();
-    
-    private static void DeleteStack() => throw new NotImplementedException();
+    private void AddStack()
+    {
+        var stack = new Stack();
+        var stackName = AnsiConsole.Ask<string>("Enter the name of the stack:");
 
-    private static void FlashcardsMenu()
+        while (string.IsNullOrWhiteSpace(stackName))
+        {
+            stackName = AnsiConsole.Ask<string>("[red]Stack name cannot be empty. Please enter a name:[/]");
+        }
+        
+        stack.Name = stackName;
+        
+        var result = _stacksRepository.Insert(stack);
+
+        AnsiConsole.WriteLine(
+            result > 0 ? 
+                "[green]Stack added successfully![/]" : 
+                "[red]An error occurred while adding the stack.[/]"
+            );
+    }
+
+    private int ViewStacks()
+    {
+        var stacks = _stacksRepository.GetAll();
+
+        var stacksArray = stacks as IStack[] ?? stacks.ToArray();
+        
+        if (stacksArray.Length == 0)
+        {
+            Console.WriteLine("No stacks found.");
+            return 0;
+        }
+        
+        string[] stackNames = stacksArray.Select(stack => stack.Name).ToArray()!;
+
+        var userChoice = AnsiConsole.Prompt(
+            new SelectionPrompt<string>()
+                .Title("Choose a stack to view:")
+                .AddChoices(stackNames)
+            );
+
+        var stackId = stacksArray.Single(x => x.Name == userChoice).Id;
+        
+        return stackId;
+    }
+
+
+    private void EditStack() => throw new NotImplementedException();
+    
+    private void DeleteStack() => throw new NotImplementedException();
+
+    private void FlashcardsMenu()
     {
         var isMenuRunning = true;
 
@@ -102,19 +157,19 @@ public class UserInterface
         }
     }
     
-    private static void ViewFlashcards() => throw new NotImplementedException();
+    private void ViewFlashcards() => throw new NotImplementedException();
     
-    private static void AddFlashcard() => throw new NotImplementedException();
+    private void AddFlashcard() => throw new NotImplementedException();
     
-    private static void EditFlashcard() => throw new NotImplementedException();
+    private void EditFlashcard() => throw new NotImplementedException();
     
-    private static void DeleteFlashcard() => throw new NotImplementedException();
+    private void DeleteFlashcard() => throw new NotImplementedException();
     
-    private static SelectionPrompt<string> GetMenuChoices<T>() where T : Enum => 
+    private SelectionPrompt<string> GetMenuChoices<T>() where T : Enum => 
         new SelectionPrompt<string>()
             .Title("What would you like to do?")
             .AddChoices(EnumExtensions.GetDisplayNames<T>().ToArray());
     
-    private static T GetUserChoice<T>(SelectionPrompt<string> choices) where T : Enum => 
+    private T GetUserChoice<T>(SelectionPrompt<string> choices) where T : Enum => 
         AnsiConsole.Prompt(choices).GetValueFromDisplayName<T>();
 }
