@@ -5,7 +5,7 @@ namespace Flashcards.Enums;
 public enum StackChoices
 {
     [Display(Name = "View Stacks")]
-    ViewStacks,
+    ChooseStack,
     [Display(Name = "Add Stack")]
     AddStack,
     [Display(Name = "Delete Stack")]

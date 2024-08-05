@@ -5,7 +5,7 @@ namespace Flashcards.DataSeed;
 
 internal static class SeedData
 {
-    internal static void SeedRecords(IDatabaseManager databaseManager)
+    internal static void SeedRecords(IDatabaseManager databaseManager, IDatabaseInitializer databaseInitializer)
     {
         List<Stack> stacks =
         [
@@ -35,6 +35,8 @@ internal static class SeedData
             new Flashcard { StackId = 5, Question = "Gracias", Answer = "Thank you" }
         ];
         
+        databaseManager.DeleteTables();
+        databaseInitializer.Initialize();
         databaseManager.BulkInsertRecords(stacks, flashcards);
     }
 }
