@@ -1,5 +1,4 @@
 ﻿using Flashcards.Interfaces.Models;
-using Flashcards.Models;
 using Flashcards.Models.Dto;
 using Flashcards.Models.Entity;
 
@@ -8,7 +7,7 @@ namespace Flashcards.Extensions;
 public static class ModelsExtensions 
 {
     public static FlashcardDto ToDto(this IFlashcard flashcard) => 
-        new FlashcardDto
+        new()
         {
             Id = flashcard.Id,
             Question = flashcard.Question,
@@ -17,14 +16,14 @@ public static class ModelsExtensions
         };
     
     public static StackDto ToDto(this IStack stack) =>
-        new StackDto
+        new()
         {
             Id = stack.Id,
             Name = stack.Name
         };
     
     public static Flashcard ToEntity(this IFlashcard flashcard) => 
-        new Flashcard
+        new()
         {
             Id = flashcard.Id,
             Question = flashcard.Question,
@@ -33,7 +32,7 @@ public static class ModelsExtensions
         };
     
     public static Stack ToEntity(this IStack stack) =>
-        new Stack
+        new()
         {
             Id = stack.Id,
             Name = stack.Name

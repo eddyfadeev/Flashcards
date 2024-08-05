@@ -1,81 +1,99 @@
 ﻿using Dapper;
+using Flashcards.Extensions;
 using Flashcards.Interfaces.Database;
+using Flashcards.Interfaces.Models;
+using Flashcards.Models.Dto;
 
 namespace Flashcards.Database;
 
 public class DatabaseManager : IDatabaseManager
 {
     private readonly IConnectionProvider _connectionProvider;
-    
-    public DatabaseManager(IConnectionProvider connectionProvider)
+
+    public DatabaseManager(IConnectionProvider connectionProvider, IDatabaseInitializer databaseInitializer)
     {
         _connectionProvider = connectionProvider;
+
+        databaseInitializer.Initialize();
     }
 
-    public void CreateTables()
-    {
-        CreateStacks();
-        CreateFlashcards();
-    }
-    
-    private void CreateStacks()
+    public int InsertFlashcard(IDbEntity<IFlashcard> flashcard)
     {
         try
         {
             using var conn = _connectionProvider.GetConnection();
-            
             conn.Open();
 
-            const string createStackTableSql =
-                """
-                IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Stacks')
-                    CREATE TABLE Stacks (
-                        Id INT IDENTITY(1,1) NOT NULL,
-                        Name NVARCHAR(30) NOT NULL UNIQUE,
-                        PRIMARY KEY (Id)
-                    );
-                """;
-
-            conn.Execute(createStackTableSql);
-
-            Console.WriteLine("Stacks table created successfully.");
+            var query = flashcard.GetInsertQuery();
+            var obj = flashcard.GetObjectForInserting();
+            
+            return conn.Execute(query, obj);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"There was a problem creating the Stacks table: {ex.Message}");
+            Console.WriteLine(
+                $"There was a problem inserting the flashcard into the database: {ex.Message}");
+            return 0;
         }
     }
     
-    private void CreateFlashcards()
+    public int InsertStack(IDbEntity<IStack> stack)
     {
         try
         {
             using var conn = _connectionProvider.GetConnection();
-            
             conn.Open();
 
-            const string createFlashcardTableSql =
-                """
-                IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'Flashcards')
-                    CREATE TABLE Flashcards (
-                        Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
-                        Question NVARCHAR(30) NOT NULL,
-                        Answer NVARCHAR(30) NOT NULL,
-                        StackId INT NOT NULL
-                            FOREIGN KEY
-                            REFERENCES Stacks(Id)
-                            ON DELETE CASCADE
-                            ON UPDATE CASCADE
-                    );
-                """;
+            var query = stack.GetInsertQuery();
+            var obj = stack.GetObjectForInserting();
             
-            conn.Execute(createFlashcardTableSql);
-            
-            Console.WriteLine("Flashcards table created successfully.");
+            return conn.Execute(query, obj);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"There was a problem creating the Flashcards table: {ex.Message}");
+            Console.WriteLine(
+                $"There was a problem inserting the stack into the database: {ex.Message}");
+            return 0;
+        }
+    }
+
+    public IEnumerable<IStack> GetAllStacks()
+    {
+        try
+        {
+            const string query = "SELECT * FROM Stacks;";
+            using var conn = _connectionProvider.GetConnection();
+            
+            conn.Open();
+            
+            var records = conn.Query<StackDto>(query);
+            
+            return records;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            return new List<IStack>();  
+        }
+    }
+    
+    public IEnumerable<IFlashcard> GetFlashcardsForStack(int stackId)
+    {
+        try
+        {
+            const string query = "SELECT * FROM Flashcards WHERE StackId = @StackId;";
+            using var conn = _connectionProvider.GetConnection();
+            
+            conn.Open();
+            
+            var records = conn.Query<FlashcardDto>(query, new { StackId = stackId });
+            
+            return records;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            return new List<IFlashcard>();  
         }
     }
 }

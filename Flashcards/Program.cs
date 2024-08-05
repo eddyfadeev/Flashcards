@@ -1,5 +1,9 @@
 ﻿using Flashcards.Database;
 using Flashcards.Interfaces.Database;
+using Flashcards.Interfaces.Models;
+using Flashcards.Interfaces.Repositories;
+using Flashcards.Models.Entity;
+using Flashcards.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Flashcards;
@@ -12,17 +16,24 @@ class Program
         ConfigureServices(serviceCollection);
         
         var serviceProvider = serviceCollection.BuildServiceProvider();
-        var connectionProvider = serviceProvider.GetRequiredService<IConnectionProvider>();
         
-        var databaseManager = new DatabaseManager(connectionProvider);
+        var stacksRepository = serviceProvider.GetRequiredService<IStacksRepository>();
         
-        databaseManager.CreateTables();
+        var stacks = stacksRepository.GetAll();
+        foreach (var stack in stacks)
+        {
+            Console.WriteLine(stack.Name);
+        }
     }
     
     private static void ConfigureServices(IServiceCollection services)
     {
         services.AddTransient<IConfigurationProvider, ConfigurationProvider>();
         services.AddTransient<IConnectionProvider, ConnectionProvider>();
+        services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+        
         services.AddSingleton<IDatabaseManager, DatabaseManager>();
+        services.AddSingleton<IFlashcardsRepository, FlashcardsRepository>();
+        services.AddSingleton<IStacksRepository, StacksRepository>();
     }
 }

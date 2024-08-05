@@ -1,9 +1,15 @@
-﻿using Flashcards.Interfaces.Models;
+﻿using Flashcards.Extensions;
+using Flashcards.Interfaces.Models;
 
 namespace Flashcards.Models.Entity;
 
-public class Stack : IStack
+public class Stack : IStack, IDbEntity<IStack>
 {
     public int Id { get; set; }
     public string? Name { get; set; }
+
+    public string GetInsertQuery() =>
+        "INSERT INTO Stacks (Name) VALUES (@Name);";
+
+    public IStack GetObjectForInserting() => this.ToDto();
 }
