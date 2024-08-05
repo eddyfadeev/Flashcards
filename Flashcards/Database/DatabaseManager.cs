@@ -1,7 +1,5 @@
 ﻿using Dapper;
 using Flashcards.Interfaces.Database;
-using Flashcards.Interfaces.Models;
-using Flashcards.Models.Dto;
 using Microsoft.Data.SqlClient;
 
 namespace Flashcards.Database;
@@ -17,81 +15,53 @@ public class DatabaseManager : IDatabaseManager
         databaseInitializer.Initialize();
     }
 
-    public int InsertFlashcard(IDbEntity<IFlashcard> flashcard)
+    public int InsertEntity<TEntity>(string query, TEntity entity)
     {
         try
         {
             using var connection = GetConnection();
-
-            var query = flashcard.GetInsertQuery();
-            var obj = flashcard.GetObjectForInserting();
-            
-            return connection.Execute(query, obj);
+            return connection.Execute(query, entity);
         }
         catch (Exception ex)
         {
             Console.WriteLine(
-                $"There was a problem inserting the flashcard into the database: {ex.Message}");
+                $"There was a problem inserting the entity { entity?.GetType().Name } into the database: {ex.Message}"
+                );
             return 0;
         }
     }
-    
-    public int InsertStack(IDbEntity<IStack> stack)
+
+    public IEnumerable<TEntity> GetAllEntities<TEntity>(string query)
     {
         try
         {
             using var connection = GetConnection();
-
-            var query = stack.GetInsertQuery();
-            var obj = stack.GetObjectForInserting();
             
-            return connection.Execute(query, obj);
+            return connection.Query<TEntity>(query);
         }
         catch (Exception ex)
         {
             Console.WriteLine(
-                $"There was a problem inserting the stack into the database: {ex.Message}");
-            return 0;
-        }
-    }
-
-    public IEnumerable<IStack> GetAllStacks()
-    {
-        try
-        {
-            const string query = "SELECT * FROM Stacks;";
-            using var connection = GetConnection();
-            
-            connection.Open();
-            
-            var records = connection.Query<StackDto>(query);
-            
-            return records;
-        }
-        catch (Exception ex)
-        {
-            Console.WriteLine(ex);
-            return new List<IStack>();  
+                $"There was a problem getting all entities of type { typeof(TEntity).Name } from the database: {ex.Message}"
+                );
+            return new List<TEntity>();
         }
     }
     
-    public IEnumerable<IFlashcard> GetFlashcardsForStack(int stackId)
+    public IEnumerable<TEntity> GetAllEntities<TEntity>(string query, object parameters)
     {
         try
         {
-            const string query = "SELECT * FROM Flashcards WHERE StackId = @StackId;";
             using var connection = GetConnection();
             
-            connection.Open();
-            
-            var records = connection.Query<FlashcardDto>(query, new { StackId = stackId });
-            
-            return records;
+            return connection.Query<TEntity>(query, parameters);
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex);
-            return new List<IFlashcard>();  
+            Console.WriteLine(
+                $"There was a problem getting all entities of type { typeof(TEntity).Name } from the database: {ex.Message}"
+            );
+            return new List<TEntity>();
         }
     }
     
