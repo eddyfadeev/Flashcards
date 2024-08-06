@@ -2,7 +2,7 @@
 
 namespace Flashcards.Enums;
 
-public enum MainMenuChoices
+public enum MainMenuChoice
 {
     [Display(Name = "Start Study Session")]
     StartStudySession,

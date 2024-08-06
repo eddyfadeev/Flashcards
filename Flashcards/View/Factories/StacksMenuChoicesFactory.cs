@@ -5,10 +5,10 @@ using Flashcards.View.Commands.StacksMenu;
 
 namespace Flashcards.View.Factories;
 
-internal sealed class StacksMenuChoicesFactory : MenuChoicesFactoryBaseClass<StackChoices>
+internal sealed class StacksMenuChoicesFactory : MenuChoicesFactoryBaseClass<StackChoice>
 {
     private readonly IStacksRepository _stacksRepository;
-    public override Dictionary<StackChoices, Func<ICommand>> ChoicesFactory { get; init; }
+    public override Dictionary<StackChoice, Func<ICommand>> ChoicesFactory { get; init; }
 
     public StacksMenuChoicesFactory(IStacksRepository stacksRepository)
     {
@@ -16,12 +16,12 @@ internal sealed class StacksMenuChoicesFactory : MenuChoicesFactoryBaseClass<Sta
         ChoicesFactory = InitializeChoices();
     }
     
-    private protected override Dictionary<StackChoices, Func<ICommand>> InitializeChoices() =>
+    private protected override Dictionary<StackChoice, Func<ICommand>> InitializeChoices() =>
         new()
         {
-            { StackChoices.AddStack, () => new AddStack(_stacksRepository) },
-            { StackChoices.DeleteStack, () => new DeleteStack(_stacksRepository) },
-            { StackChoices.EditStack, () => new EditStack(_stacksRepository) },
-            { StackChoices.ChooseStack, () => new ChooseStack(_stacksRepository) }
+            { StackChoice.AddStack, () => new AddStack(_stacksRepository) },
+            { StackChoice.DeleteStack, () => new DeleteStack(_stacksRepository) },
+            { StackChoice.EditStack, () => new EditStack(_stacksRepository) },
+            { StackChoice.ChooseStack, () => new ChooseStack(_stacksRepository) }
         };
 }

@@ -23,14 +23,12 @@ class Program
         
         var flashcardsRepository = serviceProvider.GetRequiredService<IFlashcardsRepository>();
         var stacksRepository = serviceProvider.GetRequiredService<IStacksRepository>();
-        var mainMenuChoicesFactory = serviceProvider.GetRequiredService<IMenuChoicesFactory<MainMenuChoices>>();
-        var stackChoicesFactory = serviceProvider.GetRequiredService<IMenuChoicesFactory<StackChoices>>();
-        var flashcardChoicesFactory = serviceProvider.GetRequiredService<IMenuChoicesFactory<FlashcardChoices>>();
-
-        var ui = new MenuHandler(stacksRepository, flashcardsRepository, mainMenuChoicesFactory, stackChoicesFactory,
-            flashcardChoicesFactory);
+        var mainMenuChoicesFactory = serviceProvider.GetRequiredService<IMenuChoicesFactory<MainMenuChoice>>();
+        var stackChoicesFactory = serviceProvider.GetRequiredService<IMenuChoicesFactory<StackChoice>>();
+        var flashcardChoicesFactory = serviceProvider.GetRequiredService<IMenuChoicesFactory<FlashcardChoice>>();
         
-        ui.DisplayMenu();
+        var mainMenuHandler = serviceProvider.GetRequiredService<IMainMenuHandler>();
+        mainMenuHandler.HandleMenu();
     }
     
     private static void ConfigureServices(IServiceCollection services)
@@ -38,12 +36,21 @@ class Program
         services.AddTransient<IConfigurationProvider, ConfigurationProvider>();
         services.AddTransient<IConnectionProvider, ConnectionProvider>();
         services.AddTransient<IDatabaseInitializer, DatabaseInitializer>();
+        services.AddTransient<IMainMenuHandler, MainMenuHandler>();
+        services.AddTransient<IStackMenuHandler, StackMenuHandler>();
+        services.AddTransient<IFlashcardMenuHandler, FlashcardMenuHandler>();
+        services.AddTransient<IMenuEntries<MainMenuChoice>, MenuEntries<MainMenuChoice>>();
+        services.AddTransient<IMenuEntries<StackChoice>, MenuEntries<StackChoice>>();
+        services.AddTransient<IMenuEntries<FlashcardChoice>, MenuEntries<FlashcardChoice>>();
+        services.AddTransient<IMainMenuHandler, MainMenuHandler>();
+        services.AddTransient<IStackMenuHandler, StackMenuHandler>();
+        services.AddTransient<IFlashcardMenuHandler, FlashcardMenuHandler>();
         
         services.AddSingleton<IDatabaseManager, DatabaseManager>();
         services.AddSingleton<IFlashcardsRepository, FlashcardsRepository>();
         services.AddSingleton<IStacksRepository, StacksRepository>();
-        services.AddSingleton<IMenuChoicesFactory<MainMenuChoices>, MainMenuChoicesFactory>();
-        services.AddSingleton<IMenuChoicesFactory<StackChoices>, StacksMenuChoicesFactory>();
-        services.AddSingleton<IMenuChoicesFactory<FlashcardChoices>, FlashcardsMenuChoicesFactory>();
+        services.AddSingleton<IMenuChoicesFactory<MainMenuChoice>, MainMenuChoicesFactory>();
+        services.AddSingleton<IMenuChoicesFactory<StackChoice>, StacksMenuChoicesFactory>();
+        services.AddSingleton<IMenuChoicesFactory<FlashcardChoice>, FlashcardsMenuChoicesFactory>();
     }
 }

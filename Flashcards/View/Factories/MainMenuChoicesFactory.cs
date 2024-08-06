@@ -6,20 +6,20 @@ using Flashcards.View.Commands.MainMenu;
 
 namespace Flashcards.View.Factories;
 
-internal sealed class MainMenuChoicesFactory : MenuChoicesFactoryBaseClass<MainMenuChoices>
+internal sealed class MainMenuChoicesFactory : MenuChoicesFactoryBaseClass<MainMenuChoice>
 {
     private readonly IStacksRepository _stacksRepository;
     private readonly IFlashcardsRepository _flashcardsRepository;
-    private readonly IMenuChoicesFactory<StackChoices> _stackChoicesFactory;
-    private readonly IMenuChoicesFactory<FlashcardChoices> _flashcardChoicesFactory;
+    private readonly IMenuChoicesFactory<StackChoice> _stackChoicesFactory;
+    private readonly IMenuChoicesFactory<FlashcardChoice> _flashcardChoicesFactory;
     
-    public override Dictionary<MainMenuChoices, Func<ICommand>> ChoicesFactory { get; init; }
+    public override Dictionary<MainMenuChoice, Func<ICommand>> ChoicesFactory { get; init; }
     
     public MainMenuChoicesFactory(
         IStacksRepository stacksRepository, 
         IFlashcardsRepository flashcardsRepository,
-        IMenuChoicesFactory<StackChoices> stackChoicesFactory,
-        IMenuChoicesFactory<FlashcardChoices> flashcardChoicesFactory)
+        IMenuChoicesFactory<StackChoice> stackChoicesFactory,
+        IMenuChoicesFactory<FlashcardChoice> flashcardChoicesFactory)
     {
         _stacksRepository = stacksRepository;
         _flashcardsRepository = flashcardsRepository;
@@ -29,11 +29,11 @@ internal sealed class MainMenuChoicesFactory : MenuChoicesFactoryBaseClass<MainM
         ChoicesFactory = InitializeChoices();
     }
 
-    private protected override Dictionary<MainMenuChoices, Func<ICommand>> InitializeChoices() =>
+    private protected override Dictionary<MainMenuChoice, Func<ICommand>> InitializeChoices() =>
         new()
         {
-            { MainMenuChoices.StartStudySession, () => new StartStudySession(_stacksRepository, _flashcardsRepository) },   
-            { MainMenuChoices.ManageStacks, () => new ManageStacks(_stacksRepository, _stackChoicesFactory) },   
-            { MainMenuChoices.ManageFlashcards, () => new ManageFlashcards(_flashcardsRepository) }
+            { MainMenuChoice.StartStudySession, () => new StartStudySession(_stacksRepository, _flashcardsRepository) },   
+            { MainMenuChoice.ManageStacks, () => new ManageStacks(_stacksRepository, _stackChoicesFactory) },   
+            { MainMenuChoice.ManageFlashcards, () => new ManageFlashcards(_flashcardsRepository) }
         };
 }

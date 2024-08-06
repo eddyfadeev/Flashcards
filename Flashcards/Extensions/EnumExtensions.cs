@@ -26,11 +26,17 @@ public static class EnumExtensions
         return Enum.GetValues(typeof(T)).Cast<T>().First(e => e.GetDisplayName() == displayName);
     }
 
-    public static bool IsReturnToMainMenuOrExit<T>(this T enumValue) where T : Enum
+    public static bool IsReturnToMainMenu<T>(this T enumValue) where T : Enum
     {
-        var isExit = enumValue.GetDisplayName() == "Exit";
         var isReturnToMainMenu = enumValue.GetDisplayName() == "Return to Main Menu";
         
-        return isExit || isReturnToMainMenu;
+        return isReturnToMainMenu;
+    }
+    
+    public static bool IsExit<T>(this T enumValue) where T : Enum
+    {
+        var isExit = enumValue.GetDisplayName() == "Exit";
+        
+        return isExit;
     }
 }

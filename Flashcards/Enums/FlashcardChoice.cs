@@ -2,7 +2,7 @@
 
 namespace Flashcards.Enums;
 
-public enum FlashcardChoices
+public enum FlashcardChoice
 {
     [Display(Name = "View Flashcards")]
     ViewFlashcards,
