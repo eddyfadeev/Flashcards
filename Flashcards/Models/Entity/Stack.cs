@@ -12,4 +12,6 @@ public class Stack : IStack, IDbEntity<IStack>
         "INSERT INTO Stacks (Name) VALUES (@Name);";
 
     public IStack GetObjectForInserting() => this.ToDto();
+
+    public override string ToString() => Name ?? string.Empty;
 }
