@@ -3,9 +3,9 @@ using Spectre.Console;
 
 namespace Flashcards.Handlers;
 
-internal class ChoosableEntryHandler : IChoosalbeEntryHandler
+internal class EditableEntryHandler : IEditableEntryHandler
 {
-    public string HandleChoosableEntry(List<string> entriesNames) =>
+    public string HandleEditableEntry(List<string> entriesNames) =>
         AnsiConsole.Prompt(GetUserChoice(entriesNames));
 
 

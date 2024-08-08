@@ -9,14 +9,14 @@ namespace Flashcards.View.Factories.EntriesInitializers;
 
 internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntries>
 {
-    private readonly IChoosalbeEntryHandler _choosableEntryHandler;
+    private readonly IEditableEntryHandler _choosableEntryHandler;
     private readonly IFlashcardsRepository _flashcardsRepository;
     private readonly IStacksRepository _stacksRepository;
 
     public MainMenuEntriesInitializer(
         IStacksRepository stacksRepository,
         IFlashcardsRepository flashcardsRepository,
-        IChoosalbeEntryHandler choosableEntryHandler)
+        IEditableEntryHandler choosableEntryHandler)
     {
         _stacksRepository = stacksRepository;
         _flashcardsRepository = flashcardsRepository;

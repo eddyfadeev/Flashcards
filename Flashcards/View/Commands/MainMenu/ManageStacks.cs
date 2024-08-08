@@ -8,10 +8,10 @@ namespace Flashcards.View.Commands.MainMenu;
 
 internal sealed class ManageStacks : ICommand
 {
-    private readonly IChoosalbeEntryHandler _choosableEntryHandler;
+    private readonly IEditableEntryHandler _choosableEntryHandler;
     private readonly IStacksRepository _stacksRepository;
 
-    public ManageStacks(IStacksRepository stacksRepository, IChoosalbeEntryHandler choosableEntryHandler)
+    public ManageStacks(IStacksRepository stacksRepository, IEditableEntryHandler choosableEntryHandler)
     {
         _stacksRepository = stacksRepository;
         _choosableEntryHandler = choosableEntryHandler;
@@ -28,7 +28,7 @@ internal sealed class ManageStacks : ICommand
             return;
         }
 
-        var userChoice = _choosableEntryHandler.HandleChoosableEntry(entries);
+        var userChoice = _choosableEntryHandler.HandleEditableEntry(entries);
 
         // TODO: Assign chosen stack to a variable inside StackRepository
         AnsiConsole.WriteLine($"You chose: {userChoice}");

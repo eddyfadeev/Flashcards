@@ -36,7 +36,7 @@ internal static class ServicesConfigurator
         services.AddTransient<IMenuCommandFactory<MainMenuEntries>, MenuCommandFactory<MainMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<StackMenuEntries>, MenuCommandFactory<StackMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<FlashcardEntries>, MenuCommandFactory<FlashcardEntries>>();
-        services.AddTransient<IChoosalbeEntryHandler, ChoosableEntryHandler>();
+        services.AddTransient<IEditableEntryHandler, EditableEntryHandler>();
 
         services.AddSingleton<IDatabaseManager, DatabaseManager>();
         services.AddSingleton<IFlashcardsRepository, FlashcardsRepository>();
