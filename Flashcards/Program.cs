@@ -1,6 +1,8 @@
 ﻿using Flashcards.Database;
 using Flashcards.Enums;
+using Flashcards.Handlers;
 using Flashcards.Interfaces.Database;
+using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Factories;
@@ -40,7 +42,7 @@ class Program
         services.AddTransient<IMenuCommandFactory<MainMenuEntries>, MenuCommandFactory<MainMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<StackMenuEntries>, MenuCommandFactory<StackMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<FlashcardEntries>, MenuCommandFactory<FlashcardEntries>>();
-        services.AddTransient<IChoosalbeEntryHandler<IStack>, ChoosableEntryHandler<IStack>>();
+        services.AddTransient<IChoosalbeEntryHandler, ChoosableEntryHandler>();
         
         services.AddSingleton<IDatabaseManager, DatabaseManager>();
         services.AddSingleton<IFlashcardsRepository, FlashcardsRepository>();

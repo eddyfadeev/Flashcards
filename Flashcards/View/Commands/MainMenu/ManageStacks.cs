@@ -1,4 +1,5 @@
-﻿using Flashcards.Interfaces.Models;
+﻿using Flashcards.Extensions;
+using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Spectre.Console;
@@ -7,10 +8,10 @@ namespace Flashcards.View.Commands.MainMenu;
 
 internal sealed class ManageStacks : ICommand
 {
-    private readonly IStacksRepository _stacksRepository;
-    private readonly IChoosalbeEntryHandler<IStack> _choosableEntryHandler;
+    private readonly IStacksRepository _stacksRepository; 
+    private readonly IChoosalbeEntryHandler _choosableEntryHandler;
     
-    public ManageStacks(IStacksRepository stacksRepository, IChoosalbeEntryHandler<IStack> choosableEntryHandler)
+    public ManageStacks(IStacksRepository stacksRepository, IChoosalbeEntryHandler choosableEntryHandler)
     {
         _stacksRepository = stacksRepository;
         _choosableEntryHandler = choosableEntryHandler;
@@ -18,8 +19,8 @@ internal sealed class ManageStacks : ICommand
     
     public void Execute()
     {
-        // TODO: Assign chosen stack to a variable inside StackRepository
-        var entries = _stacksRepository.GetAll().ToList();
+        var stacks = _stacksRepository.GetAll().ToList();
+        var entries = stacks.ExtractNamesToList();
         
         if (entries.Count == 0)
         {
@@ -28,24 +29,8 @@ internal sealed class ManageStacks : ICommand
         }
 
         var userChoice = _choosableEntryHandler.HandleChoosableEntry(entries);
+        
+        // TODO: Assign chosen stack to a variable inside StackRepository
+        AnsiConsole.WriteLine($"You chose: {userChoice}");
     }
-}
-
-internal interface IChoosalbeEntryHandler<T> where T : class
-{
-    T HandleChoosableEntry(IEnumerable<T> entries);
-}
-
-internal class ChoosableEntryHandler<T> : IChoosalbeEntryHandler<T> where T : class
-{
-    public T HandleChoosableEntry(IEnumerable<T> entries) =>
-        AnsiConsole.Prompt(GetUserChoice(entries));
-
-
-    private static SelectionPrompt<T> GetUserChoice(IEnumerable<T> entries) =>
-        new SelectionPrompt<T>()
-            .Title("Choose an entry: ")
-            .AddChoices(entries)
-            // TODO: Use interface to access the name property
-            .UseConverter(entry => (entry as IStack)?.Name ?? entry.ToString());
 }

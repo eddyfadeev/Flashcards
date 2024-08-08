@@ -1,6 +1,4 @@
-﻿using Spectre.Console;
-
-namespace Flashcards.View;
+﻿namespace Flashcards.Interfaces.Handlers;
 
 internal interface IMenuHandler<T> where T : Enum
 {

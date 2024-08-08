@@ -1,8 +1,10 @@
 ﻿using Flashcards.Extensions;
+using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.View.Factories;
+using Flashcards.View;
 using Spectre.Console;
 
-namespace Flashcards.View;
+namespace Flashcards.Handlers;
 
 internal class MenuHandler<T> : IMenuHandler<T> where T : Enum
 {
