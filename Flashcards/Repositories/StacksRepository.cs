@@ -9,7 +9,7 @@ namespace Flashcards.Repositories;
 public class StacksRepository : IStacksRepository
 {
     private readonly IDatabaseManager _databaseManager;
-    
+
     public StacksRepository(IDatabaseManager databaseManager)
     {
         _databaseManager = databaseManager;
@@ -19,18 +19,18 @@ public class StacksRepository : IStacksRepository
     {
         var stack = entity.GetObjectForInserting();
         var query = entity.GetInsertQuery();
-        
+
         return _databaseManager.InsertEntity(query, stack);
     }
 
     public IEnumerable<IStack> GetAll()
     {
         const string query = "SELECT * FROM Stacks;";
-        
+
         IEnumerable<IStack> stacks = _databaseManager.GetAllEntities<StackDto>(query);
-        
+
         stacks = stacks.Select(stack => stack.ToEntity());
-        
+
         return stacks;
     }
 }
