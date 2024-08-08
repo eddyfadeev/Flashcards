@@ -8,5 +8,7 @@ internal static class EnumerableExtensions
         stacks.Count == 0 ? [] : stacks.Select(stack => stack.Name ?? "Name is not found").ToList();
 
     internal static List<string> ExtractNamesToList(this List<IFlashcard> flashcards) =>
-        flashcards.Count == 0 ? [] : flashcards.Select(flashcard => flashcard.Question ?? "Question is not found").ToList();
+        flashcards.Count == 0
+            ? []
+            : flashcards.Select(flashcard => flashcard.Question ?? "Question is not found").ToList();
 }

@@ -9,12 +9,12 @@ namespace Flashcards.View.Factories.EntriesInitializers;
 internal class StacksMenuEntriesInitializer : IMenuEntriesInitializer<StackMenuEntries>
 {
     private readonly IStacksRepository _stacksRepository;
-    
+
     public StacksMenuEntriesInitializer(IStacksRepository stacksRepository)
     {
         _stacksRepository = stacksRepository;
     }
-    
+
     public Dictionary<StackMenuEntries, Func<ICommand>> InitializeEntries() =>
         new()
         {

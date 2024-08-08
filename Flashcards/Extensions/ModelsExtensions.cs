@@ -4,9 +4,9 @@ using Flashcards.Models.Entity;
 
 namespace Flashcards.Extensions;
 
-public static class ModelsExtensions 
+public static class ModelsExtensions
 {
-    public static FlashcardDto ToDto(this IFlashcard flashcard) => 
+    public static FlashcardDto ToDto(this IFlashcard flashcard) =>
         new()
         {
             Id = flashcard.Id,
@@ -14,15 +14,15 @@ public static class ModelsExtensions
             Answer = flashcard.Answer,
             StackId = flashcard.StackId
         };
-    
+
     public static StackDto ToDto(this IStack stack) =>
         new()
         {
             Id = stack.Id,
             Name = stack.Name
         };
-    
-    public static Flashcard ToEntity(this IFlashcard flashcard) => 
+
+    public static Flashcard ToEntity(this IFlashcard flashcard) =>
         new()
         {
             Id = flashcard.Id,
@@ -30,7 +30,7 @@ public static class ModelsExtensions
             Answer = flashcard.Answer,
             StackId = flashcard.StackId
         };
-    
+
     public static Stack ToEntity(this IStack stack) =>
         new()
         {

@@ -11,14 +11,14 @@ internal class MenuCommandFactory<T> : IMenuCommandFactory<T> where T : Enum
     {
         _entriesFactory = entriesInitializer.InitializeEntries();
     }
-    
+
     public ICommand Create(T entry)
     {
         if (_entriesFactory.TryGetValue(entry, out var factory))
         {
             return factory();
         }
-        
-        throw new InvalidOperationException($"No factory found for the { entry }");
+
+        throw new InvalidOperationException($"No factory found for the {entry}");
     }
 }

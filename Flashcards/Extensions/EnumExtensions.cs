@@ -29,14 +29,14 @@ public static class EnumExtensions
     public static bool IsReturnToMainMenu<T>(this T enumValue) where T : Enum
     {
         var isReturnToMainMenu = enumValue.GetDisplayName() == "Return to Main Menu";
-        
+
         return isReturnToMainMenu;
     }
-    
+
     public static bool IsExit<T>(this T enumValue) where T : Enum
     {
         var isExit = enumValue.GetDisplayName() == "Exit";
-        
+
         return isExit;
     }
 }

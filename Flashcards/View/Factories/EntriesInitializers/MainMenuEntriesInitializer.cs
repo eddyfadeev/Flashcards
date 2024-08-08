@@ -9,12 +9,12 @@ namespace Flashcards.View.Factories.EntriesInitializers;
 
 internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntries>
 {
-    private readonly IStacksRepository _stacksRepository;
     private readonly IChoosalbeEntryHandler _choosableEntryHandler;
     private readonly IFlashcardsRepository _flashcardsRepository;
+    private readonly IStacksRepository _stacksRepository;
 
     public MainMenuEntriesInitializer(
-        IStacksRepository stacksRepository, 
+        IStacksRepository stacksRepository,
         IFlashcardsRepository flashcardsRepository,
         IChoosalbeEntryHandler choosableEntryHandler)
     {
@@ -26,7 +26,9 @@ internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntr
     public Dictionary<MainMenuEntries, Func<ICommand>> InitializeEntries() =>
         new()
         {
-            { MainMenuEntries.StartStudySession, () => new StartStudySession(_stacksRepository, _flashcardsRepository) },
+            {
+                MainMenuEntries.StartStudySession, () => new StartStudySession(_stacksRepository, _flashcardsRepository)
+            },
             { MainMenuEntries.ManageStacks, () => new ManageStacks(_stacksRepository, _choosableEntryHandler) },
             { MainMenuEntries.ManageFlashcards, () => new ManageFlashcards(_flashcardsRepository) }
         };

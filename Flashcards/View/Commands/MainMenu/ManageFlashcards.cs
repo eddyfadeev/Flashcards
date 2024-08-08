@@ -11,7 +11,7 @@ internal sealed class ManageFlashcards : ICommand
     {
         _flashcardsRepository = flashcardsRepository;
     }
-    
+
     public void Execute()
     {
         throw new NotImplementedException();

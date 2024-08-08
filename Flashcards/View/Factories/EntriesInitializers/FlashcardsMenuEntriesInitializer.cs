@@ -9,12 +9,12 @@ namespace Flashcards.View.Factories.EntriesInitializers;
 internal class FlashcardsMenuEntriesInitializer : IMenuEntriesInitializer<FlashcardEntries>
 {
     private readonly IFlashcardsRepository _flashcardsRepository;
-    
+
     public FlashcardsMenuEntriesInitializer(IFlashcardsRepository flashcardsRepository)
     {
         _flashcardsRepository = flashcardsRepository;
     }
-    
+
     public Dictionary<FlashcardEntries, Func<ICommand>> InitializeEntries() =>
         new()
         {

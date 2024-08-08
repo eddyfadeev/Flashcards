@@ -6,24 +6,24 @@ namespace Flashcards.Database;
 public class DatabaseInitializer : IDatabaseInitializer
 {
     private readonly IConnectionProvider _connectionProvider;
-    
+
     public DatabaseInitializer(IConnectionProvider connectionProvider)
     {
         _connectionProvider = connectionProvider;
     }
-    
+
     public void Initialize()
     {
         CreateStacks();
         CreateFlashcards();
     }
-    
+
     private void CreateStacks()
     {
         try
         {
             using var conn = _connectionProvider.GetConnection();
-            
+
             conn.Open();
 
             const string createStackTableSql =
@@ -45,13 +45,13 @@ public class DatabaseInitializer : IDatabaseInitializer
             Console.WriteLine($"There was a problem creating the Stacks table: {ex.Message}");
         }
     }
-    
+
     private void CreateFlashcards()
     {
         try
         {
             using var conn = _connectionProvider.GetConnection();
-            
+
             conn.Open();
 
             const string createFlashcardTableSql =
@@ -68,9 +68,9 @@ public class DatabaseInitializer : IDatabaseInitializer
                             ON UPDATE CASCADE
                     );
                 """;
-            
+
             conn.Execute(createFlashcardTableSql);
-            
+
             Console.WriteLine("Flashcards table created successfully.");
         }
         catch (Exception ex)

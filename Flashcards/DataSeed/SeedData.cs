@@ -34,7 +34,7 @@ internal static class SeedData
             new Flashcard { StackId = 4, Question = "Danke", Answer = "Thank you" },
             new Flashcard { StackId = 5, Question = "Gracias", Answer = "Thank you" }
         ];
-        
+
         databaseManager.DeleteTables();
         databaseInitializer.Initialize();
         databaseManager.BulkInsertRecords(stacks, flashcards);
