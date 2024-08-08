@@ -2,7 +2,7 @@
 
 namespace Flashcards.Enums;
 
-public enum StackChoice
+public enum StackMenuEntries
 {
     [Display(Name = "View Stacks")]
     ChooseStack,
