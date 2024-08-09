@@ -23,9 +23,15 @@ internal sealed class DeleteStack : ICommand
         chooseCommand.Execute();
 
         var stackId = _stacksRepository.ChosenEntry;
+
+        if (stackId == null)
+        {
+            AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            return;
+        }
         
         _stacksRepository.Delete(stackId.Id);
-        
+
         AnsiConsole.WriteLine($"You deleted a stack: {stackId.Id}");
     }
 }

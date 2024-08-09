@@ -9,7 +9,7 @@ internal interface IFlashcardsRepository : IRepository<IFlashcard>
 
 internal interface IRepository<TEntity>
 {
-    internal TEntity ChosenEntry { get; set; }
+    internal TEntity? ChosenEntry { get; set; }
     internal int Insert(IDbEntity<TEntity> entity);
     internal void Delete(int id);
 }

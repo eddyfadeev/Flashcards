@@ -30,6 +30,6 @@ internal sealed class ChooseStack : ICommand
         
         var userChoice = _editableEntryHandler.HandleEditableEntry(entries);
 
-        _stacksRepository.ChosenEntry = stacks.Find(stack => stack.Name == userChoice);
+        _stacksRepository.ChosenEntry = stacks.Find(stack => stack.Name == userChoice)!;
     }
 }

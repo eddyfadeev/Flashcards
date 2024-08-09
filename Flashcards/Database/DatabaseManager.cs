@@ -66,18 +66,17 @@ public class DatabaseManager : IDatabaseManager
         }
     }
 
-    public void DeleteEntry<TEntity>(string query, TEntity entity)
+    public void DeleteEntry(string query, object parameters)
     {
         try
         {
             using var connection = GetConnection();
-            const string deleteQuery = "DELETE FROM Flashcards WHERE Id = @Id;";
-
-            connection.Execute(deleteQuery, entity);
+            
+            connection.Execute(query, parameters);
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"There was a problem deleting the entry of type {typeof(TEntity).Name}: {ex.Message}");
+            Console.WriteLine($"There was a problem deleting the entry: {ex.Message}");
         }
     }
 

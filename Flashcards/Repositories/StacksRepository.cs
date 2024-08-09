@@ -10,7 +10,7 @@ public class StacksRepository : IStacksRepository
 {
     private readonly IDatabaseManager _databaseManager;
 
-    public IStack ChosenEntry { get; set; }
+    public IStack? ChosenEntry { get; set; }
     
     public StacksRepository(IDatabaseManager databaseManager)
     {
@@ -31,9 +31,9 @@ public class StacksRepository : IStacksRepository
     {
         const string deleteQuery = "DELETE FROM Stacks WHERE Id = @Id;";
         
-        var stackToDelete = ChosenEntry?.ToDto();
+        var parameters = new { Id = id };
         
-        _databaseManager.DeleteEntry(deleteQuery, stackToDelete);
+        _databaseManager.DeleteEntry(deleteQuery, parameters);
     }
 
     public IEnumerable<IStack> GetAll()

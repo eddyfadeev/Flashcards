@@ -1,19 +1,21 @@
-﻿using Flashcards.Interfaces.Repositories;
+﻿using Flashcards.Enums;
+using Flashcards.Interfaces.Handlers;
+using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 
 namespace Flashcards.View.Commands.MainMenu;
 
 internal sealed class ManageFlashcards : ICommand
 {
-    private readonly IFlashcardsRepository _flashcardsRepository;
+    private readonly IMenuHandler<FlashcardEntries> _flashcardsMenuHandler;
 
-    public ManageFlashcards(IFlashcardsRepository flashcardsRepository)
+    public ManageFlashcards(IMenuHandler<FlashcardEntries> flashcardsMenuHandler)
     {
-        _flashcardsRepository = flashcardsRepository;
+        _flashcardsMenuHandler = flashcardsMenuHandler;
     }
 
     public void Execute()
     {
-        throw new NotImplementedException();
+        _flashcardsMenuHandler.HandleMenu();
     }
 }

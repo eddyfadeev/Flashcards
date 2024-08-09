@@ -2,8 +2,8 @@
 using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
-using Flashcards.Models.Dto;
 using Flashcards.Models.Entity;
+using Spectre.Console;
 
 namespace Flashcards.Repositories;
 
@@ -11,7 +11,7 @@ public class FlashcardsRepository : IFlashcardsRepository
 {
     private readonly IDatabaseManager _databaseManager;
 
-    public IFlashcard ChosenEntry { get; set; }
+    public IFlashcard? ChosenEntry { get; set; }
     
     public FlashcardsRepository(IDatabaseManager databaseManager)
     {
@@ -30,7 +30,18 @@ public class FlashcardsRepository : IFlashcardsRepository
 
     public void Delete(int id)
     {
-        throw new NotImplementedException();
+        // TODO: Template is good for now, ensure that stackId is properly passed to the delete method
+        if (ChosenEntry is null)
+        {
+            AnsiConsole.MarkupLine("[red]No flashcard was chosen to delete.[/]");
+            return;
+        }
+        
+        var parameters = new { Id = id };
+        
+        const string deleteQuery = "DELETE FROM Flashcards WHERE Id = @Id;";
+        
+        _databaseManager.DeleteEntry(deleteQuery, parameters);
     }
 
     public IEnumerable<IFlashcard> GetAll(int stackId)
