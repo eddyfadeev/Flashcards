@@ -6,7 +6,8 @@ public interface IDatabaseManager
 {
     internal int InsertEntity<TEntity>(string query, TEntity entity);
     internal IEnumerable<TEntity> GetAllEntities<TEntity>(string query);
-    internal IEnumerable<TEntity> GetAllEntities<TEntity>(string query, object parameters);
+    internal IEnumerable<TEntity> GetAllEntities<TEntity>(string query, TEntity entity);
+    internal void DeleteEntry<TEntity>(string query, TEntity entity);
     internal void BulkInsertRecords(List<Stack> stacks, List<Flashcard> flashcards);
     internal void DeleteTables();
 }

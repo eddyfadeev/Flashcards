@@ -2,8 +2,14 @@
 
 namespace Flashcards.Interfaces.Repositories;
 
-public interface IFlashcardsRepository
+internal interface IFlashcardsRepository : IRepository<IFlashcard>
 {
-    internal int Insert(IDbEntity<IFlashcard> entity);
     internal IEnumerable<IFlashcard> GetAll(int stackId);
+}
+
+internal interface IRepository<TEntity>
+{
+    internal TEntity ChosenEntry { get; set; }
+    internal int Insert(IDbEntity<TEntity> entity);
+    internal void Delete(int id);
 }

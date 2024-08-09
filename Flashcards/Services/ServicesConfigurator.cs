@@ -4,11 +4,11 @@ using Flashcards.Handlers;
 using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Repositories;
-using Flashcards.Interfaces.View.Factories;
+using Flashcards.Interfaces.View.Factory;
 using Flashcards.Repositories;
 using Flashcards.View;
-using Flashcards.View.Factories;
-using Flashcards.View.Factories.EntriesInitializers;
+using Flashcards.View.Factory;
+using Flashcards.View.Factory.EntriesInitializers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Flashcards.Services;
@@ -33,11 +33,11 @@ internal static class ServicesConfigurator
         services.AddTransient<IMenuEntriesInitializer<MainMenuEntries>, MainMenuEntriesInitializer>();
         services.AddTransient<IMenuEntriesInitializer<StackMenuEntries>, StacksMenuEntriesInitializer>();
         services.AddTransient<IMenuEntriesInitializer<FlashcardEntries>, FlashcardsMenuEntriesInitializer>();
+        services.AddTransient<IEditableEntryHandler, EditableEntryHandler>();
         services.AddTransient<IMenuCommandFactory<MainMenuEntries>, MenuCommandFactory<MainMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<StackMenuEntries>, MenuCommandFactory<StackMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<FlashcardEntries>, MenuCommandFactory<FlashcardEntries>>();
-        services.AddTransient<IEditableEntryHandler, EditableEntryHandler>();
-
+        
         services.AddSingleton<IDatabaseManager, DatabaseManager>();
         services.AddSingleton<IFlashcardsRepository, FlashcardsRepository>();
         services.AddSingleton<IStacksRepository, StacksRepository>();

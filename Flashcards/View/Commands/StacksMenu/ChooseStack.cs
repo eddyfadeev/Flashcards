@@ -1,4 +1,5 @@
-﻿using Flashcards.Interfaces.Models;
+﻿using Flashcards.Extensions;
+using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Spectre.Console;
@@ -8,34 +9,27 @@ namespace Flashcards.View.Commands.StacksMenu;
 internal sealed class ChooseStack : ICommand
 {
     private readonly IStacksRepository _stacksRepository;
+    private readonly IEditableEntryHandler _editableEntryHandler;
 
-    public ChooseStack(IStacksRepository stacksRepository)
+    public ChooseStack(IStacksRepository stacksRepository, IEditableEntryHandler editableEntryHandler)
     {
         _stacksRepository = stacksRepository;
+        _editableEntryHandler = editableEntryHandler;
     }
 
     public void Execute()
     {
-        var stacks = _stacksRepository.GetAll();
+        var stacks = _stacksRepository.GetAll().ToList();
+        var entries = stacks.ExtractNamesToList();
 
-        var stacksArray = stacks as IStack[] ?? stacks.ToArray();
-
-        if (stacksArray.Length == 0)
+        if (entries.Count == 0)
         {
-            Console.WriteLine("No stacks found.");
-            //return 0;
+            AnsiConsole.WriteLine("No stacks found.");
+            return;
         }
+        
+        var userChoice = _editableEntryHandler.HandleEditableEntry(entries);
 
-        string[] stackNames = stacksArray.Select(stack => stack.Name).ToArray()!;
-
-        var userChoice = AnsiConsole.Prompt(
-            new SelectionPrompt<string>()
-                .Title("Choose a stack to view:")
-                .AddChoices(stackNames)
-        );
-
-        var stackId = stacksArray.Single(x => x.Name == userChoice).Id;
-
-        //return stackId;
+        _stacksRepository.ChosenEntry = stacks.Find(stack => stack.Name == userChoice);
     }
 }

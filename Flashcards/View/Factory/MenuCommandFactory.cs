@@ -1,7 +1,7 @@
 ﻿using Flashcards.Interfaces.View.Commands;
-using Flashcards.Interfaces.View.Factories;
+using Flashcards.Interfaces.View.Factory;
 
-namespace Flashcards.View.Factories;
+namespace Flashcards.View.Factory;
 
 internal class MenuCommandFactory<T> : IMenuCommandFactory<T> where T : Enum
 {

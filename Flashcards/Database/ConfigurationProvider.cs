@@ -9,7 +9,7 @@ public class ConfigurationProvider : IConfigurationProvider
 
     public string GetConfiguration() => BuildConfiguration().GetSection("ConnectionStrings")["DefaultConnection"];
 
-    private IConfiguration BuildConfiguration() =>
+    private static IConfiguration BuildConfiguration() =>
         new ConfigurationBuilder()
             .AddJsonFile(AppSettingsFileName)
             .Build();
