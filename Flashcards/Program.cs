@@ -12,6 +12,7 @@ class Program
         var serviceCollection = ServicesConfigurator.ServiceCollection;
 
         var serviceProvider = serviceCollection.BuildServiceProvider();
+        
         var mainMenuCommandFactory = serviceProvider.GetRequiredService<IMenuHandler<MainMenuEntries>>();
         mainMenuCommandFactory.HandleMenu();
     }

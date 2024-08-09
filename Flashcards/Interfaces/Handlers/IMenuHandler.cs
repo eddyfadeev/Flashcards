@@ -1,6 +1,9 @@
-﻿namespace Flashcards.Interfaces.Handlers;
+﻿using Spectre.Console;
 
-internal interface IMenuHandler<T> where T : Enum
+namespace Flashcards.Interfaces.Handlers;
+
+internal interface IMenuHandler<out T> where T : Enum
 {
     void HandleMenu();
+    public T HandleChoosableEntry(SelectionPrompt<string> entries);
 }

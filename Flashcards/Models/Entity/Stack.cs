@@ -11,5 +11,5 @@ public class Stack : IStack, IDbEntity<IStack>
     public string GetInsertQuery() =>
         "INSERT INTO Stacks (Name) VALUES (@Name);";
 
-    public IStack GetObjectForInserting() => this.ToDto();
+    public IStack MapToDto() => this.ToDto();
 }

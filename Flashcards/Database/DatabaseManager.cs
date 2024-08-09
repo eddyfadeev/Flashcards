@@ -49,13 +49,13 @@ public class DatabaseManager : IDatabaseManager
         }
     }
 
-    public IEnumerable<TEntity> GetAllEntities<TEntity>(string query, object parameters)
+    public IEnumerable<TEntity> GetAllEntities<TEntity>(string query, TEntity entity)
     {
         try
         {
             using var connection = GetConnection();
 
-            return connection.Query<TEntity>(query, parameters);
+            return connection.Query<TEntity>(query, entity);
         }
         catch (Exception ex)
         {
@@ -63,6 +63,20 @@ public class DatabaseManager : IDatabaseManager
                 $"There was a problem getting all entities of type {typeof(TEntity).Name} from the database: {ex.Message}"
             );
             return new List<TEntity>();
+        }
+    }
+
+    public void DeleteEntry(string query, object parameters)
+    {
+        try
+        {
+            using var connection = GetConnection();
+            
+            connection.Execute(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"There was a problem deleting the entry: {ex.Message}");
         }
     }
 

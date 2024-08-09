@@ -1,6 +1,6 @@
 ﻿using Flashcards.Interfaces.View.Commands;
 
-namespace Flashcards.Interfaces.View.Factories;
+namespace Flashcards.Interfaces.View.Factory;
 
 public interface IMenuCommandFactory<in T> where T : Enum
 {

@@ -1,10 +1,10 @@
 ﻿using Flashcards.Enums;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
-using Flashcards.Interfaces.View.Factories;
+using Flashcards.Interfaces.View.Factory;
 using Flashcards.View.Commands.FlashcardsMenu;
 
-namespace Flashcards.View.Factories.EntriesInitializers;
+namespace Flashcards.View.Factory.EntriesInitializers;
 
 internal class FlashcardsMenuEntriesInitializer : IMenuEntriesInitializer<FlashcardEntries>
 {
@@ -15,7 +15,7 @@ internal class FlashcardsMenuEntriesInitializer : IMenuEntriesInitializer<Flashc
         _flashcardsRepository = flashcardsRepository;
     }
 
-    public Dictionary<FlashcardEntries, Func<ICommand>> InitializeEntries() =>
+    public Dictionary<FlashcardEntries, Func<ICommand>> InitializeEntries(IMenuCommandFactory<FlashcardEntries> menuCommandFactory) =>
         new()
         {
             { FlashcardEntries.ViewFlashcards, () => new ViewFlashcards(_flashcardsRepository) },

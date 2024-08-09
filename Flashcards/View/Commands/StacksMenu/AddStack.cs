@@ -28,7 +28,7 @@ internal sealed class AddStack : ICommand
 
         var result = _stacksRepository.Insert(stack);
 
-        AnsiConsole.WriteLine(
+        AnsiConsole.MarkupLine(
             result > 0 ? "[green]Stack added successfully![/]" : "[red]An error occurred while adding the stack.[/]"
         );
     }

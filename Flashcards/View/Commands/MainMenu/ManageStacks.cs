@@ -1,36 +1,20 @@
-﻿using Flashcards.Extensions;
+﻿using Flashcards.Enums;
 using Flashcards.Interfaces.Handlers;
-using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
-using Spectre.Console;
 
 namespace Flashcards.View.Commands.MainMenu;
 
 internal sealed class ManageStacks : ICommand
 {
-    private readonly IEditableEntryHandler _choosableEntryHandler;
-    private readonly IStacksRepository _stacksRepository;
+    private readonly IMenuHandler<StackMenuEntries> _stacksMenuHandler;
 
-    public ManageStacks(IStacksRepository stacksRepository, IEditableEntryHandler choosableEntryHandler)
+    public ManageStacks(IMenuHandler<StackMenuEntries> stacksMenuHandler)
     {
-        _stacksRepository = stacksRepository;
-        _choosableEntryHandler = choosableEntryHandler;
+        _stacksMenuHandler = stacksMenuHandler;
     }
 
     public void Execute()
     {
-        var stacks = _stacksRepository.GetAll().ToList();
-        var entries = stacks.ExtractNamesToList();
-
-        if (entries.Count == 0)
-        {
-            AnsiConsole.WriteLine("No stacks found.");
-            return;
-        }
-
-        var userChoice = _choosableEntryHandler.HandleEditableEntry(entries);
-
-        // TODO: Assign chosen stack to a variable inside StackRepository
-        AnsiConsole.WriteLine($"You chose: {userChoice}");
+        _stacksMenuHandler.HandleMenu();
     }
 }

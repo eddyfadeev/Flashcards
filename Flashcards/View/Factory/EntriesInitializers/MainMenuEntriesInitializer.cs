@@ -2,34 +2,38 @@
 using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
-using Flashcards.Interfaces.View.Factories;
+using Flashcards.Interfaces.View.Factory;
 using Flashcards.View.Commands.MainMenu;
 
-namespace Flashcards.View.Factories.EntriesInitializers;
+namespace Flashcards.View.Factory.EntriesInitializers;
 
 internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntries>
 {
-    private readonly IEditableEntryHandler _choosableEntryHandler;
+    private readonly IMenuHandler<FlashcardEntries> _flashcardsMenuHandler;
+    private readonly IMenuHandler<StackMenuEntries> _stacksMenuHandler;
     private readonly IFlashcardsRepository _flashcardsRepository;
     private readonly IStacksRepository _stacksRepository;
 
     public MainMenuEntriesInitializer(
+        IMenuHandler<FlashcardEntries> flashcardsMenuHandler,
         IStacksRepository stacksRepository,
         IFlashcardsRepository flashcardsRepository,
-        IEditableEntryHandler choosableEntryHandler)
+        IMenuHandler<StackMenuEntries> stacksMenuHandler)
     {
         _stacksRepository = stacksRepository;
         _flashcardsRepository = flashcardsRepository;
-        _choosableEntryHandler = choosableEntryHandler;
+        _flashcardsMenuHandler = flashcardsMenuHandler;
+        _stacksMenuHandler = stacksMenuHandler;
     }
 
-    public Dictionary<MainMenuEntries, Func<ICommand>> InitializeEntries() =>
+
+    public Dictionary<MainMenuEntries, Func<ICommand>> InitializeEntries(IMenuCommandFactory<MainMenuEntries> commandFactory) =>
         new()
         {
             {
                 MainMenuEntries.StartStudySession, () => new StartStudySession(_stacksRepository, _flashcardsRepository)
             },
-            { MainMenuEntries.ManageStacks, () => new ManageStacks(_stacksRepository, _choosableEntryHandler) },
-            { MainMenuEntries.ManageFlashcards, () => new ManageFlashcards(_flashcardsRepository) }
+            { MainMenuEntries.ManageStacks, () => new ManageStacks(_stacksMenuHandler) },
+            { MainMenuEntries.ManageFlashcards, () => new ManageFlashcards(_flashcardsMenuHandler) }
         };
 }

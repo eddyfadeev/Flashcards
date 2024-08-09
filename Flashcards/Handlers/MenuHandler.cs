@@ -1,6 +1,6 @@
 ﻿using Flashcards.Extensions;
 using Flashcards.Interfaces.Handlers;
-using Flashcards.Interfaces.View.Factories;
+using Flashcards.Interfaces.View.Factory;
 using Flashcards.View;
 using Spectre.Console;
 

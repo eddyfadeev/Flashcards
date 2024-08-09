@@ -1,8 +1,9 @@
-﻿using Flashcards.Interfaces.View.Commands;
+﻿using Flashcards.Enums;
+using Flashcards.Interfaces.View.Commands;
 
-namespace Flashcards.Interfaces.View.Factories;
+namespace Flashcards.Interfaces.View.Factory;
 
 internal interface IMenuEntriesInitializer<T> where T : Enum
 {
-    Dictionary<T, Func<ICommand>> InitializeEntries();
+    Dictionary<T, Func<ICommand>> InitializeEntries(IMenuCommandFactory<T> menuCommandFactory);
 }
