@@ -15,9 +15,7 @@ internal class FlashcardsMenuEntriesInitializer : IMenuEntriesInitializer<Flashc
         _flashcardsRepository = flashcardsRepository;
     }
 
-    public IMenuCommandFactory<StackMenuEntries> StackMenuCommandFactory { get; set; }
-
-    public Dictionary<FlashcardEntries, Func<ICommand>> InitializeEntries() =>
+    public Dictionary<FlashcardEntries, Func<ICommand>> InitializeEntries(IMenuCommandFactory<FlashcardEntries> menuCommandFactory) =>
         new()
         {
             { FlashcardEntries.ViewFlashcards, () => new ViewFlashcards(_flashcardsRepository) },

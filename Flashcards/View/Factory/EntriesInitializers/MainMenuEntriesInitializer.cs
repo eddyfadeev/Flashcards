@@ -12,7 +12,6 @@ internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntr
     private readonly IMenuHandler<StackMenuEntries> _stacksMenuHandler;
     private readonly IFlashcardsRepository _flashcardsRepository;
     private readonly IStacksRepository _stacksRepository;
-    public IMenuCommandFactory<StackMenuEntries> StackMenuCommandFactory { get; set; }
 
     public MainMenuEntriesInitializer(
         IStacksRepository stacksRepository,
@@ -25,7 +24,7 @@ internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntr
     }
 
 
-    public Dictionary<MainMenuEntries, Func<ICommand>> InitializeEntries() =>
+    public Dictionary<MainMenuEntries, Func<ICommand>> InitializeEntries(IMenuCommandFactory<MainMenuEntries> commandFactory) =>
         new()
         {
             {

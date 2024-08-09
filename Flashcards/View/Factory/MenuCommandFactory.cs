@@ -9,7 +9,7 @@ internal class MenuCommandFactory<T> : IMenuCommandFactory<T> where T : Enum
 
     public MenuCommandFactory(IMenuEntriesInitializer<T> entriesInitializer)
     {
-        _entriesFactory = entriesInitializer.InitializeEntries();
+        _entriesFactory = entriesInitializer.InitializeEntries(this);
     }
 
     public ICommand Create(T entry)

@@ -5,6 +5,5 @@ namespace Flashcards.Interfaces.View.Factory;
 
 internal interface IMenuEntriesInitializer<T> where T : Enum
 {
-    internal IMenuCommandFactory<StackMenuEntries> StackMenuCommandFactory { get; set; }
-    Dictionary<T, Func<ICommand>> InitializeEntries();
+    Dictionary<T, Func<ICommand>> InitializeEntries(IMenuCommandFactory<T> menuCommandFactory);
 }
