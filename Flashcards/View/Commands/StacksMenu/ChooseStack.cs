@@ -1,5 +1,4 @@
-﻿using Flashcards.Extensions;
-using Flashcards.Interfaces.Handlers;
+﻿using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
@@ -21,16 +20,21 @@ internal sealed class ChooseStack : ICommand
     public void Execute()
     {
         var entries = _stacksRepository.GetAll().ToList();
-        // var entries = stacks.ExtractNamesToList();
-        //
-        // if (entries.Count == 0)
-        // {
-        //     AnsiConsole.WriteLine("No stacks found.");
-        //     return;
-        // }
+        
+        if (entries.Count == 0)
+        {
+            AnsiConsole.MarkupLine("[red]No stacks found.[/]");
+            return;
+        }
         
         var userChoice = _editableEntryHandler.HandleEditableEntry(entries);
 
+        if (userChoice is null)
+        {
+            AnsiConsole.MarkupLine("[red]No stack chosen.[/]");
+            return;
+        }
+        
         _stacksRepository.ChosenEntry = userChoice;
         _stacksRepository.SetStackIdInFlashcardsRepository();
     }

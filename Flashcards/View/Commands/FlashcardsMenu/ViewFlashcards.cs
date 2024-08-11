@@ -2,6 +2,7 @@
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
+using Spectre.Console;
 
 namespace Flashcards.View.Commands.FlashcardsMenu;
 
@@ -22,10 +23,18 @@ internal sealed class ViewFlashcards : ICommand
 
         if (flashcards.Count == 0)
         {
-            Console.WriteLine("No flashcards found.");
+            AnsiConsole.MarkupLine("[red]No flashcards found.[/]");
             return;
         }
 
-        _editableEntryHandler.HandleEditableEntry(flashcards);
+        var userChoice = _editableEntryHandler.HandleEditableEntry(flashcards);
+        
+        if (userChoice is null)
+        {
+            AnsiConsole.MarkupLine("[red]No flashcard chosen.[/]");
+            return;
+        }
+        
+        _flashcardsRepository.ChosenEntry = userChoice;
     }
 }
