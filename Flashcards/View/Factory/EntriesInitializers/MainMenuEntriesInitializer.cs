@@ -1,4 +1,5 @@
 ﻿using Flashcards.Enums;
+using Flashcards.Exceptions;
 using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
@@ -34,6 +35,7 @@ internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntr
                 MainMenuEntries.StartStudySession, () => new StartStudySession(_stacksRepository, _flashcardsRepository)
             },
             { MainMenuEntries.ManageStacks, () => new ManageStacks(_stacksMenuHandler) },
-            { MainMenuEntries.ManageFlashcards, () => new ManageFlashcards(_flashcardsMenuHandler) }
+            { MainMenuEntries.ManageFlashcards, () => new ManageFlashcards(_flashcardsMenuHandler) },
+            { MainMenuEntries.Exit, () => throw new ExitApplicationException()}
         };
 }

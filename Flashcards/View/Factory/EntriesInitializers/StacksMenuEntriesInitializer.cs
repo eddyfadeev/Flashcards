@@ -1,4 +1,5 @@
 ﻿using Flashcards.Enums;
+using Flashcards.Exceptions;
 using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
@@ -28,6 +29,7 @@ internal class StacksMenuEntriesInitializer : IMenuEntriesInitializer<StackMenuE
             { StackMenuEntries.AddStack, () => new AddStack(_stacksRepository) },
             { StackMenuEntries.DeleteStack, () => new DeleteStack(_stacksRepository, menuCommandFactory) },
             { StackMenuEntries.EditStack, () => new EditStack(_stacksRepository, menuCommandFactory) },
-            { StackMenuEntries.ChooseStack, () => new ChooseStack(_stacksRepository, _editableEntryHandler) }
+            { StackMenuEntries.ChooseStack, () => new ChooseStack(_stacksRepository, _editableEntryHandler) },
+            { StackMenuEntries.ReturnToMainMenu, () => throw new ReturnToMainMenuException() }
         };
 }

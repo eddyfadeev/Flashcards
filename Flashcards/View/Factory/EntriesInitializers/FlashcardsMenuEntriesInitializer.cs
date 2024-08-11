@@ -1,4 +1,5 @@
 ﻿using Flashcards.Enums;
+using Flashcards.Exceptions;
 using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
@@ -25,6 +26,7 @@ internal class FlashcardsMenuEntriesInitializer : IMenuEntriesInitializer<Flashc
             { FlashcardEntries.ViewFlashcards, () => new ViewFlashcards(_flashcardsRepository, _editableEntryHandler) },
             { FlashcardEntries.AddFlashcard, () => new AddFlashcard(_flashcardsRepository) },
             { FlashcardEntries.EditFlashcard, () => new EditFlashcard(_flashcardsRepository) },
-            { FlashcardEntries.DeleteFlashcard, () => new DeleteFlashcard(_flashcardsRepository) }
+            { FlashcardEntries.DeleteFlashcard, () => new DeleteFlashcard(_flashcardsRepository) },
+            { FlashcardEntries.ReturnToMainMenu, () => throw new ReturnToMainMenuException()}
         };
 }
