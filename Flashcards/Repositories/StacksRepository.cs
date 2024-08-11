@@ -3,7 +3,6 @@ using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Models.Dto;
-using Flashcards.Models.Entity;
 using Spectre.Console;
 
 namespace Flashcards.Repositories;
@@ -25,7 +24,7 @@ internal class StacksRepository : IStacksRepository
     public int Insert(IDbEntity<IStack> entity)
     {
         var stack = entity.MapToDto();
-        var query = entity.GetInsertQuery();
+        const string query = "INSERT INTO Stacks (Name) VALUES (@Name);";
 
         return _databaseManager.InsertEntity(query, stack);
     }
@@ -58,9 +57,6 @@ internal class StacksRepository : IStacksRepository
             return;
         }
 
-        _flashcardsRepository.ChosenEntry = new Flashcard
-        {
-            StackId = ChosenEntry.Id
-        };
+        _flashcardsRepository.StackId = ChosenEntry.Id;
     }
 }

@@ -10,9 +10,6 @@ public class Flashcard : IFlashcard, IDbEntity<IFlashcard>
     public string? Answer { get; set; }
     public int StackId { get; set; }
 
-    public string GetInsertQuery() =>
-        "INSERT INTO Flashcards (Question, Answer, StackId) VALUES (@Question, @Answer, @StackId);";
-
     public IFlashcard MapToDto() => this.ToDto();
     
     public override string ToString() => $"Question: {Question}, Answer: {Answer}";

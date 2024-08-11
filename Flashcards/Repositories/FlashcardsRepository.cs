@@ -10,6 +10,8 @@ namespace Flashcards.Repositories;
 public class FlashcardsRepository : IFlashcardsRepository
 {
     private readonly IDatabaseManager _databaseManager;
+    
+    public int? StackId { get; set; }
 
     public IFlashcard? ChosenEntry { get; set; }
     
@@ -22,7 +24,8 @@ public class FlashcardsRepository : IFlashcardsRepository
     public int Insert(IDbEntity<IFlashcard> entity)
     {
         var stack = entity.MapToDto();
-        var query = entity.GetInsertQuery();
+        
+        const string query = "INSERT INTO Flashcards (Question, Answer, StackId) VALUES (@Question, @Answer, @StackId);";
 
         return _databaseManager.InsertEntity(query, stack);
     }
@@ -48,7 +51,7 @@ public class FlashcardsRepository : IFlashcardsRepository
         const string query = "SELECT * FROM Flashcards WHERE StackId = @StackId;";
         object parameters = new
         {
-            StackId = ChosenEntry?.StackId
+            StackId
         };
         
         var flashcards = _databaseManager.GetAllEntities<Flashcard>(query, parameters);
