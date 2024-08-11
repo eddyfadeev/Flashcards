@@ -3,6 +3,7 @@ using Flashcards.Enums;
 using Flashcards.Handlers;
 using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Handlers;
+using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Factory;
 using Flashcards.Repositories;
@@ -33,7 +34,8 @@ internal static class ServicesConfigurator
         services.AddTransient<IMenuEntriesInitializer<MainMenuEntries>, MainMenuEntriesInitializer>();
         services.AddTransient<IMenuEntriesInitializer<StackMenuEntries>, StacksMenuEntriesInitializer>();
         services.AddTransient<IMenuEntriesInitializer<FlashcardEntries>, FlashcardsMenuEntriesInitializer>();
-        services.AddTransient<IEditableEntryHandler, EditableEntryHandler>();
+        services.AddTransient<IEditableEntryHandler<IStack>, EditableEntryHandler<IStack>>();
+        services.AddTransient<IEditableEntryHandler<IFlashcard>, EditableEntryHandler<IFlashcard>>();
         services.AddTransient<IMenuCommandFactory<MainMenuEntries>, MenuCommandFactory<MainMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<StackMenuEntries>, MenuCommandFactory<StackMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<FlashcardEntries>, MenuCommandFactory<FlashcardEntries>>();

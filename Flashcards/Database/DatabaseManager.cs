@@ -16,17 +16,17 @@ public class DatabaseManager : IDatabaseManager
         databaseInitializer.Initialize();
     }
 
-    public int InsertEntity<TEntity>(string query, TEntity entity)
+    public int InsertEntity(string query, object parameters)
     {
         try
         {
             using var connection = GetConnection();
-            return connection.Execute(query, entity);
+            return connection.Execute(query, parameters);
         }
         catch (Exception ex)
         {
             Console.WriteLine(
-                $"There was a problem inserting the entity {entity?.GetType().Name} into the database: {ex.Message}"
+                $"There was a problem inserting into the database: {ex.Message}"
             );
             return 0;
         }
@@ -49,13 +49,13 @@ public class DatabaseManager : IDatabaseManager
         }
     }
 
-    public IEnumerable<TEntity> GetAllEntities<TEntity>(string query, TEntity entity)
+    public IEnumerable<TEntity> GetAllEntities<TEntity>(string query, object parameters)
     {
         try
         {
             using var connection = GetConnection();
 
-            return connection.Query<TEntity>(query, entity);
+            return connection.Query<TEntity>(query, parameters);
         }
         catch (Exception ex)
         {
@@ -66,17 +66,33 @@ public class DatabaseManager : IDatabaseManager
         }
     }
 
-    public void DeleteEntry(string query, object parameters)
+    public int DeleteEntry(string query, object parameters)
     {
         try
         {
             using var connection = GetConnection();
             
-            connection.Execute(query, parameters);
+            return connection.Execute(query, parameters);
         }
         catch (Exception ex)
         {
             Console.WriteLine($"There was a problem deleting the entry: {ex.Message}");
+            return 0;
+        }
+    }
+
+    public int UpdateEntry(string query, object parameters)
+    {
+        try
+        {
+            using var connection = GetConnection();
+            
+            return connection.Execute(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"There was a problem updating the entry: {ex.Message}");
+            return 0;
         }
     }
 

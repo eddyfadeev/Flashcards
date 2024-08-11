@@ -1,5 +1,7 @@
 ﻿using Flashcards.Enums;
+using Flashcards.Exceptions;
 using Flashcards.Interfaces.Handlers;
+using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Flashcards.Interfaces.View.Factory;
@@ -10,12 +12,11 @@ namespace Flashcards.View.Factory.EntriesInitializers;
 internal class StacksMenuEntriesInitializer : IMenuEntriesInitializer<StackMenuEntries>
 {
     private readonly IStacksRepository _stacksRepository;
-    private readonly IEditableEntryHandler _editableEntryHandler;
+    private readonly IEditableEntryHandler<IStack> _editableEntryHandler;
 
     public StacksMenuEntriesInitializer(
         IStacksRepository stacksRepository,
-        IEditableEntryHandler editableEntryHandler
-
+        IEditableEntryHandler<IStack> editableEntryHandler
         )
     {
         _stacksRepository = stacksRepository;
@@ -27,7 +28,8 @@ internal class StacksMenuEntriesInitializer : IMenuEntriesInitializer<StackMenuE
         {
             { StackMenuEntries.AddStack, () => new AddStack(_stacksRepository) },
             { StackMenuEntries.DeleteStack, () => new DeleteStack(_stacksRepository, menuCommandFactory) },
-            { StackMenuEntries.EditStack, () => new EditStack(_stacksRepository) },
-            { StackMenuEntries.ChooseStack, () => new ChooseStack(_stacksRepository, _editableEntryHandler) }
+            { StackMenuEntries.EditStack, () => new EditStack(_stacksRepository, menuCommandFactory) },
+            { StackMenuEntries.ChooseStack, () => new ChooseStack(_stacksRepository, _editableEntryHandler) },
+            { StackMenuEntries.ReturnToMainMenu, () => throw new ReturnToMainMenuException() }
         };
 }

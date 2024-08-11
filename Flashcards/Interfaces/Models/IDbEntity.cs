@@ -2,6 +2,5 @@
 
 public interface IDbEntity<out T>
 {
-    internal string GetInsertQuery();
     internal T MapToDto();
 }

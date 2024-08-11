@@ -5,4 +5,5 @@ namespace Flashcards.Interfaces.Repositories;
 internal interface IStacksRepository : IRepository<IStack>
 {
     internal IEnumerable<IStack> GetAll();
+    internal void SetStackIdInFlashcardsRepository();
 }

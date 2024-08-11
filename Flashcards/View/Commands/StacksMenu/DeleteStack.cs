@@ -2,6 +2,7 @@
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Flashcards.Interfaces.View.Factory;
+using Flashcards.Services;
 using Spectre.Console;
 
 namespace Flashcards.View.Commands.StacksMenu;
@@ -19,8 +20,7 @@ internal sealed class DeleteStack : ICommand
 
     public void Execute()
     {
-        var chooseCommand = _menuCommandFactory.Create(StackMenuEntries.ChooseStack);
-        chooseCommand.Execute();
+        StackHelperService.GetStacks(_menuCommandFactory);
 
         var stackId = _stacksRepository.ChosenEntry;
 
@@ -30,8 +30,12 @@ internal sealed class DeleteStack : ICommand
             return;
         }
         
-        _stacksRepository.Delete(stackId.Id);
+        var result = _stacksRepository.Delete(stackId.Id);
 
-        AnsiConsole.WriteLine($"You deleted a stack: {stackId.Id}");
+        AnsiConsole.MarkupLine(
+            result > 0 ? 
+                "You deleted a stack." : 
+                "[red]Error while deleting a stack.[/]"
+            );
     }
 }
