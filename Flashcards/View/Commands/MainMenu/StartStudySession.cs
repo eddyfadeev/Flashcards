@@ -1,5 +1,4 @@
-﻿using Flashcards.Enums;
-using Flashcards.Interfaces.Repositories;
+﻿using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 
 namespace Flashcards.View.Commands.MainMenu;

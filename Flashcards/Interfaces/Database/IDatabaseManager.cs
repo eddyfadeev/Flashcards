@@ -4,9 +4,9 @@ namespace Flashcards.Interfaces.Database;
 
 public interface IDatabaseManager
 {
-    internal int InsertEntity<TEntity>(string query, TEntity entity);
+    internal int InsertEntity(string query, object parameters);
     internal IEnumerable<TEntity> GetAllEntities<TEntity>(string query);
-    internal IEnumerable<TEntity> GetAllEntities<TEntity>(string query, TEntity entity);
+    internal IEnumerable<TEntity> GetAllEntities<TEntity>(string query, object parameters);
     internal void DeleteEntry(string query, object parameters);
     internal void BulkInsertRecords(List<Stack> stacks, List<Flashcard> flashcards);
     internal void DeleteTables();

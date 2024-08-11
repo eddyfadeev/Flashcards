@@ -14,6 +14,6 @@ internal sealed class EditStack : ICommand
 
     public void Execute()
     {
-        throw new NotImplementedException();
+        
     }
 }

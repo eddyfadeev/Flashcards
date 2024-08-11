@@ -16,7 +16,6 @@ public class FlashcardsRepository : IFlashcardsRepository
     public FlashcardsRepository(IDatabaseManager databaseManager)
     {
         _databaseManager = databaseManager;
-        ChosenEntry = new Flashcard();
     }
 
 
@@ -44,19 +43,23 @@ public class FlashcardsRepository : IFlashcardsRepository
         _databaseManager.DeleteEntry(deleteQuery, parameters);
     }
 
-    public IEnumerable<IFlashcard> GetAll(int stackId)
+    public IEnumerable<IFlashcard> GetAll()
     {
-        ChosenEntry = new Flashcard
+        const string query = "SELECT * FROM Flashcards WHERE StackId = @StackId;";
+        object parameters = new
         {
-            StackId = stackId
+            StackId = ChosenEntry?.StackId
         };
         
-        var dto = ChosenEntry.ToDto();
-        const string query = "SELECT * FROM Flashcards WHERE StackId = @StackId;";
-        
-        IEnumerable<IFlashcard> flashcards = _databaseManager.GetAllEntities(query, dto);
+        var flashcards = _databaseManager.GetAllEntities<Flashcard>(query, parameters);
         
         flashcards = flashcards.Select(flashcard => flashcard.ToEntity());
+        
+        // TODO: Debug info
+        foreach (var flashcard in flashcards)
+        {
+            Console.WriteLine(flashcard.ToString());
+        }
 
         return flashcards;
     }

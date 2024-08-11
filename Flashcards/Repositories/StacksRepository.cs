@@ -3,19 +3,22 @@ using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Models.Dto;
+using Flashcards.Models.Entity;
+using Spectre.Console;
 
 namespace Flashcards.Repositories;
 
-public class StacksRepository : IStacksRepository
+internal class StacksRepository : IStacksRepository
 {
     private readonly IDatabaseManager _databaseManager;
+    private readonly IFlashcardsRepository _flashcardsRepository;
 
     public IStack? ChosenEntry { get; set; }
     
-    public StacksRepository(IDatabaseManager databaseManager)
+    public StacksRepository(IDatabaseManager databaseManager, IFlashcardsRepository flashcardsRepository)
     {
         _databaseManager = databaseManager;
-        ChosenEntry = new StackDto();
+        _flashcardsRepository = flashcardsRepository;
     }
 
 
@@ -45,5 +48,19 @@ public class StacksRepository : IStacksRepository
         stacks = stacks.Select(stack => stack.ToEntity());
 
         return stacks;
+    }
+
+    public void SetStackIdInFlashcardsRepository()
+    {
+        if (ChosenEntry is null)
+        {
+            AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            return;
+        }
+
+        _flashcardsRepository.ChosenEntry = new Flashcard
+        {
+            StackId = ChosenEntry.Id
+        };
     }
 }

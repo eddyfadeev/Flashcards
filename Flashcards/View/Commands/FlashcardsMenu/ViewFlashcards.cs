@@ -14,6 +14,6 @@ internal sealed class ViewFlashcards : ICommand
 
     public void Execute()
     {
-        throw new NotImplementedException();
+        _flashcardsRepository.GetAll();
     }
 }
