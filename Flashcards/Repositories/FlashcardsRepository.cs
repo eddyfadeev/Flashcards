@@ -54,12 +54,6 @@ public class FlashcardsRepository : IFlashcardsRepository
         var flashcards = _databaseManager.GetAllEntities<Flashcard>(query, parameters);
         
         flashcards = flashcards.Select(flashcard => flashcard.ToEntity());
-        
-        // TODO: Debug info
-        foreach (var flashcard in flashcards)
-        {
-            Console.WriteLine(flashcard.ToString());
-        }
 
         return flashcards;
     }

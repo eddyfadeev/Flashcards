@@ -1,6 +1,6 @@
 ﻿namespace Flashcards.Interfaces.Handlers;
 
-internal interface IEditableEntryHandler
+internal interface IEditableEntryHandler<TEntry>
 {
-    string HandleEditableEntry(List<string> entriesNames);
+    public TEntry? HandleEditableEntry(List<TEntry> entries);
 }

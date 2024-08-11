@@ -80,6 +80,21 @@ public class DatabaseManager : IDatabaseManager
         }
     }
 
+    public int UpdateEntry(string query, object parameters)
+    {
+        try
+        {
+            using var connection = GetConnection();
+            
+            return connection.Execute(query, parameters);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"There was a problem updating the entry: {ex.Message}");
+            return 0;
+        }
+    }
+
     public void BulkInsertRecords(List<Stack> stacks, List<Flashcard> flashcards)
     {
         SqlTransaction? transaction = null;

@@ -14,4 +14,6 @@ public class Flashcard : IFlashcard, IDbEntity<IFlashcard>
         "INSERT INTO Flashcards (Question, Answer, StackId) VALUES (@Question, @Answer, @StackId);";
 
     public IFlashcard MapToDto() => this.ToDto();
+    
+    public override string ToString() => $"Question: {Question}, Answer: {Answer}";
 }

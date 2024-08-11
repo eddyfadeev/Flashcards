@@ -1,5 +1,6 @@
 ﻿using Flashcards.Enums;
 using Flashcards.Interfaces.Handlers;
+using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Flashcards.Interfaces.View.Factory;
@@ -10,11 +11,11 @@ namespace Flashcards.View.Factory.EntriesInitializers;
 internal class StacksMenuEntriesInitializer : IMenuEntriesInitializer<StackMenuEntries>
 {
     private readonly IStacksRepository _stacksRepository;
-    private readonly IEditableEntryHandler _editableEntryHandler;
+    private readonly IEditableEntryHandler<IStack> _editableEntryHandler;
 
     public StacksMenuEntriesInitializer(
         IStacksRepository stacksRepository,
-        IEditableEntryHandler editableEntryHandler
+        IEditableEntryHandler<IStack> editableEntryHandler
 
         )
     {

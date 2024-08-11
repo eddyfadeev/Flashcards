@@ -12,4 +12,5 @@ public class Stack : IStack, IDbEntity<IStack>
         "INSERT INTO Stacks (Name) VALUES (@Name);";
 
     public IStack MapToDto() => this.ToDto();
+    public override string ToString() => Name;
 }
