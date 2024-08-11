@@ -66,17 +66,18 @@ public class DatabaseManager : IDatabaseManager
         }
     }
 
-    public void DeleteEntry(string query, object parameters)
+    public int DeleteEntry(string query, object parameters)
     {
         try
         {
             using var connection = GetConnection();
             
-            connection.Execute(query, parameters);
+            return connection.Execute(query, parameters);
         }
         catch (Exception ex)
         {
             Console.WriteLine($"There was a problem deleting the entry: {ex.Message}");
+            return 0;
         }
     }
 

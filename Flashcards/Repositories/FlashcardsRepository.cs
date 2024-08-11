@@ -2,7 +2,7 @@
 using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
-using Flashcards.Models.Entity;
+using Flashcards.Models.Dto;
 using Spectre.Console;
 
 namespace Flashcards.Repositories;
@@ -20,7 +20,6 @@ public class FlashcardsRepository : IFlashcardsRepository
         _databaseManager = databaseManager;
     }
 
-
     public int Insert(IDbEntity<IFlashcard> entity)
     {
         var stack = entity.MapToDto();
@@ -30,20 +29,25 @@ public class FlashcardsRepository : IFlashcardsRepository
         return _databaseManager.InsertEntity(query, stack);
     }
 
-    public void Delete(int id)
+    public int Delete(int id)
     {
         // TODO: Template is good for now, ensure that stackId is properly passed to the delete method
         if (ChosenEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No flashcard was chosen to delete.[/]");
-            return;
+            return 0;
         }
         
         var parameters = new { Id = id };
         
         const string deleteQuery = "DELETE FROM Flashcards WHERE Id = @Id;";
         
-        _databaseManager.DeleteEntry(deleteQuery, parameters);
+        return _databaseManager.DeleteEntry(deleteQuery, parameters);
+    }
+
+    public int Update()
+    {
+        throw new NotImplementedException();
     }
 
     public IEnumerable<IFlashcard> GetAll()
@@ -54,7 +58,7 @@ public class FlashcardsRepository : IFlashcardsRepository
             StackId
         };
         
-        var flashcards = _databaseManager.GetAllEntities<Flashcard>(query, parameters);
+        IEnumerable<IFlashcard> flashcards = _databaseManager.GetAllEntities<FlashcardDto>(query, parameters);
         
         flashcards = flashcards.Select(flashcard => flashcard.ToEntity());
 

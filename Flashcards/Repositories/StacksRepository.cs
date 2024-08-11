@@ -19,8 +19,7 @@ internal class StacksRepository : IStacksRepository
         _databaseManager = databaseManager;
         _flashcardsRepository = flashcardsRepository;
     }
-
-
+    
     public int Insert(IDbEntity<IStack> entity)
     {
         var stack = entity.MapToDto();
@@ -29,13 +28,27 @@ internal class StacksRepository : IStacksRepository
         return _databaseManager.InsertEntity(query, stack);
     }
 
-    public void Delete(int id)
+    public int Delete(int id)
     {
         const string deleteQuery = "DELETE FROM Stacks WHERE Id = @Id;";
         
         var parameters = new { Id = id };
         
-        _databaseManager.DeleteEntry(deleteQuery, parameters);
+        return _databaseManager.DeleteEntry(deleteQuery, parameters);
+    }
+    
+    public int Update()
+    {
+        if (ChosenEntry is null)
+        {
+            AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            return 0;
+        }
+
+        var stack = ChosenEntry.ToDto();
+        const string query = "UPDATE Stacks SET Name = @Name WHERE Id = @Id;";
+
+        return _databaseManager.UpdateEntry(query, stack);
     }
 
     public IEnumerable<IStack> GetAll()

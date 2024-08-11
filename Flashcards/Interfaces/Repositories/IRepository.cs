@@ -6,5 +6,6 @@ internal interface IRepository<TEntity>
 {
     internal TEntity? ChosenEntry { get; set; }
     internal int Insert(IDbEntity<TEntity> entity);
-    internal void Delete(int id);
+    internal int Delete(int id);
+    internal int Update();
 }
