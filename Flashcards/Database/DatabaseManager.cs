@@ -5,7 +5,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Flashcards.Database;
 
-public class DatabaseManager : IDatabaseManager
+internal class DatabaseManager : IDatabaseManager
 {
     private readonly IConnectionProvider _connectionProvider;
 

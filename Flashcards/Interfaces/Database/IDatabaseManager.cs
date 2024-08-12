@@ -2,7 +2,7 @@
 
 namespace Flashcards.Interfaces.Database;
 
-public interface IDatabaseManager
+internal interface IDatabaseManager
 {
     internal int InsertEntity(string query, object parameters);
     internal IEnumerable<TEntity> GetAllEntities<TEntity>(string query);

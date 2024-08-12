@@ -27,7 +27,7 @@ internal sealed class ViewFlashcards : ICommand
 
     public void Execute()
     {
-        StackHelperService.GetStacks(_stackMenuCommandFactory);
+        StackChooserService.GetStacks(_stackMenuCommandFactory);
         var flashcards = _flashcardsRepository.GetAll().ToList();
 
         if (flashcards.Count == 0)

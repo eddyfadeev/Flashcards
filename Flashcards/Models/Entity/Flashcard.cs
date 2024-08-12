@@ -3,7 +3,7 @@ using Flashcards.Interfaces.Models;
 
 namespace Flashcards.Models.Entity;
 
-public class Flashcard : IFlashcard, IDbEntity<IFlashcard>
+internal class Flashcard : IFlashcard, IDbEntity<IFlashcard>
 {
     public int Id { get; set; }
     public string? Question { get; set; }

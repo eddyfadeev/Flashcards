@@ -4,7 +4,7 @@ using Flashcards.Models.Entity;
 
 namespace Flashcards.Extensions;
 
-public static class MappersExtensions
+internal static class MappersExtensions
 {
     public static FlashcardDto ToDto(this IFlashcard flashcard) =>
         new()

@@ -2,7 +2,7 @@
 
 namespace Flashcards.DataSeed;
 
-public class SeedDataModel
+internal class SeedDataModel
 {
     public List<Stack> Stacks { get; set; } = [];
     public List<Flashcard> Flashcards { get; set; } = [];

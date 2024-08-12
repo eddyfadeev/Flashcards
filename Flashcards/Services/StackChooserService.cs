@@ -3,7 +3,7 @@ using Flashcards.Interfaces.View.Factory;
 
 namespace Flashcards.Services;
 
-internal static class StackHelperService
+internal abstract class StackChooserService
 {
     internal static void GetStacks(IMenuCommandFactory<StackMenuEntries> menuCommandFactory)
     {

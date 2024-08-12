@@ -1,26 +1,23 @@
 ﻿using Flashcards.Enums;
+using Flashcards.Exceptions;
 using Flashcards.Interfaces.Handlers;
-using Flashcards.Interfaces.View.Factory;
 using Flashcards.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Spectre.Console;
 
 namespace Flashcards;
 
-class Program
+internal static class Program
 {
     static void Main(string[] args)
     {
         var serviceCollection = ServicesConfigurator.ServiceCollection;
 
         var serviceProvider = serviceCollection.BuildServiceProvider();
-        var stacksRepository = serviceProvider.GetRequiredService<IMenuCommandFactory<StackMenuEntries>>();
+        var mainMenuHandler = serviceProvider.GetRequiredService<IMenuHandler<MainMenuEntries>>();
         
         ShowWelcomeMessage();
-        MakeInitialChoice(stacksRepository);
-        
-        var mainMenuCommandFactory = serviceProvider.GetRequiredService<IMenuHandler<MainMenuEntries>>();
-        mainMenuCommandFactory.HandleMenu();
+        ShowMainMenu(mainMenuHandler);
     }
     
     private static void ShowWelcomeMessage()
@@ -29,9 +26,24 @@ class Program
         AnsiConsole.WriteLine("Please choose a stack you would like to work on.");
     }
     
-    private static void MakeInitialChoice(IMenuCommandFactory<StackMenuEntries> stacksRepository)
+    private static void ShowMainMenu(IMenuHandler<MainMenuEntries> menuHandler)
     {
-        var userChoice = stacksRepository.Create(StackMenuEntries.ChooseStack);
-        userChoice.Execute();
+        while (true)
+        {
+            Console.Clear();
+            try
+            {
+                menuHandler.HandleMenu();
+            }
+            catch (ReturnToMainMenuException)
+            {
+                // Catching the exception to return to the main menu
+            }
+            catch (ExitApplicationException ex)
+            {
+                AnsiConsole.WriteLine(ex.Message);
+                break;
+            }
+        }
     }
 }

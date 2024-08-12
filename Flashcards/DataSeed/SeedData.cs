@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 
 namespace Flashcards.DataSeed;
 
-public static class SeedData
+internal static class SeedData
 {
-    public static void ProcessRequest(IDatabaseManager databaseManager, IDatabaseInitializer databaseInitializer)
+    internal static void ProcessRequest(IDatabaseManager databaseManager, IDatabaseInitializer databaseInitializer)
     {
         var jsonString = File.ReadAllText(@"DataSeed\DataSeed.json");
 

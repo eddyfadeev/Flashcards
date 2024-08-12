@@ -2,7 +2,7 @@
 
 namespace Flashcards.Interfaces.Database;
 
-public interface IConnectionProvider
+internal interface IConnectionProvider
 {
     SqlConnection GetConnection();
 }

@@ -3,7 +3,7 @@ using Flashcards.Interfaces.Database;
 
 namespace Flashcards.Database;
 
-public class DatabaseInitializer : IDatabaseInitializer
+internal class DatabaseInitializer : IDatabaseInitializer
 {
     private readonly IConnectionProvider _connectionProvider;
 

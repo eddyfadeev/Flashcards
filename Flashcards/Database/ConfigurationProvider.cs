@@ -3,7 +3,7 @@ using IConfigurationProvider = Flashcards.Interfaces.Database.IConfigurationProv
 
 namespace Flashcards.Database;
 
-public class ConfigurationProvider : IConfigurationProvider
+internal class ConfigurationProvider : IConfigurationProvider
 {
     private const string AppSettingsFileName = "appsettings.json";
 

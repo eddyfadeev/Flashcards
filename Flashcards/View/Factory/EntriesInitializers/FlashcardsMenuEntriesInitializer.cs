@@ -29,7 +29,7 @@ internal class FlashcardsMenuEntriesInitializer : IMenuEntriesInitializer<Flashc
         new()
         {
             { FlashcardEntries.ViewFlashcards, () => new ViewFlashcards(_flashcardsRepository, _editableEntryHandler, _stackMenuCommandFactory) },
-            { FlashcardEntries.AddFlashcard, () => new AddFlashcard(_flashcardsRepository) },
+            { FlashcardEntries.AddFlashcard, () => new AddFlashcard(_flashcardsRepository, _stackMenuCommandFactory) },
             { FlashcardEntries.EditFlashcard, () => new EditFlashcard(_flashcardsRepository) },
             { FlashcardEntries.DeleteFlashcard, () => new DeleteFlashcard(_flashcardsRepository) },
             { FlashcardEntries.ReturnToMainMenu, () => throw new ReturnToMainMenuException()}

@@ -1,6 +1,6 @@
 ﻿namespace Flashcards.Interfaces.Database;
 
-public interface IDatabaseInitializer
+internal interface IDatabaseInitializer
 {
     internal void Initialize();
 }

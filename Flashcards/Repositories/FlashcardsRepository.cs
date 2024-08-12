@@ -7,7 +7,7 @@ using Spectre.Console;
 
 namespace Flashcards.Repositories;
 
-public class FlashcardsRepository : IFlashcardsRepository
+internal class FlashcardsRepository : IFlashcardsRepository
 {
     private readonly IDatabaseManager _databaseManager;
     

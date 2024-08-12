@@ -20,7 +20,7 @@ internal sealed class DeleteStack : ICommand
 
     public void Execute()
     {
-        StackHelperService.GetStacks(_menuCommandFactory);
+        StackChooserService.GetStacks(_menuCommandFactory);
 
         var stackId = _stacksRepository.ChosenEntry;
 

@@ -3,7 +3,7 @@ using Flashcards.Interfaces.Models;
 
 namespace Flashcards.Models.Entity;
 
-public class Stack : IStack, IDbEntity<IStack>
+internal class Stack : IStack, IDbEntity<IStack>
 {
     public int Id { get; init; }
     public string? Name { get; set; }
