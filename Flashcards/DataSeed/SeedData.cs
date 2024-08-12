@@ -1,42 +1,46 @@
 ﻿using Flashcards.Interfaces.Database;
-using Flashcards.Models.Entity;
+using Newtonsoft.Json;
 
 namespace Flashcards.DataSeed;
 
-internal static class SeedData
+public static class SeedData
 {
-    internal static void SeedRecords(IDatabaseManager databaseManager, IDatabaseInitializer databaseInitializer)
+    public static void ProcessRequest(IDatabaseManager databaseManager, IDatabaseInitializer databaseInitializer)
     {
-        List<Stack> stacks =
-        [
-            new Stack { Name = "French" },
-            new Stack { Name = "Italian" },
-            new Stack { Name = "Norwegian" },
-            new Stack { Name = "German" },
-            new Stack { Name = "Spanish" }
-        ];
+        var jsonString = File.ReadAllText(@"DataSeed\DataSeed.json");
 
-        List<Flashcard> flashcards =
-        [
-            new Flashcard { StackId = 1, Question = "Oui", Answer = "Hi" },
-            new Flashcard { StackId = 2, Question = "Ciao", Answer = "Hello" },
-            new Flashcard { StackId = 3, Question = "Ja", Answer = "Yes" },
-            new Flashcard { StackId = 4, Question = "Nein", Answer = "No" },
-            new Flashcard { StackId = 5, Question = "Hola", Answer = "Hello" },
-            new Flashcard { StackId = 1, Question = "Bonjour", Answer = "Good morning" },
-            new Flashcard { StackId = 2, Question = "Buongiorno", Answer = "Good morning" },
-            new Flashcard { StackId = 3, Question = "God morgen", Answer = "Good morning" },
-            new Flashcard { StackId = 4, Question = "Guten Morgen", Answer = "Good morning" },
-            new Flashcard { StackId = 5, Question = "Buenos días", Answer = "Good morning" },
-            new Flashcard { StackId = 1, Question = "Merci", Answer = "Thank you" },
-            new Flashcard { StackId = 2, Question = "Grazie", Answer = "Thank you" },
-            new Flashcard { StackId = 3, Question = "Takk", Answer = "Thank you" },
-            new Flashcard { StackId = 4, Question = "Danke", Answer = "Thank you" },
-            new Flashcard { StackId = 5, Question = "Gracias", Answer = "Thank you" }
-        ];
+        var seedData = DeserializeJson(jsonString);
 
+        if (seedData is null)
+        {
+            Console.WriteLine("Deserialization failed.");
+            return;
+        }
+        
         databaseManager.DeleteTables();
         databaseInitializer.Initialize();
-        databaseManager.BulkInsertRecords(stacks, flashcards);
+        var result = databaseManager.BulkInsertRecords(seedData.Stacks, seedData.Flashcards);
+
+        Console.WriteLine(result ? "Data seed was successful." : "Data seed failed.");
+    }
+
+    private static SeedDataModel? DeserializeJson(string json)
+    {
+        try
+        {
+            SeedDataModel seedData = JsonConvert.DeserializeObject<SeedDataModel>(json);
+
+            if (seedData is null)
+            {
+                Console.WriteLine("Deserialization returned null.");
+            }
+
+            return seedData;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Deserialization failed: {ex.Message}");
+            return null;
+        }
     }
 }

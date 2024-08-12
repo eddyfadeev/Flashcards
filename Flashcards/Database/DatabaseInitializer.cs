@@ -37,8 +37,6 @@ public class DatabaseInitializer : IDatabaseInitializer
                 """;
 
             conn.Execute(createStackTableSql);
-
-            Console.WriteLine("Stacks table created successfully.");
         }
         catch (Exception ex)
         {
@@ -70,8 +68,6 @@ public class DatabaseInitializer : IDatabaseInitializer
                 """;
 
             conn.Execute(createFlashcardTableSql);
-
-            Console.WriteLine("Flashcards table created successfully.");
         }
         catch (Exception ex)
         {
