@@ -9,13 +9,13 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.FlashcardsMenu;
 
-internal sealed class ViewFlashcards : ICommand
+internal sealed class ChooseFlashcard : ICommand
 {
     private readonly IFlashcardsRepository _flashcardsRepository;
     private readonly IEditableEntryHandler<IFlashcard> _editableEntryHandler;
     private readonly IMenuCommandFactory<StackMenuEntries> _stackMenuCommandFactory;
 
-    public ViewFlashcards(
+    public ChooseFlashcard(
         IFlashcardsRepository flashcardsRepository, 
         IEditableEntryHandler<IFlashcard> editableEntryHandler,
         IMenuCommandFactory<StackMenuEntries> stackMenuCommandFactory)

@@ -31,7 +31,6 @@ internal sealed class DeleteFlashcard : ICommand
         StackChooserService.GetStacks(_stackMenuCommandFactory);
         FlashcardHelperService.GetFlashcard(_flashcardMenuCommandFactory);
         
-        
         var result = _flashcardsRepository.Delete();
         
         AnsiConsole.MarkupLine(
