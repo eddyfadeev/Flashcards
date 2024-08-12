@@ -29,7 +29,7 @@ internal class FlashcardsRepository : IFlashcardsRepository
         return _databaseManager.InsertEntity(query, stack);
     }
 
-    public int Delete(int id)
+    public int Delete()
     {
         // TODO: Template is good for now, ensure that stackId is properly passed to the delete method
         if (ChosenEntry is null)
@@ -38,7 +38,7 @@ internal class FlashcardsRepository : IFlashcardsRepository
             return 0;
         }
         
-        var parameters = new { Id = id };
+        var parameters = new { Id = ChosenEntry.Id };
         
         const string deleteQuery = "DELETE FROM Flashcards WHERE Id = @Id;";
         

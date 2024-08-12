@@ -22,15 +22,15 @@ internal sealed class DeleteStack : ICommand
     {
         StackChooserService.GetStacks(_menuCommandFactory);
 
-        var stackId = _stacksRepository.ChosenEntry;
+        var stack = _stacksRepository.ChosenEntry;
 
-        if (stackId == null)
+        if (stack is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
             return;
         }
         
-        var result = _stacksRepository.Delete(stackId.Id);
+        var result = _stacksRepository.Delete();
 
         AnsiConsole.MarkupLine(
             result > 0 ? 

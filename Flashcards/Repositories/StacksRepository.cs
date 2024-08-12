@@ -28,11 +28,11 @@ internal class StacksRepository : IStacksRepository
         return _databaseManager.InsertEntity(query, stack);
     }
 
-    public int Delete(int id)
+    public int Delete()
     {
         const string deleteQuery = "DELETE FROM Stacks WHERE Id = @Id;";
         
-        var parameters = new { Id = id };
+        var parameters = new { ChosenEntry.Id };
         
         return _databaseManager.DeleteEntry(deleteQuery, parameters);
     }

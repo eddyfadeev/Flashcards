@@ -22,8 +22,8 @@ internal sealed class AddFlashcard : ICommand
     public void Execute()
     {
         StackChooserService.GetStacks(_stackMenuCommandFactory);
-        var question = GetQuestion();
-        var answer = GetAnswer();
+        var question = FlashcardHelperService.GetQuestion();
+        var answer = FlashcardHelperService.GetAnswer();
         
         if (_flashcardsRepository.StackId is null)
         {
@@ -41,17 +41,5 @@ internal sealed class AddFlashcard : ICommand
         };
         
         _flashcardsRepository.Insert(flashcard);
-    }
-    
-    private string GetQuestion()
-    {
-        AnsiConsole.MarkupLine("Enter the question:");
-        return AnsiConsole.Ask<string>("> ");
-    }
-    
-    private string GetAnswer()
-    {
-        AnsiConsole.MarkupLine("Enter the answer:");
-        return AnsiConsole.Ask<string>("> ");
     }
 }
