@@ -13,17 +13,22 @@ internal class FlashcardsMenuEntriesInitializer : IMenuEntriesInitializer<Flashc
 {
     private readonly IFlashcardsRepository _flashcardsRepository;
     private readonly IEditableEntryHandler<IFlashcard> _editableEntryHandler;
+    private readonly IMenuCommandFactory<StackMenuEntries> _stackMenuCommandFactory;
 
-    public FlashcardsMenuEntriesInitializer(IFlashcardsRepository flashcardsRepository, IEditableEntryHandler<IFlashcard> editableEntryHandler)
+    public FlashcardsMenuEntriesInitializer(
+        IFlashcardsRepository flashcardsRepository, 
+        IEditableEntryHandler<IFlashcard> editableEntryHandler,
+        IMenuCommandFactory<StackMenuEntries> stackMenuCommandFactory)
     {
         _flashcardsRepository = flashcardsRepository;
         _editableEntryHandler = editableEntryHandler;
+        _stackMenuCommandFactory = stackMenuCommandFactory;
     }
 
-    public Dictionary<FlashcardEntries, Func<ICommand>> InitializeEntries(IMenuCommandFactory<FlashcardEntries> menuCommandFactory) =>
+    public Dictionary<FlashcardEntries, Func<ICommand>> InitializeEntries(IMenuCommandFactory<FlashcardEntries> flashcardsMenuCommandFactory) =>
         new()
         {
-            { FlashcardEntries.ViewFlashcards, () => new ViewFlashcards(_flashcardsRepository, _editableEntryHandler) },
+            { FlashcardEntries.ViewFlashcards, () => new ViewFlashcards(_flashcardsRepository, _editableEntryHandler, _stackMenuCommandFactory) },
             { FlashcardEntries.AddFlashcard, () => new AddFlashcard(_flashcardsRepository) },
             { FlashcardEntries.EditFlashcard, () => new EditFlashcard(_flashcardsRepository) },
             { FlashcardEntries.DeleteFlashcard, () => new DeleteFlashcard(_flashcardsRepository) },

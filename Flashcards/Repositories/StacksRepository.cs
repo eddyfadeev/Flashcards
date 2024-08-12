@@ -72,4 +72,15 @@ internal class StacksRepository : IStacksRepository
 
         _flashcardsRepository.StackId = ChosenEntry.Id;
     }
+    
+    public void SetStackNameInFlashcardsRepository()
+    {
+        if (ChosenEntry is null)
+        {
+            AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            return;
+        }
+
+        _flashcardsRepository.StackName = ChosenEntry.Name;
+    }
 }

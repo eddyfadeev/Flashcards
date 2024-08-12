@@ -37,5 +37,6 @@ internal sealed class ChooseStack : ICommand
         
         _stacksRepository.ChosenEntry = userChoice;
         _stacksRepository.SetStackIdInFlashcardsRepository();
+        _stacksRepository.SetStackNameInFlashcardsRepository();
     }
 }

@@ -12,7 +12,7 @@ public class FlashcardsRepository : IFlashcardsRepository
     private readonly IDatabaseManager _databaseManager;
     
     public int? StackId { get; set; }
-
+    public string? StackName { get; set; }
     public IFlashcard? ChosenEntry { get; set; }
     
     public FlashcardsRepository(IDatabaseManager databaseManager)
