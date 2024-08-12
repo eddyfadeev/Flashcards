@@ -27,6 +27,7 @@ internal sealed class DeleteStack : ICommand
         if (stack is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            Console.ReadKey();
             return;
         }
         
@@ -37,5 +38,6 @@ internal sealed class DeleteStack : ICommand
                 "You deleted a stack." : 
                 "[red]Error while deleting a stack.[/]"
             );
+        Console.ReadKey();
     }
 }

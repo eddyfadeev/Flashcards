@@ -42,6 +42,7 @@ internal class StacksRepository : IStacksRepository
         if (ChosenEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            Console.ReadKey();
             return 0;
         }
 
@@ -67,6 +68,7 @@ internal class StacksRepository : IStacksRepository
         if (ChosenEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            Console.ReadKey();
             return;
         }
 
@@ -78,6 +80,7 @@ internal class StacksRepository : IStacksRepository
         if (ChosenEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            Console.ReadKey();
             return;
         }
 

@@ -28,10 +28,10 @@ internal class FlashcardsMenuEntriesInitializer : IMenuEntriesInitializer<Flashc
     public Dictionary<FlashcardEntries, Func<ICommand>> InitializeEntries(IMenuCommandFactory<FlashcardEntries> flashcardsMenuCommandFactory) =>
         new()
         {
-            { FlashcardEntries.ViewFlashcards, () => new ViewFlashcards(_flashcardsRepository, _editableEntryHandler, _stackMenuCommandFactory) },
+            { FlashcardEntries.ChooseFlashcard, () => new ViewFlashcards(_flashcardsRepository, _editableEntryHandler, _stackMenuCommandFactory) },
             { FlashcardEntries.AddFlashcard, () => new AddFlashcard(_flashcardsRepository, _stackMenuCommandFactory) },
             { FlashcardEntries.EditFlashcard, () => new EditFlashcard(_flashcardsRepository, _stackMenuCommandFactory) },
-            { FlashcardEntries.DeleteFlashcard, () => new DeleteFlashcard(_flashcardsRepository, _stackMenuCommandFactory, _editableEntryHandler) },
+            { FlashcardEntries.DeleteFlashcard, () => new DeleteFlashcard(_flashcardsRepository, _stackMenuCommandFactory, flashcardsMenuCommandFactory) },
             { FlashcardEntries.ReturnToMainMenu, () => throw new ReturnToMainMenuException()}
         };
 }

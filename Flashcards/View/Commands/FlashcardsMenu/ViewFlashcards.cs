@@ -33,6 +33,7 @@ internal sealed class ViewFlashcards : ICommand
         if (flashcards.Count == 0)
         {
             AnsiConsole.MarkupLine("[red]No flashcards found.[/]");
+            Console.ReadKey();
             return;
         }
 
@@ -41,6 +42,7 @@ internal sealed class ViewFlashcards : ICommand
         if (userChoice is null)
         {
             AnsiConsole.MarkupLine("[red]No flashcard chosen.[/]");
+            Console.ReadKey();
             return;
         }
         

@@ -24,6 +24,7 @@ internal sealed class ChooseStack : ICommand
         if (entries.Count == 0)
         {
             AnsiConsole.MarkupLine("[red]No stacks found.[/]");
+            Console.ReadKey();
             return;
         }
         
@@ -32,6 +33,7 @@ internal sealed class ChooseStack : ICommand
         if (userChoice is null)
         {
             AnsiConsole.MarkupLine("[red]No stack chosen.[/]");
+            Console.ReadKey();
             return;
         }
         

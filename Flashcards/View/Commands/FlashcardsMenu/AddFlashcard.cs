@@ -28,6 +28,7 @@ internal sealed class AddFlashcard : ICommand
         if (_flashcardsRepository.StackId is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            Console.ReadKey();
             return;
         }
         

@@ -19,5 +19,6 @@ internal sealed class EditFlashcard : ICommand
     public void Execute()
     {
         throw new NotImplementedException();
+        Console.ReadKey();
     }
 }
