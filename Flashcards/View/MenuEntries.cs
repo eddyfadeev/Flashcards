@@ -1,4 +1,5 @@
 ﻿using Flashcards.Extensions;
+using Flashcards.Interfaces.View;
 using Spectre.Console;
 
 namespace Flashcards.View;
