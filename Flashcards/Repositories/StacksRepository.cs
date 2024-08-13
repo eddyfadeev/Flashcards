@@ -4,21 +4,18 @@ using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Models.Dto;
 using Flashcards.Services;
-using Spectre.Console;
 
 namespace Flashcards.Repositories;
 
 internal class StacksRepository : IStacksRepository
 {
     private readonly IDatabaseManager _databaseManager;
-    private readonly IFlashcardsRepository _flashcardsRepository;
 
     public IStack? SelectedEntry { get; set; }
     
-    public StacksRepository(IDatabaseManager databaseManager, IFlashcardsRepository flashcardsRepository)
+    public StacksRepository(IDatabaseManager databaseManager)
     {
         _databaseManager = databaseManager;
-        _flashcardsRepository = flashcardsRepository;
     }
     
     public int Insert(IDbEntity<IStack> entity)
@@ -60,25 +57,5 @@ internal class StacksRepository : IStacksRepository
         stacks = stacks.Select(stack => stack.ToEntity());
 
         return stacks;
-    }
-
-    public void SetStackIdInFlashcardsRepository()
-    {
-        if (StackChooserService.CheckStackForNull(SelectedEntry))
-        {
-            return;
-        }
-
-        _flashcardsRepository.StackId = SelectedEntry.Id;
-    }
-    
-    public void SetStackNameInFlashcardsRepository()
-    {
-        if (StackChooserService.CheckStackForNull(SelectedEntry))
-        {
-            return;
-        }
-
-        _flashcardsRepository.StackName = SelectedEntry.Name;
     }
 }

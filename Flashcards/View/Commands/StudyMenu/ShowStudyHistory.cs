@@ -10,17 +10,26 @@ namespace Flashcards.View.Commands.StudyMenu;
 internal class ShowStudyHistory : ICommand
 {
     private readonly IStudySessionsRepository _studySessionsRepository;
+    private readonly IStacksRepository _stacksRepository;
     private readonly IMenuCommandFactory<StackMenuEntries> _stackMenuCommandFactory;
     
-    public ShowStudyHistory(IStudySessionsRepository studySessionsRepository, IMenuCommandFactory<StackMenuEntries> stackMenuCommandFactory)
+    public ShowStudyHistory(
+        IStudySessionsRepository studySessionsRepository, 
+        IStacksRepository stacksRepository,
+        IMenuCommandFactory<StackMenuEntries> stackMenuCommandFactory
+        )
     {
         _studySessionsRepository = studySessionsRepository;
+        _stacksRepository = stacksRepository;
         _stackMenuCommandFactory = stackMenuCommandFactory;
     }
     
     public void Execute()
     {
-        StackChooserService.GetStacks(_stackMenuCommandFactory);
+        StackChooserService.GetStacks(
+            _stackMenuCommandFactory,
+            _stacksRepository
+            );
         var studySessions = _studySessionsRepository.GetAll();
         
         var table = new Table();

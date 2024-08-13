@@ -12,22 +12,29 @@ namespace Flashcards.View.Commands.FlashcardsMenu;
 internal sealed class ChooseFlashcard : ICommand
 {
     private readonly IFlashcardsRepository _flashcardsRepository;
+    private readonly IStacksRepository _stacksRepository;
     private readonly IEditableEntryHandler<IFlashcard> _editableEntryHandler;
     private readonly IMenuCommandFactory<StackMenuEntries> _stackMenuCommandFactory;
 
     public ChooseFlashcard(
         IFlashcardsRepository flashcardsRepository, 
+        IStacksRepository stacksRepository,
         IEditableEntryHandler<IFlashcard> editableEntryHandler,
         IMenuCommandFactory<StackMenuEntries> stackMenuCommandFactory)
     {
         _flashcardsRepository = flashcardsRepository;
+        _stacksRepository = stacksRepository;
         _editableEntryHandler = editableEntryHandler;
         _stackMenuCommandFactory = stackMenuCommandFactory;
     }
 
     public void Execute()
     {
-        StackChooserService.GetStacks(_stackMenuCommandFactory);
+        var stack = StackChooserService.GetStacks(_stackMenuCommandFactory, _stacksRepository);
+        
+        FlashcardHelperService.SetStackNameInFlashcardsRepository(_flashcardsRepository, stack);
+        FlashcardHelperService.SetStackIdInFlashcardsRepository(_flashcardsRepository, stack);
+        
         var flashcards = _flashcardsRepository.GetAll().ToList();
 
         if (flashcards.Count == 0)

@@ -23,6 +23,7 @@ internal sealed class EditFlashcard : ICommand
     public void Execute()
     {
         FlashcardHelperService.GetFlashcard(_flashcardMenuCommandFactory);
+        
         var updatedQuestion = FlashcardHelperService.GetQuestion();
         var updatedAnswer = FlashcardHelperService.GetAnswer();
         

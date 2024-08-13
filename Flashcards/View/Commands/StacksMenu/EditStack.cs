@@ -1,6 +1,4 @@
 ﻿using Flashcards.Enums;
-using Flashcards.Interfaces.Handlers;
-using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Flashcards.Interfaces.View.Factory;
@@ -22,7 +20,7 @@ internal sealed class EditStack : ICommand
 
     public void Execute()
     {
-        StackChooserService.GetStacks(_menuCommandFactory);
+        StackChooserService.GetStacks(_menuCommandFactory, _stacksRepository);
 
         var newStackName = AskNewStackName();
         
