@@ -1,9 +1,10 @@
-﻿namespace Flashcards.Interfaces.Models;
+﻿using Flashcards.Interfaces.Repositories.Operations;
 
-internal interface IStudySession
+namespace Flashcards.Interfaces.Models;
+
+internal interface IStudySession : IAssignableStackId, IAssignableStackName
 {
     internal int Id { get; set; }
-    internal int StackId { get; set; }
     internal DateTime Date { get; set; }
     internal int Questions { get; set; }
     internal int CorrectAnswers { get; set; }

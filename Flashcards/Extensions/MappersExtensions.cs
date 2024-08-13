@@ -31,7 +31,8 @@ internal static class MappersExtensions
             Questions = studySession.Questions,
             CorrectAnswers = studySession.CorrectAnswers,
             Percentage = studySession.Percentage,
-            Time = studySession.Time
+            Time = studySession.Time,
+            StackName = studySession.StackName
         };
 
     public static Flashcard ToEntity(this IFlashcard flashcard) =>
@@ -59,6 +60,7 @@ internal static class MappersExtensions
             Questions = studySession.Questions,
             CorrectAnswers = studySession.CorrectAnswers,
             Percentage = studySession.Percentage,
-            Time = studySession.Time
+            Time = studySession.Time,
+            StackName = studySession.StackName
         };
 }

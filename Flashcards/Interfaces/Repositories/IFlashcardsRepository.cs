@@ -9,7 +9,5 @@ internal interface IFlashcardsRepository :
     IDeleteFromRepository,
     IUpdateInRepository,
     ISelectableRepositoryEntry<IFlashcard>,
-    IAssignableStackId
-{
-    public string? StackName { get; set; }
-}
+    IAssignableStackId,
+    IAssignableStackName;

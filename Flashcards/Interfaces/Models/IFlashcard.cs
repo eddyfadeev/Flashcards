@@ -1,9 +1,10 @@
-﻿namespace Flashcards.Interfaces.Models;
+﻿using Flashcards.Interfaces.Repositories.Operations;
 
-internal interface IFlashcard
+namespace Flashcards.Interfaces.Models;
+
+internal interface IFlashcard : IAssignableStackId
 {
     int Id { get; set; }
     string? Question { get; set; }
     string? Answer { get; set; }
-    int StackId { get; set; }
 }
