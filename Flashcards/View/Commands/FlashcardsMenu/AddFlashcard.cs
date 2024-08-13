@@ -1,6 +1,9 @@
-﻿using Flashcards.Interfaces.Repositories;
+﻿using Flashcards.Enums;
+using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
+using Flashcards.Interfaces.View.Factory;
 using Flashcards.Models.Entity;
+using Flashcards.Services;
 using Spectre.Console;
 
 namespace Flashcards.View.Commands.FlashcardsMenu;
@@ -8,20 +11,24 @@ namespace Flashcards.View.Commands.FlashcardsMenu;
 internal sealed class AddFlashcard : ICommand
 {
     private readonly IFlashcardsRepository _flashcardsRepository;
+    private readonly IMenuCommandFactory<StackMenuEntries> _stackMenuCommandFactory;
 
-    public AddFlashcard(IFlashcardsRepository flashcardsRepository)
+    public AddFlashcard(IFlashcardsRepository flashcardsRepository, IMenuCommandFactory<StackMenuEntries> stackMenuCommandFactory)
     {
         _flashcardsRepository = flashcardsRepository;
+        _stackMenuCommandFactory = stackMenuCommandFactory;
     }
 
     public void Execute()
     {
-        var question = GetQuestion();
-        var answer = GetAnswer();
+        StackChooserService.GetStacks(_stackMenuCommandFactory);
+        var question = FlashcardHelperService.GetQuestion();
+        var answer = FlashcardHelperService.GetAnswer();
         
         if (_flashcardsRepository.StackId is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            Console.ReadKey();
             return;
         }
         
@@ -35,17 +42,5 @@ internal sealed class AddFlashcard : ICommand
         };
         
         _flashcardsRepository.Insert(flashcard);
-    }
-    
-    private string GetQuestion()
-    {
-        AnsiConsole.MarkupLine("Enter the question:");
-        return AnsiConsole.Ask<string>("> ");
-    }
-    
-    private string GetAnswer()
-    {
-        AnsiConsole.MarkupLine("Enter the answer:");
-        return AnsiConsole.Ask<string>("> ");
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace Flashcards.Interfaces.View.Commands;
 
-public interface ICommand
+internal interface ICommand
 {
     void Execute();
 }

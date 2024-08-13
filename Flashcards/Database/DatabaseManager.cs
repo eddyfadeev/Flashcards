@@ -5,7 +5,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Flashcards.Database;
 
-public class DatabaseManager : IDatabaseManager
+internal class DatabaseManager : IDatabaseManager
 {
     private readonly IConnectionProvider _connectionProvider;
 
@@ -96,29 +96,36 @@ public class DatabaseManager : IDatabaseManager
         }
     }
 
-    public void BulkInsertRecords(List<Stack> stacks, List<Flashcard> flashcards)
+    public bool BulkInsertRecords(List<Stack> stacks, List<Flashcard> flashcards)
     {
         SqlTransaction? transaction = null;
+        var seedResult = false;
 
         try
         {
             using var connection = GetConnection();
             transaction = connection.BeginTransaction();
 
-            connection.Execute("INSERT INTO Stacks (Name) VALUES (@Name);", stacks, transaction: transaction);
-            connection.Execute(
+            var stacksResult = connection.Execute("INSERT INTO Stacks (Name) VALUES (@Name);", stacks, transaction: transaction);
+            var flashcardsResult = connection.Execute(
                 "INSERT INTO Flashcards (StackId, Question, Answer) VALUES (@StackId, @Question, @Answer);",
                 flashcards,
                 transaction: transaction
             );
 
             transaction.Commit();
+            
+            seedResult = stacksResult > 0 && flashcardsResult > 0;
+
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Problem bulk inserting records into the database occured: {ex.Message}");
             transaction?.Rollback();
+            return false;
         }
+        
+        return seedResult;
     }
 
     public void DeleteTables()

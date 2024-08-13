@@ -4,7 +4,7 @@ namespace Flashcards.Enums;
 
 public enum FlashcardEntries
 {
-    [Display(Name = "View Flashcards")] ViewFlashcards,
+    [Display(Name = "View Flashcards")] ChooseFlashcard,
     [Display(Name = "Add Flashcard")] AddFlashcard,
     [Display(Name = "Delete Flashcard")] DeleteFlashcard,
     [Display(Name = "Edit Flashcard")] EditFlashcard,

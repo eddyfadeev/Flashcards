@@ -3,7 +3,7 @@ using Flashcards.Interfaces.Database;
 
 namespace Flashcards.Database;
 
-public class DatabaseInitializer : IDatabaseInitializer
+internal class DatabaseInitializer : IDatabaseInitializer
 {
     private readonly IConnectionProvider _connectionProvider;
 
@@ -37,8 +37,6 @@ public class DatabaseInitializer : IDatabaseInitializer
                 """;
 
             conn.Execute(createStackTableSql);
-
-            Console.WriteLine("Stacks table created successfully.");
         }
         catch (Exception ex)
         {
@@ -70,8 +68,6 @@ public class DatabaseInitializer : IDatabaseInitializer
                 """;
 
             conn.Execute(createFlashcardTableSql);
-
-            Console.WriteLine("Flashcards table created successfully.");
         }
         catch (Exception ex)
         {

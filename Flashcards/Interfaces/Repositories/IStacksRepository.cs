@@ -6,4 +6,5 @@ internal interface IStacksRepository : IRepository<IStack>
 {
     internal IEnumerable<IStack> GetAll();
     internal void SetStackIdInFlashcardsRepository();
+    public void SetStackNameInFlashcardsRepository();
 }

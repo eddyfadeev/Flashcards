@@ -7,12 +7,12 @@ using Spectre.Console;
 
 namespace Flashcards.Repositories;
 
-public class FlashcardsRepository : IFlashcardsRepository
+internal class FlashcardsRepository : IFlashcardsRepository
 {
     private readonly IDatabaseManager _databaseManager;
     
     public int? StackId { get; set; }
-
+    public string? StackName { get; set; }
     public IFlashcard? ChosenEntry { get; set; }
     
     public FlashcardsRepository(IDatabaseManager databaseManager)
@@ -29,16 +29,16 @@ public class FlashcardsRepository : IFlashcardsRepository
         return _databaseManager.InsertEntity(query, stack);
     }
 
-    public int Delete(int id)
+    public int Delete()
     {
-        // TODO: Template is good for now, ensure that stackId is properly passed to the delete method
         if (ChosenEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No flashcard was chosen to delete.[/]");
+            Console.ReadKey();
             return 0;
         }
         
-        var parameters = new { Id = id };
+        var parameters = new { Id = ChosenEntry.Id };
         
         const string deleteQuery = "DELETE FROM Flashcards WHERE Id = @Id;";
         
@@ -47,7 +47,18 @@ public class FlashcardsRepository : IFlashcardsRepository
 
     public int Update()
     {
-        throw new NotImplementedException();
+        if (ChosenEntry is null)
+        {
+            AnsiConsole.MarkupLine("[red]No flashcard was chosen to update.[/]");
+            Console.ReadKey();
+            return 0;
+        }
+
+        var flashcard = ChosenEntry.ToDto();
+        
+        const string query = "UPDATE Flashcards SET Question = @Question, Answer = @Answer WHERE Id = @Id;";
+        
+        return _databaseManager.UpdateEntry(query, flashcard);
     }
 
     public IEnumerable<IFlashcard> GetAll()

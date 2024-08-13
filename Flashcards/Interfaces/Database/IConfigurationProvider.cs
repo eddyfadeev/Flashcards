@@ -1,6 +1,6 @@
 ﻿namespace Flashcards.Interfaces.Database;
 
-public interface IConfigurationProvider
+internal interface IConfigurationProvider
 {
     string GetConfiguration();
 }

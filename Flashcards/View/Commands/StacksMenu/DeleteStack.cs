@@ -20,22 +20,24 @@ internal sealed class DeleteStack : ICommand
 
     public void Execute()
     {
-        StackHelperService.GetStacks(_menuCommandFactory);
+        StackChooserService.GetStacks(_menuCommandFactory);
 
-        var stackId = _stacksRepository.ChosenEntry;
+        var stack = _stacksRepository.ChosenEntry;
 
-        if (stackId == null)
+        if (stack is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            Console.ReadKey();
             return;
         }
         
-        var result = _stacksRepository.Delete(stackId.Id);
+        var result = _stacksRepository.Delete();
 
         AnsiConsole.MarkupLine(
             result > 0 ? 
                 "You deleted a stack." : 
                 "[red]Error while deleting a stack.[/]"
             );
+        Console.ReadKey();
     }
 }

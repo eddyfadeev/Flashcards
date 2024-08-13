@@ -1,6 +1,6 @@
 ﻿namespace Flashcards.Interfaces.Models;
 
-public interface IFlashcard
+internal interface IFlashcard
 {
     int Id { get; set; }
     string? Question { get; set; }

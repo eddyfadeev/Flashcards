@@ -28,11 +28,11 @@ internal class StacksRepository : IStacksRepository
         return _databaseManager.InsertEntity(query, stack);
     }
 
-    public int Delete(int id)
+    public int Delete()
     {
         const string deleteQuery = "DELETE FROM Stacks WHERE Id = @Id;";
         
-        var parameters = new { Id = id };
+        var parameters = new { ChosenEntry.Id };
         
         return _databaseManager.DeleteEntry(deleteQuery, parameters);
     }
@@ -42,6 +42,7 @@ internal class StacksRepository : IStacksRepository
         if (ChosenEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            Console.ReadKey();
             return 0;
         }
 
@@ -67,9 +68,22 @@ internal class StacksRepository : IStacksRepository
         if (ChosenEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            Console.ReadKey();
             return;
         }
 
         _flashcardsRepository.StackId = ChosenEntry.Id;
+    }
+    
+    public void SetStackNameInFlashcardsRepository()
+    {
+        if (ChosenEntry is null)
+        {
+            AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
+            Console.ReadKey();
+            return;
+        }
+
+        _flashcardsRepository.StackName = ChosenEntry.Name;
     }
 }

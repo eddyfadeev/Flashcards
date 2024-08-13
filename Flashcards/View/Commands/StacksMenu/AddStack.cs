@@ -31,5 +31,6 @@ internal sealed class AddStack : ICommand
         AnsiConsole.MarkupLine(
             result > 0 ? "[green]Stack added successfully![/]" : "[red]An error occurred while adding the stack.[/]"
         );
+        Console.ReadKey();
     }
 }

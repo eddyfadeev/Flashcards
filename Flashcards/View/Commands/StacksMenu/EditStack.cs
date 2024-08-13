@@ -22,7 +22,7 @@ internal sealed class EditStack : ICommand
 
     public void Execute()
     {
-        StackHelperService.GetStacks(_menuCommandFactory);
+        StackChooserService.GetStacks(_menuCommandFactory);
 
         var newStackName = AskNewStackName();
         
@@ -35,6 +35,7 @@ internal sealed class EditStack : ICommand
                 "[green]Stack name updated successfully![/]" : 
                 "[red]An error occurred while updating the stack name.[/]"
         );
+        Console.ReadKey();
     }
     
     private static string AskNewStackName()
