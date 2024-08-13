@@ -2,9 +2,13 @@
 
 namespace Flashcards.Interfaces.Repositories;
 
-internal interface IStacksRepository : IRepository<IStack>
+internal interface IStacksRepository : 
+    IInsertIntoRepository<IStack>,
+    IGetAllFromRepository<IStack>,
+    IRepositoryEntry<IStack>,
+    IDeleteFromRepository,
+    IUpdateInRepository
 {
-    internal IEnumerable<IStack> GetAll();
     internal void SetStackIdInFlashcardsRepository();
     public void SetStackNameInFlashcardsRepository();
 }

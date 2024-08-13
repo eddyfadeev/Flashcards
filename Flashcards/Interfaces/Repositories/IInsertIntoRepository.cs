@@ -2,10 +2,7 @@
 
 namespace Flashcards.Interfaces.Repositories;
 
-internal interface IRepository<TEntity>
+internal interface IInsertIntoRepository<in TEntity>
 {
-    internal TEntity? ChosenEntry { get; set; }
     internal int Insert(IDbEntity<TEntity> entity);
-    internal int Delete();
-    internal int Update();
 }
