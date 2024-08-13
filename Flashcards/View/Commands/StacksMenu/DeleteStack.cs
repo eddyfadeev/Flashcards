@@ -30,6 +30,13 @@ internal sealed class DeleteStack : ICommand
             GeneralHelperService.ShowContinueMessage();
             return;
         }
+
+        var confirmation = GeneralHelperService.AskForConfirmation();
+        
+        if (!confirmation)
+        {
+            return;
+        }
         
         var result = _stacksRepository.Delete();
 

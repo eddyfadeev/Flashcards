@@ -6,9 +6,9 @@ internal static class GeneralHelperService
 {
     internal static bool AskForConfirmation()
     {
-        const string message = "Are you sure you want to delete this entry? [red]This action cannot be undone![/]";
+        const string message = "[white]Are you sure you want to delete this entry?[/] [red]This action cannot be undone![/]";
         
-        var userChoice = AnsiConsole.Ask<bool>(message);
+        var userChoice = AnsiConsole.Confirm(message);
         
         return userChoice;
     }

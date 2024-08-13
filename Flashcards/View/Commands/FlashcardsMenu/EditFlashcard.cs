@@ -10,16 +10,13 @@ namespace Flashcards.View.Commands.FlashcardsMenu;
 internal sealed class EditFlashcard : ICommand
 {
     private readonly IFlashcardsRepository _flashcardsRepository;
-    private readonly IMenuCommandFactory<StackMenuEntries> _stackMenuCommandFactory;
     private readonly IMenuCommandFactory<FlashcardEntries> _flashcardMenuCommandFactory;
 
     public EditFlashcard(
         IFlashcardsRepository flashcardsRepository, 
-        IMenuCommandFactory<StackMenuEntries> stackMenuCommandFactory,
         IMenuCommandFactory<FlashcardEntries> flashcardMenuCommandFactory)
     {
         _flashcardsRepository = flashcardsRepository;
-        _stackMenuCommandFactory = stackMenuCommandFactory;
         _flashcardMenuCommandFactory = flashcardMenuCommandFactory;
     }
 
