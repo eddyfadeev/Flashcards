@@ -1,4 +1,5 @@
 ﻿using Flashcards.Interfaces.Models;
+using Flashcards.Interfaces.Repositories.Operations;
 
 namespace Flashcards.Interfaces.Repositories;
 

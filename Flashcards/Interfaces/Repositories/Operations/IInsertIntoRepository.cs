@@ -1,6 +1,6 @@
 ﻿using Flashcards.Interfaces.Models;
 
-namespace Flashcards.Interfaces.Repositories;
+namespace Flashcards.Interfaces.Repositories.Operations;
 
 internal interface IInsertIntoRepository<in TEntity>
 {

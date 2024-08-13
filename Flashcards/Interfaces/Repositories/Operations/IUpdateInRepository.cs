@@ -1,4 +1,4 @@
-﻿namespace Flashcards.Interfaces.Repositories;
+﻿namespace Flashcards.Interfaces.Repositories.Operations;
 
 internal interface IUpdateInRepository
 {
