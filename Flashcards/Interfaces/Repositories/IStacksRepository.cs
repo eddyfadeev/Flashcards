@@ -1,10 +1,15 @@
 ﻿using Flashcards.Interfaces.Models;
+using Flashcards.Interfaces.Repositories.Operations;
 
 namespace Flashcards.Interfaces.Repositories;
 
-internal interface IStacksRepository : IRepository<IStack>
+internal interface IStacksRepository : 
+    IInsertIntoRepository<IStack>,
+    IGetAllFromRepository<IStack>,
+    ISelectableRepositoryEntry<IStack>,
+    IDeleteFromRepository,
+    IUpdateInRepository
 {
-    internal IEnumerable<IStack> GetAll();
     internal void SetStackIdInFlashcardsRepository();
     public void SetStackNameInFlashcardsRepository();
 }

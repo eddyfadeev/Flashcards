@@ -1,6 +1,7 @@
 ﻿using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Flashcards.Models.Entity;
+using Flashcards.Services;
 using Spectre.Console;
 
 namespace Flashcards.View.Commands.StacksMenu;
@@ -31,6 +32,7 @@ internal sealed class AddStack : ICommand
         AnsiConsole.MarkupLine(
             result > 0 ? "[green]Stack added successfully![/]" : "[red]An error occurred while adding the stack.[/]"
         );
-        Console.ReadKey();
+        
+        GeneralHelperService.ShowContinueMessage();
     }
 }

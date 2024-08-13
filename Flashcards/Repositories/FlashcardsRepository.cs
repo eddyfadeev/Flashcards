@@ -3,6 +3,7 @@ using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Models.Dto;
+using Flashcards.Services;
 using Spectre.Console;
 
 namespace Flashcards.Repositories;
@@ -13,7 +14,7 @@ internal class FlashcardsRepository : IFlashcardsRepository
     
     public int? StackId { get; set; }
     public string? StackName { get; set; }
-    public IFlashcard? ChosenEntry { get; set; }
+    public IFlashcard? SelectedEntry { get; set; }
     
     public FlashcardsRepository(IDatabaseManager databaseManager)
     {
@@ -31,14 +32,14 @@ internal class FlashcardsRepository : IFlashcardsRepository
 
     public int Delete()
     {
-        if (ChosenEntry is null)
+        if (SelectedEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No flashcard was chosen to delete.[/]");
-            Console.ReadKey();
+            GeneralHelperService.ShowContinueMessage();
             return 0;
         }
         
-        var parameters = new { Id = ChosenEntry.Id };
+        var parameters = new { Id = SelectedEntry.Id };
         
         const string deleteQuery = "DELETE FROM Flashcards WHERE Id = @Id;";
         
@@ -47,14 +48,14 @@ internal class FlashcardsRepository : IFlashcardsRepository
 
     public int Update()
     {
-        if (ChosenEntry is null)
+        if (SelectedEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No flashcard was chosen to update.[/]");
-            Console.ReadKey();
+            GeneralHelperService.ShowContinueMessage();
             return 0;
         }
 
-        var flashcard = ChosenEntry.ToDto();
+        var flashcard = SelectedEntry.ToDto();
         
         const string query = "UPDATE Flashcards SET Question = @Question, Answer = @Answer WHERE Id = @Id;";
         

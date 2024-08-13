@@ -33,7 +33,7 @@ internal sealed class ChooseFlashcard : ICommand
         if (flashcards.Count == 0)
         {
             AnsiConsole.MarkupLine("[red]No flashcards found.[/]");
-            Console.ReadKey();
+            GeneralHelperService.ShowContinueMessage();
             return;
         }
 
@@ -42,10 +42,10 @@ internal sealed class ChooseFlashcard : ICommand
         if (userChoice is null)
         {
             AnsiConsole.MarkupLine("[red]No flashcard chosen.[/]");
-            Console.ReadKey();
+            GeneralHelperService.ShowContinueMessage();
             return;
         }
         
-        _flashcardsRepository.ChosenEntry = userChoice;
+        _flashcardsRepository.SelectedEntry = userChoice;
     }
 }

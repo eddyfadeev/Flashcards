@@ -21,6 +21,19 @@ internal static class MappersExtensions
             Id = stack.Id,
             Name = stack.Name
         };
+    
+    public static StudySessionDto ToDto(this IStudySession studySession) =>
+        new()
+        {
+            Id = studySession.Id,
+            StackId = studySession.StackId,
+            Date = studySession.Date,
+            Questions = studySession.Questions,
+            CorrectAnswers = studySession.CorrectAnswers,
+            Percentage = studySession.Percentage,
+            Time = studySession.Time,
+            StackName = studySession.StackName
+        };
 
     public static Flashcard ToEntity(this IFlashcard flashcard) =>
         new()
@@ -36,5 +49,18 @@ internal static class MappersExtensions
         {
             Id = stack.Id,
             Name = stack.Name
+        };
+    
+    public static StudySession ToEntity(this IStudySession studySession) =>
+        new()
+        {
+            Id = studySession.Id,
+            StackId = studySession.StackId,
+            Date = studySession.Date,
+            Questions = studySession.Questions,
+            CorrectAnswers = studySession.CorrectAnswers,
+            Percentage = studySession.Percentage,
+            Time = studySession.Time,
+            StackName = studySession.StackName
         };
 }

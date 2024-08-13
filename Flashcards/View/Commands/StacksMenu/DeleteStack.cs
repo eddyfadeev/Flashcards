@@ -22,12 +22,19 @@ internal sealed class DeleteStack : ICommand
     {
         StackChooserService.GetStacks(_menuCommandFactory);
 
-        var stack = _stacksRepository.ChosenEntry;
+        var stack = _stacksRepository.SelectedEntry;
 
         if (stack is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
-            Console.ReadKey();
+            GeneralHelperService.ShowContinueMessage();
+            return;
+        }
+
+        var confirmation = GeneralHelperService.AskForConfirmation();
+        
+        if (!confirmation)
+        {
             return;
         }
         
@@ -38,6 +45,6 @@ internal sealed class DeleteStack : ICommand
                 "You deleted a stack." : 
                 "[red]Error while deleting a stack.[/]"
             );
-        Console.ReadKey();
+        GeneralHelperService.ShowContinueMessage();
     }
 }

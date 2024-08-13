@@ -16,6 +16,7 @@ internal class DatabaseInitializer : IDatabaseInitializer
     {
         CreateStacks();
         CreateFlashcards();
+        CreateStudySessionTable();
     }
 
     private void CreateStacks()
@@ -72,6 +73,40 @@ internal class DatabaseInitializer : IDatabaseInitializer
         catch (Exception ex)
         {
             Console.WriteLine($"There was a problem creating the Flashcards table: {ex.Message}");
+        }
+    }
+
+    private void CreateStudySessionTable()
+    {
+        try
+        {
+            using var conn = _connectionProvider.GetConnection();
+            
+            conn.Open();
+            
+            const string createStudySessionTableSql = 
+                """
+                IF NOT EXISTS (SELECT * FROM sys.tables WHERE name = 'StudySessions')
+                    CREATE TABLE StudySessions (
+                        Id INT IDENTITY(1,1) NOT NULL PRIMARY KEY,
+                        Questions INT NOT NULL,
+                        Date DATETIME NOT NULL,
+                        CorrectAnswers INT NOT NULL,
+                        Percentage AS (CorrectAnswers * 100) / Questions PERSISTED,
+                        Time TIME NOT NULL,
+                        StackId INT NOT NULL
+                            FOREIGN KEY
+                            REFERENCES Stacks(Id)
+                            ON DELETE CASCADE
+                            ON UPDATE CASCADE
+                    );
+                """;
+            
+            conn.Execute(createStudySessionTableSql);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"There was a problem creating the StudySessions table: {ex.Message}");
         }
     }
 }

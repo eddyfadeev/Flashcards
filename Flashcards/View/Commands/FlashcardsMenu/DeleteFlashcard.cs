@@ -12,24 +12,27 @@ namespace Flashcards.View.Commands.FlashcardsMenu;
 internal sealed class DeleteFlashcard : ICommand
 {
     private readonly IFlashcardsRepository _flashcardsRepository;
-    private readonly IMenuCommandFactory<StackMenuEntries> _stackMenuCommandFactory;
     private readonly IMenuCommandFactory<FlashcardEntries> _flashcardMenuCommandFactory;
 
     public DeleteFlashcard(
-        IFlashcardsRepository flashcardsRepository, 
-        IMenuCommandFactory<StackMenuEntries> stackMenuCommandFactory,
+        IFlashcardsRepository flashcardsRepository,
         IMenuCommandFactory<FlashcardEntries> flashcardMenuCommandFactory
             )
     {
         _flashcardsRepository = flashcardsRepository;
-        _stackMenuCommandFactory = stackMenuCommandFactory;
         _flashcardMenuCommandFactory = flashcardMenuCommandFactory;
     }
 
     public void Execute()
     {
-        StackChooserService.GetStacks(_stackMenuCommandFactory);
         FlashcardHelperService.GetFlashcard(_flashcardMenuCommandFactory);
+
+        var confirmation = GeneralHelperService.AskForConfirmation();
+        
+        if (!confirmation)
+        {
+            return;
+        }
         
         var result = _flashcardsRepository.Delete();
         
@@ -38,6 +41,6 @@ internal sealed class DeleteFlashcard : ICommand
                 "[green]You deleted a flashcard.[/]" : 
                 "[red]Error while deleting a flashcard.[/]"
             );
-        Console.ReadKey();
+        GeneralHelperService.ShowContinueMessage();
     }
 }
