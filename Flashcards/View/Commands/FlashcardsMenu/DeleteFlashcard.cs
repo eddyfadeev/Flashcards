@@ -31,6 +31,7 @@ internal sealed class DeleteFlashcard : ICommand
         StackChooserService.GetStacks(_stackMenuCommandFactory);
         FlashcardHelperService.GetFlashcard(_flashcardMenuCommandFactory);
         
+        
         var result = _flashcardsRepository.Delete();
         
         AnsiConsole.MarkupLine(
@@ -38,6 +39,6 @@ internal sealed class DeleteFlashcard : ICommand
                 "[green]You deleted a flashcard.[/]" : 
                 "[red]Error while deleting a flashcard.[/]"
             );
-        Console.ReadKey();
+        GeneralHelperService.ShowContinueMessage();
     }
 }

@@ -25,7 +25,6 @@ internal sealed class EditFlashcard : ICommand
 
     public void Execute()
     {
-        StackChooserService.GetStacks(_stackMenuCommandFactory);
         FlashcardHelperService.GetFlashcard(_flashcardMenuCommandFactory);
         var updatedQuestion = FlashcardHelperService.GetQuestion();
         var updatedAnswer = FlashcardHelperService.GetAnswer();
@@ -38,6 +37,6 @@ internal sealed class EditFlashcard : ICommand
         AnsiConsole.MarkupLine(result > 0
             ? "[green]Flashcard was successfully updated.[/]"
             : "[red]Flashcard was not updated.[/]");
-        Console.ReadKey();
+        GeneralHelperService.ShowContinueMessage();
     }
 }

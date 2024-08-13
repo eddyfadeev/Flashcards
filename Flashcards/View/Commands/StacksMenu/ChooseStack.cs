@@ -2,6 +2,7 @@
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
+using Flashcards.Services;
 using Spectre.Console;
 
 namespace Flashcards.View.Commands.StacksMenu;
@@ -24,7 +25,7 @@ internal sealed class ChooseStack : ICommand
         if (entries.Count == 0)
         {
             AnsiConsole.MarkupLine("[red]No stacks found.[/]");
-            Console.ReadKey();
+            GeneralHelperService.ShowContinueMessage();
             return;
         }
         
@@ -33,7 +34,7 @@ internal sealed class ChooseStack : ICommand
         if (userChoice is null)
         {
             AnsiConsole.MarkupLine("[red]No stack chosen.[/]");
-            Console.ReadKey();
+            GeneralHelperService.ShowContinueMessage();
             return;
         }
         

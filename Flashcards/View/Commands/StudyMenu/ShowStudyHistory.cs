@@ -1,5 +1,6 @@
 ﻿using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
+using Flashcards.Services;
 using Spectre.Console;
 
 namespace Flashcards.View.Commands.StudyMenu;
@@ -32,6 +33,6 @@ internal class ShowStudyHistory : ICommand
         }
         
         AnsiConsole.Write(table);
-        Console.ReadKey();
+        GeneralHelperService.ShowContinueMessage();
     }
 }

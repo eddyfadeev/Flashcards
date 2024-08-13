@@ -3,6 +3,7 @@ using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Models.Dto;
+using Flashcards.Services;
 using Spectre.Console;
 
 namespace Flashcards.Repositories;
@@ -42,7 +43,7 @@ internal class StacksRepository : IStacksRepository
         if (SelectedEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
-            Console.ReadKey();
+            GeneralHelperService.ShowContinueMessage();
             return 0;
         }
 
@@ -68,7 +69,7 @@ internal class StacksRepository : IStacksRepository
         if (SelectedEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
-            Console.ReadKey();
+            GeneralHelperService.ShowContinueMessage();
             return;
         }
 
@@ -80,7 +81,7 @@ internal class StacksRepository : IStacksRepository
         if (SelectedEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
-            Console.ReadKey();
+            GeneralHelperService.ShowContinueMessage();
             return;
         }
 

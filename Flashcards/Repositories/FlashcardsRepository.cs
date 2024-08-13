@@ -3,6 +3,7 @@ using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Models.Dto;
+using Flashcards.Services;
 using Spectre.Console;
 
 namespace Flashcards.Repositories;
@@ -34,7 +35,7 @@ internal class FlashcardsRepository : IFlashcardsRepository
         if (SelectedEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No flashcard was chosen to delete.[/]");
-            Console.ReadKey();
+            GeneralHelperService.ShowContinueMessage();
             return 0;
         }
         
@@ -50,7 +51,7 @@ internal class FlashcardsRepository : IFlashcardsRepository
         if (SelectedEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No flashcard was chosen to update.[/]");
-            Console.ReadKey();
+            GeneralHelperService.ShowContinueMessage();
             return 0;
         }
 
