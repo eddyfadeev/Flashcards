@@ -38,6 +38,7 @@ internal static class ServicesConfigurator
         services.AddTransient<IMenuEntriesInitializer<StudyMenuEntries>, StudyMenuEntriesInitializer>();
         services.AddTransient<IEditableEntryHandler<IStack>, EditableEntryHandler<IStack>>();
         services.AddTransient<IEditableEntryHandler<IFlashcard>, EditableEntryHandler<IFlashcard>>();
+        services.AddTransient<IEditableEntryHandler<IStudySession>, EditableEntryHandler<IStudySession>>();
         services.AddTransient<IMenuCommandFactory<MainMenuEntries>, MenuCommandFactory<MainMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<StackMenuEntries>, MenuCommandFactory<StackMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<FlashcardEntries>, MenuCommandFactory<FlashcardEntries>>();
@@ -46,6 +47,7 @@ internal static class ServicesConfigurator
         services.AddSingleton<IDatabaseManager, DatabaseManager>();
         services.AddSingleton<IFlashcardsRepository, FlashcardsRepository>();
         services.AddSingleton<IStacksRepository, StacksRepository>();
+        services.AddSingleton<IStudySessionsRepository, StudySessionsRepository>();
         services.AddSingleton<IMenuHandler<MainMenuEntries>, MenuHandler<MainMenuEntries>>();
         services.AddSingleton<IMenuHandler<StackMenuEntries>, MenuHandler<StackMenuEntries>>();
         services.AddSingleton<IMenuHandler<FlashcardEntries>, MenuHandler<FlashcardEntries>>();
