@@ -26,7 +26,7 @@ internal sealed class EditStack : ICommand
 
         var newStackName = AskNewStackName();
         
-        _stacksRepository.ChosenEntry!.Name = newStackName;
+        _stacksRepository.SelectedEntry!.Name = newStackName;
 
         var result = _stacksRepository.Update();
         

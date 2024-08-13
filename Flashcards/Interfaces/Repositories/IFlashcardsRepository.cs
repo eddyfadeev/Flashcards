@@ -6,10 +6,10 @@ namespace Flashcards.Interfaces.Repositories;
 internal interface IFlashcardsRepository : 
     IInsertIntoRepository<IFlashcard>,
     IGetAllFromRepository<IFlashcard>,
-    IRepositoryEntry<IFlashcard>,
     IDeleteFromRepository,
-    IUpdateInRepository
+    IUpdateInRepository,
+    ISelectableRepositoryEntry<IFlashcard>,
+    IAssignableStackId
 {
-    internal int? StackId { get; set; }
     public string? StackName { get; set; }
 }

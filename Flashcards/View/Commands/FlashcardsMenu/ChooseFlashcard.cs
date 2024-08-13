@@ -46,6 +46,6 @@ internal sealed class ChooseFlashcard : ICommand
             return;
         }
         
-        _flashcardsRepository.ChosenEntry = userChoice;
+        _flashcardsRepository.SelectedEntry = userChoice;
     }
 }

@@ -12,7 +12,7 @@ internal class StacksRepository : IStacksRepository
     private readonly IDatabaseManager _databaseManager;
     private readonly IFlashcardsRepository _flashcardsRepository;
 
-    public IStack? ChosenEntry { get; set; }
+    public IStack? SelectedEntry { get; set; }
     
     public StacksRepository(IDatabaseManager databaseManager, IFlashcardsRepository flashcardsRepository)
     {
@@ -32,21 +32,21 @@ internal class StacksRepository : IStacksRepository
     {
         const string deleteQuery = "DELETE FROM Stacks WHERE Id = @Id;";
         
-        var parameters = new { ChosenEntry.Id };
+        var parameters = new { SelectedEntry.Id };
         
         return _databaseManager.DeleteEntry(deleteQuery, parameters);
     }
     
     public int Update()
     {
-        if (ChosenEntry is null)
+        if (SelectedEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
             Console.ReadKey();
             return 0;
         }
 
-        var stack = ChosenEntry.ToDto();
+        var stack = SelectedEntry.ToDto();
         const string query = "UPDATE Stacks SET Name = @Name WHERE Id = @Id;";
 
         return _databaseManager.UpdateEntry(query, stack);
@@ -65,25 +65,25 @@ internal class StacksRepository : IStacksRepository
 
     public void SetStackIdInFlashcardsRepository()
     {
-        if (ChosenEntry is null)
+        if (SelectedEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
             Console.ReadKey();
             return;
         }
 
-        _flashcardsRepository.StackId = ChosenEntry.Id;
+        _flashcardsRepository.StackId = SelectedEntry.Id;
     }
     
     public void SetStackNameInFlashcardsRepository()
     {
-        if (ChosenEntry is null)
+        if (SelectedEntry is null)
         {
             AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
             Console.ReadKey();
             return;
         }
 
-        _flashcardsRepository.StackName = ChosenEntry.Name;
+        _flashcardsRepository.StackName = SelectedEntry.Name;
     }
 }

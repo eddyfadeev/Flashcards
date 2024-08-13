@@ -30,8 +30,8 @@ internal sealed class EditFlashcard : ICommand
         var updatedQuestion = FlashcardHelperService.GetQuestion();
         var updatedAnswer = FlashcardHelperService.GetAnswer();
         
-        _flashcardsRepository.ChosenEntry.Question = updatedQuestion;
-        _flashcardsRepository.ChosenEntry.Answer = updatedAnswer;
+        _flashcardsRepository.SelectedEntry.Question = updatedQuestion;
+        _flashcardsRepository.SelectedEntry.Answer = updatedAnswer;
         
         var result = _flashcardsRepository.Update();
 
