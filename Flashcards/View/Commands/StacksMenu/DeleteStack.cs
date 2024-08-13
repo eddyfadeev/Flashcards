@@ -24,10 +24,8 @@ internal sealed class DeleteStack : ICommand
 
         var stack = _stacksRepository.SelectedEntry;
 
-        if (stack is null)
+        if (StackChooserService.CheckStackForNull(stack))
         {
-            AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
-            GeneralHelperService.ShowContinueMessage();
             return;
         }
 
@@ -42,8 +40,8 @@ internal sealed class DeleteStack : ICommand
 
         AnsiConsole.MarkupLine(
             result > 0 ? 
-                "You deleted a stack." : 
-                "[red]Error while deleting a stack.[/]"
+                Messages.Messages.DeleteSuccessMessage : 
+                Messages.Messages.DeleteFailedMessage
             );
         GeneralHelperService.ShowContinueMessage();
     }

@@ -10,10 +10,12 @@ namespace Flashcards.View.Factory.EntriesInitializers;
 internal class StudyMenuEntriesInitializer : IMenuEntriesInitializer<StudyMenuEntries>
 {
     private readonly IStudySessionsRepository _studySessionsRepository;
+    private readonly IMenuCommandFactory<StackMenuEntries> _stackMenuCommandFactory;
     
-    public StudyMenuEntriesInitializer(IStudySessionsRepository studySessionsRepository)
+    public StudyMenuEntriesInitializer(IStudySessionsRepository studySessionsRepository, IMenuCommandFactory<StackMenuEntries> stackMenuCommandFactory)
     {
         _studySessionsRepository = studySessionsRepository;
+        _stackMenuCommandFactory = stackMenuCommandFactory;
     }
     
     public Dictionary<StudyMenuEntries, Func<ICommand>> InitializeEntries(
@@ -21,8 +23,7 @@ internal class StudyMenuEntriesInitializer : IMenuEntriesInitializer<StudyMenuEn
         new()
         {
             { StudyMenuEntries.StartStudySession, () => new StartStudySession() },
-            { StudyMenuEntries.StudyHistory, () => new ShowStudyHistory(_studySessionsRepository) },
+            { StudyMenuEntries.StudyHistory, () => new ShowStudyHistory(_studySessionsRepository, _stackMenuCommandFactory) },
             { StudyMenuEntries.ReturnToMainMenu, () => throw new ReturnToMainMenuException() }
-            
         };
 }

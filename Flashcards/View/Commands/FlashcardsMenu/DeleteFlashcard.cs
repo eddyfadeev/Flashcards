@@ -38,8 +38,8 @@ internal sealed class DeleteFlashcard : ICommand
         
         AnsiConsole.MarkupLine(
             result > 0 ? 
-                "[green]You deleted a flashcard.[/]" : 
-                "[red]Error while deleting a flashcard.[/]"
+                Messages.Messages.DeleteSuccessMessage : 
+                Messages.Messages.DeleteFailedMessage
             );
         GeneralHelperService.ShowContinueMessage();
     }

@@ -32,17 +32,15 @@ internal sealed class ChooseFlashcard : ICommand
 
         if (flashcards.Count == 0)
         {
-            AnsiConsole.MarkupLine("[red]No flashcards found.[/]");
+            AnsiConsole.MarkupLine(Messages.Messages.NoFlashcardsFoundMessage);
             GeneralHelperService.ShowContinueMessage();
             return;
         }
 
         var userChoice = _editableEntryHandler.HandleEditableEntry(flashcards);
         
-        if (userChoice is null)
+        if (FlashcardHelperService.CheckFlashcardForNull(userChoice))
         {
-            AnsiConsole.MarkupLine("[red]No flashcard chosen.[/]");
-            GeneralHelperService.ShowContinueMessage();
             return;
         }
         

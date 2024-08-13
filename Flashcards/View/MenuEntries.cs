@@ -9,6 +9,6 @@ internal sealed class MenuEntries<T> : IMenuEntries<T>
 {
     public SelectionPrompt<string> GetMenuEntries() =>
         new SelectionPrompt<string>()
-            .Title("What would you like to do?")
+            .Title(Messages.Messages.WhatToDoMessage)
             .AddChoices(EnumExtensions.GetDisplayNames<T>().ToArray());
 }

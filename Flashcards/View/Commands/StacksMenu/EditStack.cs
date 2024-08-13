@@ -32,15 +32,15 @@ internal sealed class EditStack : ICommand
         
         AnsiConsole.MarkupLine(
             result > 0 ? 
-                "[green]Stack name updated successfully![/]" : 
-                "[red]An error occurred while updating the stack name.[/]"
+                Messages.Messages.UpdateSuccessMessage : 
+                Messages.Messages.UpdateFailedMessage
         );
         GeneralHelperService.ShowContinueMessage();
     }
     
     private static string AskNewStackName()
     {
-        var newStackName = AnsiConsole.Ask<string>("Please enter the new name of the stack:");
+        var newStackName = AnsiConsole.Ask<string>(Messages.Messages.EnterNameMessage);
 
         return newStackName;
     }

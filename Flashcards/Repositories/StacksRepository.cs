@@ -40,10 +40,8 @@ internal class StacksRepository : IStacksRepository
     
     public int Update()
     {
-        if (SelectedEntry is null)
+        if (StackChooserService.CheckStackForNull(SelectedEntry))
         {
-            AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
-            GeneralHelperService.ShowContinueMessage();
             return 0;
         }
 
@@ -66,10 +64,8 @@ internal class StacksRepository : IStacksRepository
 
     public void SetStackIdInFlashcardsRepository()
     {
-        if (SelectedEntry is null)
+        if (StackChooserService.CheckStackForNull(SelectedEntry))
         {
-            AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
-            GeneralHelperService.ShowContinueMessage();
             return;
         }
 
@@ -78,10 +74,8 @@ internal class StacksRepository : IStacksRepository
     
     public void SetStackNameInFlashcardsRepository()
     {
-        if (SelectedEntry is null)
+        if (StackChooserService.CheckStackForNull(SelectedEntry))
         {
-            AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
-            GeneralHelperService.ShowContinueMessage();
             return;
         }
 

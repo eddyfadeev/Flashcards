@@ -32,8 +32,8 @@ internal sealed class EditFlashcard : ICommand
         var result = _flashcardsRepository.Update();
 
         AnsiConsole.MarkupLine(result > 0
-            ? "[green]Flashcard was successfully updated.[/]"
-            : "[red]Flashcard was not updated.[/]");
+            ? Messages.Messages.UpdateSuccessMessage
+            : Messages.Messages.UpdateFailedMessage);
         GeneralHelperService.ShowContinueMessage();
     }
 }

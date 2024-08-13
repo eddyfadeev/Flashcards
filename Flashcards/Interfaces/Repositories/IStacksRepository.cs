@@ -11,5 +11,6 @@ internal interface IStacksRepository :
     IUpdateInRepository
 {
     internal void SetStackIdInFlashcardsRepository();
-    public void SetStackNameInFlashcardsRepository();
+    internal void SetStackNameInFlashcardsRepository();
+    
 }

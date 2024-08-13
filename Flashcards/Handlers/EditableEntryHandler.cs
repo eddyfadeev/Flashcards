@@ -9,7 +9,7 @@ internal class EditableEntryHandler<TEntry> : IEditableEntryHandler<TEntry> wher
     {
         if (entries.Count == 0)
         {
-            AnsiConsole.WriteLine("No entries found.");
+            AnsiConsole.MarkupLine(Messages.Messages.NoEntriesFoundMessage);
             return default;
         }
         
@@ -23,6 +23,6 @@ internal class EditableEntryHandler<TEntry> : IEditableEntryHandler<TEntry> wher
 
     private static SelectionPrompt<string> GetUserChoice(List<string> entriesNames) =>
         new SelectionPrompt<string>()
-            .Title("Choose an entry: ")
+            .Title(Messages.Messages.ChooseEntryMessage)
             .AddChoices(entriesNames);
 }
