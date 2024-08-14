@@ -24,22 +24,18 @@ internal sealed class ChooseStack : ICommand
         
         if (entries.Count == 0)
         {
-            AnsiConsole.MarkupLine("[red]No stacks found.[/]");
+            AnsiConsole.MarkupLine(Messages.Messages.NoStackChosenMessage);
             GeneralHelperService.ShowContinueMessage();
             return;
         }
         
         var userChoice = _editableEntryHandler.HandleEditableEntry(entries);
 
-        if (userChoice is null)
+        if (StackChooserService.CheckStackForNull(userChoice))
         {
-            AnsiConsole.MarkupLine("[red]No stack chosen.[/]");
-            GeneralHelperService.ShowContinueMessage();
             return;
         }
         
         _stacksRepository.SelectedEntry = userChoice;
-        _stacksRepository.SetStackIdInFlashcardsRepository();
-        _stacksRepository.SetStackNameInFlashcardsRepository();
     }
 }

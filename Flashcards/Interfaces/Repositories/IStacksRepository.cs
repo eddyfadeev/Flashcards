@@ -8,8 +8,4 @@ internal interface IStacksRepository :
     IGetAllFromRepository<IStack>,
     ISelectableRepositoryEntry<IStack>,
     IDeleteFromRepository,
-    IUpdateInRepository
-{
-    internal void SetStackIdInFlashcardsRepository();
-    public void SetStackNameInFlashcardsRepository();
-}
+    IUpdateInRepository;

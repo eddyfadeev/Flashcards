@@ -32,10 +32,8 @@ internal class FlashcardsRepository : IFlashcardsRepository
 
     public int Delete()
     {
-        if (SelectedEntry is null)
+        if (FlashcardHelperService.CheckFlashcardForNull(SelectedEntry))
         {
-            AnsiConsole.MarkupLine("[red]No flashcard was chosen to delete.[/]");
-            GeneralHelperService.ShowContinueMessage();
             return 0;
         }
         
@@ -48,10 +46,8 @@ internal class FlashcardsRepository : IFlashcardsRepository
 
     public int Update()
     {
-        if (SelectedEntry is null)
+        if (FlashcardHelperService.CheckFlashcardForNull(SelectedEntry))
         {
-            AnsiConsole.MarkupLine("[red]No flashcard was chosen to update.[/]");
-            GeneralHelperService.ShowContinueMessage();
             return 0;
         }
 

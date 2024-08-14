@@ -15,19 +15,13 @@ internal static class Program
 
         var serviceProvider = serviceCollection.BuildServiceProvider();
         var mainMenuHandler = serviceProvider.GetRequiredService<IMenuHandler<MainMenuEntries>>();
-        
-        ShowWelcomeMessage();
-        ShowMainMenu(mainMenuHandler);
-    }
     
-    private static void ShowWelcomeMessage()
-    {
-        AnsiConsole.WriteLine("Welcome to Flashcards!");
-        AnsiConsole.WriteLine("Please choose a stack you would like to work on.");
+        ShowMainMenu(mainMenuHandler);
     }
     
     private static void ShowMainMenu(IMenuHandler<MainMenuEntries> menuHandler)
     {
+        AnsiConsole.MarkupLine(Messages.Messages.WelcomeMessage);
         while (true)
         {
             Console.Clear();

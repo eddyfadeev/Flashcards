@@ -12,15 +12,18 @@ namespace Flashcards.View.Factory.EntriesInitializers;
 internal class FlashcardsMenuEntriesInitializer : IMenuEntriesInitializer<FlashcardEntries>
 {
     private readonly IFlashcardsRepository _flashcardsRepository;
+    private readonly IStacksRepository _stacksRepository;
     private readonly IEditableEntryHandler<IFlashcard> _editableEntryHandler;
     private readonly IMenuCommandFactory<StackMenuEntries> _stackMenuCommandFactory;
 
     public FlashcardsMenuEntriesInitializer(
         IFlashcardsRepository flashcardsRepository, 
+        IStacksRepository stacksRepository,
         IEditableEntryHandler<IFlashcard> editableEntryHandler,
         IMenuCommandFactory<StackMenuEntries> stackMenuCommandFactory)
     {
         _flashcardsRepository = flashcardsRepository;
+        _stacksRepository = stacksRepository;
         _editableEntryHandler = editableEntryHandler;
         _stackMenuCommandFactory = stackMenuCommandFactory;
     }
@@ -28,8 +31,8 @@ internal class FlashcardsMenuEntriesInitializer : IMenuEntriesInitializer<Flashc
     public Dictionary<FlashcardEntries, Func<ICommand>> InitializeEntries(IMenuCommandFactory<FlashcardEntries> flashcardsMenuCommandFactory) =>
         new()
         {
-            { FlashcardEntries.ChooseFlashcard, () => new ChooseFlashcard(_flashcardsRepository, _editableEntryHandler, _stackMenuCommandFactory) },
-            { FlashcardEntries.AddFlashcard, () => new AddFlashcard(_flashcardsRepository, _stackMenuCommandFactory) },
+            { FlashcardEntries.ChooseFlashcard, () => new ChooseFlashcard(_flashcardsRepository, _stacksRepository, _editableEntryHandler, _stackMenuCommandFactory) },
+            { FlashcardEntries.AddFlashcard, () => new AddFlashcard(_flashcardsRepository, _stacksRepository,_stackMenuCommandFactory) },
             { FlashcardEntries.EditFlashcard, () => new EditFlashcard(_flashcardsRepository, flashcardsMenuCommandFactory) },
             { FlashcardEntries.DeleteFlashcard, () => new DeleteFlashcard(_flashcardsRepository, flashcardsMenuCommandFactory) },
             { FlashcardEntries.ReturnToMainMenu, () => throw new ReturnToMainMenuException()}

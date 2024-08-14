@@ -1,6 +1,4 @@
 ﻿using Flashcards.Enums;
-using Flashcards.Interfaces.Handlers;
-using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Flashcards.Interfaces.View.Factory;
@@ -22,7 +20,7 @@ internal sealed class EditStack : ICommand
 
     public void Execute()
     {
-        StackChooserService.GetStacks(_menuCommandFactory);
+        StackChooserService.GetStacks(_menuCommandFactory, _stacksRepository);
 
         var newStackName = AskNewStackName();
         
@@ -32,15 +30,15 @@ internal sealed class EditStack : ICommand
         
         AnsiConsole.MarkupLine(
             result > 0 ? 
-                "[green]Stack name updated successfully![/]" : 
-                "[red]An error occurred while updating the stack name.[/]"
+                Messages.Messages.UpdateSuccessMessage : 
+                Messages.Messages.UpdateFailedMessage
         );
         GeneralHelperService.ShowContinueMessage();
     }
     
     private static string AskNewStackName()
     {
-        var newStackName = AnsiConsole.Ask<string>("Please enter the new name of the stack:");
+        var newStackName = AnsiConsole.Ask<string>(Messages.Messages.EnterNameMessage);
 
         return newStackName;
     }

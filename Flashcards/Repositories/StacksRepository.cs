@@ -4,21 +4,18 @@ using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Models.Dto;
 using Flashcards.Services;
-using Spectre.Console;
 
 namespace Flashcards.Repositories;
 
 internal class StacksRepository : IStacksRepository
 {
     private readonly IDatabaseManager _databaseManager;
-    private readonly IFlashcardsRepository _flashcardsRepository;
 
     public IStack? SelectedEntry { get; set; }
     
-    public StacksRepository(IDatabaseManager databaseManager, IFlashcardsRepository flashcardsRepository)
+    public StacksRepository(IDatabaseManager databaseManager)
     {
         _databaseManager = databaseManager;
-        _flashcardsRepository = flashcardsRepository;
     }
     
     public int Insert(IDbEntity<IStack> entity)
@@ -40,10 +37,8 @@ internal class StacksRepository : IStacksRepository
     
     public int Update()
     {
-        if (SelectedEntry is null)
+        if (StackChooserService.CheckStackForNull(SelectedEntry))
         {
-            AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
-            GeneralHelperService.ShowContinueMessage();
             return 0;
         }
 
@@ -62,29 +57,5 @@ internal class StacksRepository : IStacksRepository
         stacks = stacks.Select(stack => stack.ToEntity());
 
         return stacks;
-    }
-
-    public void SetStackIdInFlashcardsRepository()
-    {
-        if (SelectedEntry is null)
-        {
-            AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
-            GeneralHelperService.ShowContinueMessage();
-            return;
-        }
-
-        _flashcardsRepository.StackId = SelectedEntry.Id;
-    }
-    
-    public void SetStackNameInFlashcardsRepository()
-    {
-        if (SelectedEntry is null)
-        {
-            AnsiConsole.MarkupLine("[red]No stack was chosen.[/]");
-            GeneralHelperService.ShowContinueMessage();
-            return;
-        }
-
-        _flashcardsRepository.StackName = SelectedEntry.Name;
     }
 }
