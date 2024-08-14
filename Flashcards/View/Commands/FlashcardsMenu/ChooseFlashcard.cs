@@ -32,8 +32,8 @@ internal sealed class ChooseFlashcard : ICommand
     {
         var stack = StackChooserService.GetStacks(_stackMenuCommandFactory, _stacksRepository);
         
-        FlashcardHelperService.SetStackNameInFlashcardsRepository(_flashcardsRepository, stack);
-        FlashcardHelperService.SetStackIdInFlashcardsRepository(_flashcardsRepository, stack);
+        GeneralHelperService.SetStackNameInRepository(_flashcardsRepository, stack);
+        GeneralHelperService.SetStackIdInRepository(_flashcardsRepository, stack);
         
         var flashcards = _flashcardsRepository.GetAll().ToList();
 
@@ -46,7 +46,7 @@ internal sealed class ChooseFlashcard : ICommand
 
         var userChoice = _editableEntryHandler.HandleEditableEntry(flashcards);
         
-        if (FlashcardHelperService.CheckFlashcardForNull(userChoice))
+        if (GeneralHelperService.CheckForNull(userChoice))
         {
             return;
         }

@@ -32,7 +32,7 @@ internal class FlashcardsRepository : IFlashcardsRepository
 
     public int Delete()
     {
-        if (FlashcardHelperService.CheckFlashcardForNull(SelectedEntry))
+        if (GeneralHelperService.CheckForNull(SelectedEntry))
         {
             return 0;
         }
@@ -46,7 +46,7 @@ internal class FlashcardsRepository : IFlashcardsRepository
 
     public int Update()
     {
-        if (FlashcardHelperService.CheckFlashcardForNull(SelectedEntry))
+        if (GeneralHelperService.CheckForNull(SelectedEntry))
         {
             return 0;
         }
