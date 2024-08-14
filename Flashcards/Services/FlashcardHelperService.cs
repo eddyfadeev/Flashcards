@@ -1,4 +1,6 @@
 ﻿using Flashcards.Enums;
+using Flashcards.Interfaces.Models;
+using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Factory;
 using Spectre.Console;
 
@@ -22,5 +24,19 @@ internal static class FlashcardHelperService
     {
         var chooseCommand = flashcardMenuCommandFactory.Create(FlashcardEntries.ChooseFlashcard);
         chooseCommand.Execute();
+    }
+    
+    internal static List<IFlashcard> GetFlashcards(IFlashcardsRepository flashcardsRepository)
+    {
+        var flashcards = flashcardsRepository.GetAll().ToList();
+        
+        if (flashcards.Count == 0)
+        {
+            AnsiConsole.MarkupLine(Messages.Messages.NoEntriesFoundMessage);
+            GeneralHelperService.ShowContinueMessage();
+            return new List<IFlashcard>();
+        }
+        
+        return flashcards;
     }
 }

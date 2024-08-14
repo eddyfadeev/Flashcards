@@ -1,4 +1,5 @@
 ﻿using Flashcards.Enums;
+using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Flashcards.Interfaces.View.Factory;
@@ -32,55 +33,22 @@ internal class StartStudySession : ICommand
     {
         var stack = StackChooserService.GetStacks(_stackMenuCommandFactory, _stacksRepository);
         
-        GeneralHelperService.SetStackIdInRepository(_studySessionsRepository, stack);
-        GeneralHelperService.SetStackIdInRepository(_flashcardsRepository, stack);
-        
-        var flashcards = _flashcardsRepository.GetAll().ToList();
+        StudySessionsHelperService.SetStackIdsInRepositories(stack, _flashcardsRepository, _studySessionsRepository);
+
+        var flashcards = FlashcardHelperService.GetFlashcards(_flashcardsRepository);
         
         if (flashcards.Count == 0)
         {
-            AnsiConsole.MarkupLine(Messages.Messages.NoEntriesFoundMessage);
-            GeneralHelperService.ShowContinueMessage();
             return;
         }
         
-        StudySession studySession = new StudySession
-        {
-            Questions = flashcards.Count,
-            StackId = stack.Id,
-            Date = DateTime.Now
-        };
+        StudySession studySession = StudySessionsHelperService.CreateStudySession(flashcards, stack);
         
-        var correctAnswers = 0;
-        
-        foreach (var flashcard in flashcards)
-        {
-            var answer = AnsiConsole.Ask<string>($"{ flashcard.Question }: ");
-
-            while (string.IsNullOrEmpty(answer))
-            {
-                answer = AnsiConsole.Ask<string>($"Answer cannot be empty. { flashcard.Question }: ");
-            }
-
-            if (string.Equals(answer.Trim(), flashcard.Answer, StringComparison.OrdinalIgnoreCase))
-            {
-                correctAnswers++;
-                AnsiConsole.MarkupLine($"{ Messages.Messages.CorrectAnswerMessage }\n");
-                GeneralHelperService.ShowContinueMessage();
-            }
-            else
-            {
-                AnsiConsole.MarkupLine($"{ Messages.Messages.IncorrectAnswerMessage } Correct answer is { flashcard.Answer }\n");
-                GeneralHelperService.ShowContinueMessage();
-            }
-        }
-        
-        AnsiConsole.MarkupLine($"[white]You have { correctAnswers } out of { flashcards.Count }.[/]");
-        
-        GeneralHelperService.ShowContinueMessage();
+        var correctAnswers = StudySessionsHelperService.GetCorrectAnswers(flashcards);
+        var currentTime = DateTime.Now;
         
         studySession.CorrectAnswers = correctAnswers;
-        studySession.Time = DateTime.Now - studySession.Date;
+        studySession.Time = currentTime - studySession.Date;
 
         _studySessionsRepository.Insert(studySession);
     }
