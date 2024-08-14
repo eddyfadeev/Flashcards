@@ -31,7 +31,7 @@ internal sealed class ChooseStack : ICommand
         
         var userChoice = _editableEntryHandler.HandleEditableEntry(entries);
 
-        if (StackChooserService.CheckStackForNull(userChoice))
+        if (GeneralHelperService.CheckForNull(userChoice))
         {
             return;
         }

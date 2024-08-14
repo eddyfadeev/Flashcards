@@ -28,7 +28,7 @@ internal class ShowStudyHistory : ICommand
     {
         var stack = StackChooserService.GetStacks(_stackMenuCommandFactory, _stacksRepository);
 
-        if (StackChooserService.CheckStackForNull(stack))
+        if (GeneralHelperService.CheckForNull(stack))
         {
             return;
         }

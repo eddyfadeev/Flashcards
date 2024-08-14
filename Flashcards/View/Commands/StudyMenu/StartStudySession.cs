@@ -32,7 +32,7 @@ internal class StartStudySession : ICommand
     {
         var stack = StackChooserService.GetStacks(_stackMenuCommandFactory, _stacksRepository);
         
-        StudySessionsHelpService.SetStackIdInStudyRepository(_studySessionsRepository, stack);
+        GeneralHelperService.SetStackIdInRepository(_studySessionsRepository, stack);
         GeneralHelperService.SetStackIdInRepository(_flashcardsRepository, stack);
         
         var flashcards = _flashcardsRepository.GetAll().ToList();
