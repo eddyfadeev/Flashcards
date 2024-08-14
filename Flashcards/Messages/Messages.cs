@@ -22,4 +22,6 @@ public static class Messages
     internal const string NoEntriesFoundMessage = "[red]No entries found.[/]";
     internal const string ChooseEntryMessage = "[white]Choose an entry:[/]";
     internal const string WhatToDoMessage = "[white]What would you like to do?[/]";
+    internal const string CorrectAnswerMessage = "[green]Correct![/]";
+    internal const string IncorrectAnswerMessage = "[red]Incorrect![/]";
 }

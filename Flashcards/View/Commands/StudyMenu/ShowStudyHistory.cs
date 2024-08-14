@@ -26,13 +26,19 @@ internal class ShowStudyHistory : ICommand
     
     public void Execute()
     {
-        StackChooserService.GetStacks(
-            _stackMenuCommandFactory,
-            _stacksRepository
-            );
+        var stack = StackChooserService.GetStacks(_stackMenuCommandFactory, _stacksRepository);
+
+        if (StackChooserService.CheckStackForNull(stack))
+        {
+            return;
+        }
+        
+        _studySessionsRepository.StackId = stack.Id;
+        
         var studySessions = _studySessionsRepository.GetAll();
         
-        var table = new Table();
+        var table = new Table().Title($"[bold]Study history for { stack.Name }[/]");
+        table.Border = TableBorder.Rounded;
         table.AddColumns("Date", "Stack", "Result", "Percentage", "Duration");
 
         foreach (var session in studySessions)
