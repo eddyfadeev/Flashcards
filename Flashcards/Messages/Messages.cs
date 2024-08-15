@@ -4,7 +4,7 @@ public static class Messages
 {
     internal const string WelcomeMessage = "[white]Welcome to Flashcards![/]";
     internal const string NoStackChosenMessage = "[red]No stack was chosen.[/]";
-    internal const string NoFlashcardChosenMessage = "[red]No flashcard was chosen.[/]";
+    internal const string NullEntityMessage = "[red]Passed entity is null.[/]";
     internal const string NoFlashcardsFoundMessage = "[red]No flashcards found.[/]";
     internal const string DeleteSuccessMessage = "[green]Deleted successfully.[/]";
     internal const string DeleteFailedMessage = "[red]Error while deleting.[/]";

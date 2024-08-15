@@ -28,8 +28,8 @@ internal sealed class AddFlashcard : ICommand
     {
         var stack = StackChooserService.GetStacks(_stackMenuCommandFactory, _stacksRepository);
         
-        FlashcardHelperService.SetStackIdInFlashcardsRepository(_flashcardsRepository, stack);
-        FlashcardHelperService.SetStackNameInFlashcardsRepository(_flashcardsRepository, stack);
+        GeneralHelperService.SetStackIdInRepository(_flashcardsRepository, stack);
+        GeneralHelperService.SetStackNameInRepository(_flashcardsRepository, stack);
         
         var question = FlashcardHelperService.GetQuestion();
         var answer = FlashcardHelperService.GetAnswer();

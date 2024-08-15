@@ -26,41 +26,17 @@ internal static class FlashcardHelperService
         chooseCommand.Execute();
     }
     
-    internal static bool CheckFlashcardForNull(IFlashcard? flashcard)
+    internal static List<IFlashcard> GetFlashcards(IFlashcardsRepository flashcardsRepository)
     {
-        if (flashcard is not null)
+        var flashcards = flashcardsRepository.GetAll().ToList();
+        
+        if (flashcards.Count == 0)
         {
-            return false;
+            AnsiConsole.MarkupLine(Messages.Messages.NoEntriesFoundMessage);
+            GeneralHelperService.ShowContinueMessage();
+            return new List<IFlashcard>();
         }
         
-        AnsiConsole.MarkupLine(Messages.Messages.NoFlashcardChosenMessage);
-        GeneralHelperService.ShowContinueMessage();
-        return true;
-    }
-
-    internal static void SetStackIdInFlashcardsRepository(
-        IFlashcardsRepository flashcardsRepository, 
-        IStack entry
-        )
-    {
-        if (StackChooserService.CheckStackForNull(entry))
-        {
-            return;
-        }
-
-        flashcardsRepository.StackId = entry.Id;
-    }
-    
-    internal static void SetStackNameInFlashcardsRepository(
-        IFlashcardsRepository flashcardsRepository, 
-        IStack entry
-        )
-    {
-        if (StackChooserService.CheckStackForNull(entry))
-        {
-            return;
-        }
-
-        flashcardsRepository.StackName = entry.Name;
+        return flashcards;
     }
 }

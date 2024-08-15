@@ -24,7 +24,7 @@ internal sealed class DeleteStack : ICommand
 
         var stack = _stacksRepository.SelectedEntry;
 
-        if (StackChooserService.CheckStackForNull(stack))
+        if (GeneralHelperService.CheckForNull(stack))
         {
             return;
         }

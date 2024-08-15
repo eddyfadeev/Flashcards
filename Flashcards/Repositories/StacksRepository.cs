@@ -37,7 +37,7 @@ internal class StacksRepository : IStacksRepository
     
     public int Update()
     {
-        if (StackChooserService.CheckStackForNull(SelectedEntry))
+        if (GeneralHelperService.CheckForNull(SelectedEntry))
         {
             return 0;
         }
