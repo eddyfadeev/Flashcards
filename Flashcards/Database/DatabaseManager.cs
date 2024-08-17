@@ -1,6 +1,7 @@
 ﻿using Dapper;
 using Flashcards.Interfaces.Database;
 using Flashcards.Models.Entity;
+using Flashcards.Services;
 using Microsoft.Data.SqlClient;
 
 namespace Flashcards.Database;
@@ -16,11 +17,7 @@ internal class DatabaseManager : IDatabaseManager
     {
         _connectionProvider = connectionProvider;
         
-        #if DEBUG
-        SeedData.SeedData.ProcessRequest(this, databaseInitializer);
-        #else
         databaseInitializer.Initialize();
-        #endif
     }
 
     /// <summary>Inserts a new entity into the database.</summary>
@@ -39,6 +36,7 @@ internal class DatabaseManager : IDatabaseManager
             Console.WriteLine(
                 $"There was a problem inserting into the database: {ex.Message}"
             );
+            GeneralHelperService.ShowContinueMessage();
             return 0;
         }
     }
@@ -62,6 +60,7 @@ internal class DatabaseManager : IDatabaseManager
             Console.WriteLine(
                 $"There was a problem getting all entities of type {typeof(TEntity).Name} from the database: {ex.Message}"
             );
+            GeneralHelperService.ShowContinueMessage();
             return new List<TEntity>();
         }
     }
@@ -86,6 +85,7 @@ internal class DatabaseManager : IDatabaseManager
             Console.WriteLine(
                 $"There was a problem getting all entities of type {typeof(TEntity).Name} from the database: {ex.Message}"
             );
+            GeneralHelperService.ShowContinueMessage();
             return new List<TEntity>();
         }
     }
@@ -107,6 +107,7 @@ internal class DatabaseManager : IDatabaseManager
         catch (Exception ex)
         {
             Console.WriteLine($"There was a problem deleting the entry: {ex.Message}");
+            GeneralHelperService.ShowContinueMessage();
             return 0;
         }
     }
@@ -128,6 +129,7 @@ internal class DatabaseManager : IDatabaseManager
         catch (Exception ex)
         {
             Console.WriteLine($"There was a problem updating the entry: {ex.Message}");
+            GeneralHelperService.ShowContinueMessage();
             return 0;
         }
     }
@@ -165,12 +167,52 @@ internal class DatabaseManager : IDatabaseManager
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Problem bulk inserting records into the database occured: {ex.Message}");
+            Console.WriteLine($"Problem bulk inserting records into the database occured: {ex.Message}. Rolling back transaction.");
             transaction?.Rollback();
+            GeneralHelperService.ShowContinueMessage();
             return false;
         }
         
         return seedResult;
+    }
+
+    /// <summary>
+    /// Drops all foreign key constraints in the database.
+    /// </summary>
+    /// <remarks>
+    /// This method executes a query to retrieve all foreign key constraints in the database.
+    /// Then, it iterates over the result and executes a query to drop each constraint using ALTER TABLE statement.
+    /// If any error occurs during the process, an exception is thrown and a message is displayed to the console.
+    /// </remarks>
+    /// <exception cref="Exception">Thrown if there was a problem dropping the foreign key constraints.</exception>
+    public void DropForeignKeyConstraints()
+    {
+        try
+        {
+            using var connection = GetConnection();
+
+            // Query to retrieve all foreign key constraints
+            const string getForeignKeysQuery = @"
+                SELECT 
+                    fk.name AS ForeignKeyName,
+                    tp.name AS TableName
+                FROM 
+                    sys.foreign_keys AS fk
+                INNER JOIN 
+                    sys.tables AS tp ON fk.parent_object_id = tp.object_id";
+
+            var foreignKeys = connection.Query<(string ForeignKeyName, string TableName)>(getForeignKeysQuery);
+
+            foreach (var (foreignKeyName, tableName) in foreignKeys)
+            {
+                var dropForeignKeyQuery = $"ALTER TABLE {tableName} DROP CONSTRAINT {foreignKeyName};";
+                connection.Execute(dropForeignKeyQuery);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"There was a problem dropping foreign key constraints: {ex.Message}");
+        }
     }
 
     /// <summary>
@@ -187,10 +229,14 @@ internal class DatabaseManager : IDatabaseManager
 
             const string dropStacksQuery = "DROP TABLE IF EXISTS Stacks;";
             connection.Execute(dropStacksQuery);
+            
+            const string dropUsersQuery = "DROP TABLE IF EXISTS StudySessions;";
+            connection.Execute(dropUsersQuery);
         }
         catch (Exception ex)
         {
             Console.WriteLine($"There was a problem deleting tables: {ex.Message}");
+            GeneralHelperService.ShowContinueMessage();
         }
     }
 

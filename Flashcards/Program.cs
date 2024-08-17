@@ -1,5 +1,6 @@
 ﻿using Flashcards.Enums;
 using Flashcards.Exceptions;
+using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Handlers;
 using Flashcards.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,12 @@ internal static class Program
 
         var serviceProvider = serviceCollection.BuildServiceProvider();
         var mainMenuHandler = serviceProvider.GetRequiredService<IMenuHandler<MainMenuEntries>>();
+        var databaseInitializer = serviceProvider.GetRequiredService<IDatabaseInitializer>();
+        var databaseManager = serviceProvider.GetRequiredService<IDatabaseManager>();
+        
+        #if DEBUG
+        DataSeed.DataSeed.ProcessRequest(databaseManager, databaseInitializer);
+        #endif
         
         ShowMainMenu(mainMenuHandler);
     }

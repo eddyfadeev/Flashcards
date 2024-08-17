@@ -1,7 +1,7 @@
-﻿#if DEBUG
-using Flashcards.Models.Entity;
+﻿using Flashcards.Models.Entity;
+using Newtonsoft.Json;
 
-namespace Flashcards.SeedData;
+namespace Flashcards.DataSeed;
 
 /// <summary>
 /// The SeedDataModel class contains two properties: Stacks and Flashcards.
@@ -10,16 +10,17 @@ namespace Flashcards.SeedData;
 /// The Flashcards property is a list of Flashcard objects, which represent individual flashcards. 
 /// The SeedDataModel class is internal.
 /// </summary>
-internal class SeedDataModel
+public class DataSeedModel
 {
     /// <summary>
     /// Represents a stack of flashcards.
     /// </summary>
-    internal List<Stack> Stacks { get; set; } = [];
+    [JsonProperty]
+    internal List<Stack> Stacks { get; set; } = new();
 
     /// <summary>
     /// Represents a flashcard entity.
     /// </summary>
-    internal List<Flashcard> Flashcards { get; set; } = [];
+    [JsonProperty]
+    internal List<Flashcard> Flashcards { get; set; } = new();
 }
-#endif

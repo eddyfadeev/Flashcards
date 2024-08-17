@@ -9,9 +9,9 @@ namespace Flashcards.Models.Entity;
 internal class Flashcard : IFlashcard, IDbEntity<IFlashcard>
 {
     public int Id { get; set; }
+    public int? StackId { get; set; }
     public string? Question { get; set; }
     public string? Answer { get; set; }
-    public int? StackId { get; set; }
 
     /// <summary>
     /// Maps an instance of <see cref="IFlashcard"/> to an instance of <see cref="FlashcardDto"/>.

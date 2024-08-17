@@ -1,13 +1,13 @@
-﻿#if DEBUG
-using Flashcards.Interfaces.Database;
+﻿using Flashcards.Interfaces.Database;
+using Flashcards.Services;
 using Newtonsoft.Json;
 
-namespace Flashcards.SeedData;
+namespace Flashcards.DataSeed;
 
 /// <summary>
 /// This class provides methods for seeding data into the database.
 /// </summary>
-internal static class SeedData
+internal static class DataSeed
 {
     /// <summary>
     /// Processes the request by reading data from a JSON file, deserializing it, and inserting the data into the database.
@@ -18,39 +18,49 @@ internal static class SeedData
     {
         var jsonString = File.ReadAllText(@"DataSeed\DataSeed.json");
 
-        var seedData = DeserializeJson(jsonString);
-
+        DataSeedModel seedData = DeserializeJson(jsonString);
+        
         if (seedData is null)
         {
+            Console.WriteLine("Seed data is null.");
+            GeneralHelperService.ShowContinueMessage();
+        }
+        
+        if (seedData.Flashcards.Count == 0 || seedData.Stacks.Count == 0)
+        {
             Console.WriteLine("Deserialization failed.");
+            GeneralHelperService.ShowContinueMessage();
             return;
         }
         
+        databaseManager.DropForeignKeyConstraints();
         databaseManager.DeleteTables();
         databaseInitializer.Initialize();
         var result = databaseManager.BulkInsertRecords(seedData.Stacks, seedData.Flashcards);
 
         Console.WriteLine(result ? "Data seed was successful." : "Data seed failed.");
+        GeneralHelperService.ShowContinueMessage();
     }
 
-    private static SeedDataModel? DeserializeJson(string json)
+    private static DataSeedModel? DeserializeJson(string json)
     {
         try
         {
-            SeedDataModel seedData = JsonConvert.DeserializeObject<SeedDataModel>(json);
+            var dataSeed = JsonConvert.DeserializeObject<DataSeedModel>(json);
 
-            if (seedData is null)
+            if (dataSeed?.Flashcards.Count == 0 || dataSeed?.Stacks.Count == 0)
             {
-                Console.WriteLine("Deserialization returned null.");
+                Console.WriteLine("Deserialization couldn't fill the list.");
+                GeneralHelperService.ShowContinueMessage();
             }
 
-            return seedData;
+            return dataSeed;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Deserialization failed: {ex.Message}");
+            GeneralHelperService.ShowContinueMessage();
             return null;
         }
     }
 }
-#endif

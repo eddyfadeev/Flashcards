@@ -74,7 +74,7 @@ internal class ReportGenerator : IReportGenerator
                 session.StackName!,
                 $"{ session.CorrectAnswers } out of { session.Questions }",
                 $"{ session.Percentage }%",
-                session.Time.ToString()
+                session.Time.ToString("g")[..7]
             );
         }
         

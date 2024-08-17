@@ -57,6 +57,17 @@ internal interface IDatabaseManager
     internal bool BulkInsertRecords(List<Stack> stacks, List<Flashcard> flashcards);
 
     /// <summary>
+    /// Drops all foreign key constraints in the database.
+    /// </summary>
+    /// <remarks>
+    /// This method executes a query to retrieve all foreign key constraints in the database.
+    /// Then, it iterates over the result and executes a query to drop each constraint using ALTER TABLE statement.
+    /// If any error occurs during the process, an exception is thrown and a message is displayed to the console.
+    /// </remarks>
+    /// <exception cref="Exception">Thrown if there was a problem dropping the foreign key constraints.</exception>
+    internal void DropForeignKeyConstraints();
+
+    /// <summary>
     /// Deletes all tables from the database.
     /// </summary>
     internal void DeleteTables();
