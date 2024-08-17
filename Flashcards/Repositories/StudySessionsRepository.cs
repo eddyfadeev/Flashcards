@@ -12,6 +12,7 @@ internal class StudySessionsRepository : IStudySessionsRepository
     
     public IStudySession? SelectedEntry { get; set; }
     public int? StackId { get; set; }
+    public string? StackName { get; set; }
     
     public StudySessionsRepository(IDatabaseManager databaseManager)
     {

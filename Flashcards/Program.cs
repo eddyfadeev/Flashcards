@@ -15,7 +15,7 @@ internal static class Program
 
         var serviceProvider = serviceCollection.BuildServiceProvider();
         var mainMenuHandler = serviceProvider.GetRequiredService<IMenuHandler<MainMenuEntries>>();
-    
+        
         ShowMainMenu(mainMenuHandler);
     }
     

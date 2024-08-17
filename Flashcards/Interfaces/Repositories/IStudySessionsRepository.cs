@@ -7,4 +7,5 @@ internal interface IStudySessionsRepository :
     IInsertIntoRepository<IStudySession>,
     IGetAllFromRepository<IStudySession>,
     ISelectableRepositoryEntry<IStudySession>,
-    IAssignableStackId;
+    IAssignableStackId,
+    IAssignableStackName;

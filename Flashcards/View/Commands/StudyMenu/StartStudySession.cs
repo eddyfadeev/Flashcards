@@ -34,7 +34,8 @@ internal class StartStudySession : ICommand
         var stack = StackChooserService.GetStacks(_stackMenuCommandFactory, _stacksRepository);
         
         StudySessionsHelperService.SetStackIdsInRepositories(stack, _flashcardsRepository, _studySessionsRepository);
-
+        GeneralHelperService.SetStackNameInRepository(_studySessionsRepository, stack);
+        
         var flashcards = FlashcardHelperService.GetFlashcards(_flashcardsRepository);
         
         if (flashcards.Count == 0)

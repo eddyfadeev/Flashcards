@@ -1,7 +1,6 @@
-﻿using Flashcards.Enums;
+﻿using Flashcards.Interfaces.Report;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
-using Flashcards.Interfaces.View.Factory;
 using Flashcards.Services;
 using Spectre.Console;
 
@@ -10,49 +9,31 @@ namespace Flashcards.View.Commands.StudyMenu;
 internal class ShowStudyHistory : ICommand
 {
     private readonly IStudySessionsRepository _studySessionsRepository;
-    private readonly IStacksRepository _stacksRepository;
-    private readonly IMenuCommandFactory<StackMenuEntries> _stackMenuCommandFactory;
+    private readonly IReportGenerator _reportGenerator;
     
     public ShowStudyHistory(
-        IStudySessionsRepository studySessionsRepository, 
-        IStacksRepository stacksRepository,
-        IMenuCommandFactory<StackMenuEntries> stackMenuCommandFactory
+        IStudySessionsRepository studySessionsRepository,
+        IReportGenerator reportGenerator
         )
     {
         _studySessionsRepository = studySessionsRepository;
-        _stacksRepository = stacksRepository;
-        _stackMenuCommandFactory = stackMenuCommandFactory;
+        _reportGenerator = reportGenerator;
     }
     
     public void Execute()
     {
-        var stack = StackChooserService.GetStacks(_stackMenuCommandFactory, _stacksRepository);
-
-        if (GeneralHelperService.CheckForNull(stack))
-        {
-            return;
-        }
+        var studySessions = _studySessionsRepository.GetAll().ToList();
         
-        _studySessionsRepository.StackId = stack.Id;
-        
-        var studySessions = _studySessionsRepository.GetAll();
-        
-        var table = new Table().Title($"[bold]Study history for { stack.Name }[/]");
-        table.Border = TableBorder.Rounded;
-        table.AddColumns("Date", "Stack", "Result", "Percentage", "Duration");
-
-        foreach (var session in studySessions)
-        {
-            table.AddRow(
-                session.Date.ToShortDateString(),
-                session.StackName!,
-                $"{ session.CorrectAnswers } out of { session.Questions }",
-                $"{ session.Percentage }%",
-                session.Time.ToString()
-            );
-        }
-        
+        var table = _reportGenerator.GetReportToDisplay(studySessions);
         AnsiConsole.Write(table);
+        
+        var confirm = AnsiConsole.Confirm("Would you like to save the report as PDF?");
+
+        if (confirm)
+        {
+            var pdfDocument = _reportGenerator.GenerateReportToFile(studySessions);
+            _reportGenerator.SaveFullReportToPdf(pdfDocument);
+        }
         GeneralHelperService.ShowContinueMessage();
     }
 }

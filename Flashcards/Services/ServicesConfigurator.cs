@@ -4,11 +4,14 @@ using Flashcards.Handlers;
 using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Models;
+using Flashcards.Interfaces.Report;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View;
 using Flashcards.Interfaces.View.Factory;
+using Flashcards.Report;
 using Flashcards.Repositories;
 using Flashcards.View;
+using Flashcards.View.Commands.StudyMenu;
 using Flashcards.View.Factory;
 using Flashcards.View.Factory.EntriesInitializers;
 using Microsoft.Extensions.DependencyInjection;
@@ -44,6 +47,7 @@ internal static class ServicesConfigurator
         services.AddTransient<IMenuCommandFactory<StackMenuEntries>, MenuCommandFactory<StackMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<FlashcardEntries>, MenuCommandFactory<FlashcardEntries>>();
         services.AddTransient<IMenuCommandFactory<StudyMenuEntries>, MenuCommandFactory<StudyMenuEntries>>();
+        services.AddTransient<IReportGenerator, ReportGenerator>();
         
         services.AddSingleton<IDatabaseManager, DatabaseManager>();
         services.AddSingleton<IFlashcardsRepository, FlashcardsRepository>();
