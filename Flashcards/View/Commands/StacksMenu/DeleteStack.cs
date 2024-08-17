@@ -7,6 +7,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.StacksMenu;
 
+/// <summary>
+/// Represents a command for deleting a stack.
+/// </summary>
 internal sealed class DeleteStack : ICommand
 {
     private readonly IStacksRepository _stacksRepository;

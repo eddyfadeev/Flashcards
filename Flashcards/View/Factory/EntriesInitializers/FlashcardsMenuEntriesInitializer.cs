@@ -9,6 +9,9 @@ using Flashcards.View.Commands.FlashcardsMenu;
 
 namespace Flashcards.View.Factory.EntriesInitializers;
 
+/// <summary>
+/// Initializes the menu entries for the flashcards menu.
+/// </summary>
 internal class FlashcardsMenuEntriesInitializer : IMenuEntriesInitializer<FlashcardEntries>
 {
     private readonly IFlashcardsRepository _flashcardsRepository;

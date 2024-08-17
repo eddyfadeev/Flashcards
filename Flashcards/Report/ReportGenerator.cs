@@ -6,15 +6,29 @@ using Spectre.Console;
 
 namespace Flashcards.Report;
 
+/// <summary>
+/// Generates reports for study sessions.
+/// </summary>
 internal class ReportGenerator : IReportGenerator
 {
     public ReportGenerator()
     {
         SetLicence();
     }
+
+    /// <summary>
+    /// Retrieves the report to display as a table.
+    /// </summary>
+    /// <param name="studySessions">The list of study sessions.</param>
+    /// <returns>The report as a table.</returns>
     public Table GetReportToDisplay(List<IStudySession> studySessions) => 
         GenerateReportTable(studySessions);
 
+    /// <summary>
+    /// Generates a report document with study session information and saves it to a PDF file.
+    /// </summary>
+    /// <param name="studySessions">A list of study sessions containing the information to be included in the report.</param>
+    /// <returns>A document object representing the generated report.</returns>
     public IDocument GenerateReportToFile(List<IStudySession> studySessions)
     {
         var document = new ReportDocument(studySessions);
@@ -22,6 +36,10 @@ internal class ReportGenerator : IReportGenerator
         return document;
     }
 
+    /// <summary>
+    /// Saves the full report to a PDF file.
+    /// </summary>
+    /// <param name="pdfDocument">The PDF document to save.</param>
     public void SaveFullReportToPdf(IDocument pdfDocument)
     {
         var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
@@ -63,8 +81,6 @@ internal class ReportGenerator : IReportGenerator
         return table;
     }
     
-    private static void SetLicence()
-    {
+    private static void SetLicence() =>
         QuestPDF.Settings.License = LicenseType.Community;
-    }
 }

@@ -2,6 +2,9 @@
 
 namespace Flashcards.Enums;
 
+/// <summary>
+/// Represents the study menu entries.
+/// </summary>
 internal enum StudyMenuEntries
 {
     [Display(Name = "Start Study Session")]

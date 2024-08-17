@@ -9,6 +9,9 @@ using Flashcards.View.Commands.StacksMenu;
 
 namespace Flashcards.View.Factory.EntriesInitializers;
 
+/// <summary>
+/// Initializes the menu entries for the stack-related menu.
+/// </summary>
 internal class StacksMenuEntriesInitializer : IMenuEntriesInitializer<StackMenuEntries>
 {
     private readonly IStacksRepository _stacksRepository;

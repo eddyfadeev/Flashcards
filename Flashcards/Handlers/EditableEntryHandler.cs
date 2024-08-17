@@ -3,8 +3,18 @@ using Spectre.Console;
 
 namespace Flashcards.Handlers;
 
+/// <summary>
+/// Represents a class that handles editable entries.
+/// </summary>
+/// <typeparam name="TEntry">The type of the entry.</typeparam>
 internal class EditableEntryHandler<TEntry> : IEditableEntryHandler<TEntry> where TEntry : class
 {
+    /// <summary>
+    /// Handles an editable entry by presenting a list of entries and prompting the user to choose one.
+    /// </summary>
+    /// <typeparam name="TEntry">The type of entry.</typeparam>
+    /// <param name="entries">The list of entries to choose from.</param>
+    /// <returns>The selected entry, or null if no entry is selected.</returns>
     public TEntry? HandleEditableEntry(List<TEntry> entries)
     {
         if (entries.Count == 0)

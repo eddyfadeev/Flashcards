@@ -8,6 +8,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.FlashcardsMenu;
 
+/// <summary>
+/// Represents a command for adding a flashcard.
+/// </summary>
 internal sealed class AddFlashcard : ICommand
 {
     private readonly IFlashcardsRepository _flashcardsRepository;

@@ -3,6 +3,9 @@ using Microsoft.Data.SqlClient;
 
 namespace Flashcards.Database;
 
+/// <summary>
+/// Represents a connection provider for accessing the database.
+/// </summary>
 internal class ConnectionProvider : IConnectionProvider
 {
     private readonly string _connectionString;
@@ -12,8 +15,9 @@ internal class ConnectionProvider : IConnectionProvider
         _connectionString = configurationProvider.GetConfiguration();
     }
 
-    public SqlConnection GetConnection()
-    {
-        return new SqlConnection(_connectionString);
-    }
+    /// <summary>
+    /// Gets a connection to the database.
+    /// </summary>
+    /// <returns>A <see cref="SqlConnection"/> object representing the database connection.</returns>
+    public SqlConnection GetConnection() => new SqlConnection(_connectionString);
 }

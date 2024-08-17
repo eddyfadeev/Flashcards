@@ -6,6 +6,9 @@ using Flashcards.Models.Dto;
 
 namespace Flashcards.Repositories;
 
+/// <summary>
+/// Represents a repository for managing study sessions.
+/// </summary>
 internal class StudySessionsRepository : IStudySessionsRepository
 {
     private readonly IDatabaseManager _databaseManager;
@@ -18,6 +21,12 @@ internal class StudySessionsRepository : IStudySessionsRepository
     {
         _databaseManager = databaseManager;
     }
+
+    /// <summary>
+    /// Inserts a study session into the StudySessions table.
+    /// </summary>
+    /// <param name="entity">The study session entity to insert.</param>
+    /// <returns>The number of rows affected by the insertion operation.</returns>
     public int Insert(IDbEntity<IStudySession> entity)
     {
         const string query = 
@@ -31,6 +40,10 @@ internal class StudySessionsRepository : IStudySessionsRepository
         return _databaseManager.InsertEntity(query, studySession);
     }
 
+    /// <summary>
+    /// Retrieves all study sessions.
+    /// </summary>
+    /// <returns>The list of study sessions.</returns>
     public IEnumerable<IStudySession> GetAll()
     {
         const string query =

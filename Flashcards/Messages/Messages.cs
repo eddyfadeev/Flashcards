@@ -1,5 +1,8 @@
 ﻿namespace Flashcards.Messages;
 
+/// <summary>
+/// Represents a class that contains messages used in the application.
+/// </summary>
 public static class Messages
 {
     internal const string WelcomeMessage = "[white]Welcome to Flashcards![/]";

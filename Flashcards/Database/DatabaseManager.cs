@@ -5,6 +5,9 @@ using Microsoft.Data.SqlClient;
 
 namespace Flashcards.Database;
 
+/// <summary>
+/// Manages database operations for the Flashcards application.
+/// </summary>
 internal class DatabaseManager : IDatabaseManager
 {
     private readonly IConnectionProvider _connectionProvider;
@@ -12,10 +15,18 @@ internal class DatabaseManager : IDatabaseManager
     public DatabaseManager(IConnectionProvider connectionProvider, IDatabaseInitializer databaseInitializer)
     {
         _connectionProvider = connectionProvider;
-
+        
+        #if DEBUG
+        SeedData.SeedData.ProcessRequest(this, databaseInitializer);
+        #else
         databaseInitializer.Initialize();
+        #endif
     }
 
+    /// <summary>Inserts a new entity into the database.</summary>
+    /// <param name="query">The query to execute for inserting the entity.</param>
+    /// <param name="parameters">The parameters required by the query.</param>
+    /// <returns>The number of affected rows.</returns>
     public int InsertEntity(string query, object parameters)
     {
         try
@@ -32,6 +43,12 @@ internal class DatabaseManager : IDatabaseManager
         }
     }
 
+    /// <summary>
+    /// Retrieves all entities of type TEntity from the database.
+    /// </summary>
+    /// <typeparam name="TEntity">The type of entities to be retrieved.</typeparam>
+    /// <param name="query">The SQL query to execute.</param>
+    /// <returns>A collection of entities retrieved from the database.</returns>
     public IEnumerable<TEntity> GetAllEntities<TEntity>(string query)
     {
         try
@@ -49,6 +66,13 @@ internal class DatabaseManager : IDatabaseManager
         }
     }
 
+    /// <summary>
+    /// Retrieves all entities of type TEntity from the database.
+    /// </summary>
+    /// <typeparam name="TEntity">The type of entities to retrieve.</typeparam>
+    /// <param name="query">The SQL query to execute.</param>
+    /// <param name="parameters">The parameters to pass to the query.</param>
+    /// <returns>A collection of entities.</returns>
     public IEnumerable<TEntity> GetAllEntities<TEntity>(string query, object parameters)
     {
         try
@@ -66,6 +90,12 @@ internal class DatabaseManager : IDatabaseManager
         }
     }
 
+    /// <summary>
+    /// Deletes an entry from the database based on the given query and parameters.
+    /// </summary>
+    /// <param name="query">The SQL query used for deleting the entry.</param>
+    /// <param name="parameters">The parameters to be used in the query.</param>
+    /// <returns>The number of rows affected by the delete operation.</returns>
     public int DeleteEntry(string query, object parameters)
     {
         try
@@ -81,6 +111,12 @@ internal class DatabaseManager : IDatabaseManager
         }
     }
 
+    /// <summary>
+    /// Updates an entry in the database.
+    /// </summary>
+    /// <param name="query">The SQL query to update the entry.</param>
+    /// <param name="parameters">The parameters required for the query.</param>
+    /// <returns>The number of affected rows.</returns>
     public int UpdateEntry(string query, object parameters)
     {
         try
@@ -96,6 +132,15 @@ internal class DatabaseManager : IDatabaseManager
         }
     }
 
+    /// <summary>
+    /// Bulk inserts a list of stacks and flashcards into the database.
+    /// </summary>
+    /// <param name="stacks">The list of stack objects to be inserted.</param>
+    /// <param name="flashcards">The list of flashcard objects to be inserted.</param>
+    /// <returns>
+    /// <c>true</c> if the bulk insert was successful;
+    /// otherwise, <c>false</c>.
+    /// </returns>
     public bool BulkInsertRecords(List<Stack> stacks, List<Flashcard> flashcards)
     {
         SqlTransaction? transaction = null;
@@ -128,6 +173,9 @@ internal class DatabaseManager : IDatabaseManager
         return seedResult;
     }
 
+    /// <summary>
+    /// Deletes all tables from the database.
+    /// </summary>
     public void DeleteTables()
     {
         try

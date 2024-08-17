@@ -5,14 +5,29 @@ using Spectre.Console;
 
 namespace Flashcards.Services;
 
+/// <summary>
+/// The StudySessionsHelperService class provides helper methods related to study sessions.
+/// </summary>
 internal static class StudySessionsHelperService
 {
+    /// <summary>
+    /// Sets the stack ID in the flashcards repository and study sessions repository.
+    /// </summary>
+    /// <param name="stack">The stack.</param>
+    /// <param name="flashcardsRepository">The flashcards repository.</param>
+    /// <param name="studySessionsRepository">The study sessions repository.</param>
     internal static void SetStackIdsInRepositories(IStack stack, IFlashcardsRepository flashcardsRepository, IStudySessionsRepository studySessionsRepository)
     {
         GeneralHelperService.SetStackIdInRepository(flashcardsRepository, stack);
         GeneralHelperService.SetStackIdInRepository(studySessionsRepository, stack);
     }
-    
+
+    /// <summary>
+    /// Creates a new study session.
+    /// </summary>
+    /// <param name="flashcards">The list of flashcards to study.</param>
+    /// <param name="stack">The stack to associate the study session with.</param>
+    /// <returns>The newly created study session.</returns>
     internal static StudySession CreateStudySession(List<IFlashcard> flashcards, IStack stack)
     {
         return new StudySession
@@ -22,7 +37,12 @@ internal static class StudySessionsHelperService
             Date = DateTime.Now
         };
     }
-    
+
+    /// <summary>
+    /// Gets the number of correct answers from a list of flashcards.
+    /// </summary>
+    /// <param name="flashcards">The list of flashcards to evaluate.</param>
+    /// <returns>The number of correct answers.</returns>
     internal static int GetCorrectAnswers(List<IFlashcard> flashcards)
     {
         var correctAnswers = 0;
@@ -55,5 +75,4 @@ internal static class StudySessionsHelperService
         
         return correctAnswers;
     }
-    
 }

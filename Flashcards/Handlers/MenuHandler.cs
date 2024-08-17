@@ -2,30 +2,43 @@
 using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.View;
 using Flashcards.Interfaces.View.Factory;
-using Flashcards.View;
 using Spectre.Console;
 
 namespace Flashcards.Handlers;
 
-internal class MenuHandler<T> : IMenuHandler<T> where T : Enum
+/// <summary>
+/// Handles the menu for a specific menu entries type.
+/// </summary>
+/// <typeparam name="TMenu">The type of the menu entries.</typeparam>
+internal class MenuHandler<TMenu> : IMenuHandler<TMenu> where TMenu : Enum
 {
-    private readonly IMenuCommandFactory<T> _commandFactory;
+    private readonly IMenuCommandFactory<TMenu> _commandFactory;
     private readonly SelectionPrompt<string> _menuEntries;
 
-    public MenuHandler(IMenuEntries<T> menuEntries, IMenuCommandFactory<T> commandFactory)
+    public MenuHandler(IMenuEntries<TMenu> menuEntries, IMenuCommandFactory<TMenu> commandFactory)
     {
         _menuEntries = menuEntries.GetMenuEntries();
         _commandFactory = commandFactory;
     }
 
+    /// <summary>
+    /// Handles the menu for the specific menu entries.
+    /// </summary>
+    /// <typeparam name="TMenu">The type of the menu entries.</typeparam>
     public void HandleMenu()
     {
         var userChoice = HandleUserChoice(_menuEntries);
         _commandFactory.Create(userChoice).Execute();
     }
 
-    public T HandleChoosableEntry(SelectionPrompt<string> entries) => HandleUserChoice(entries);
+    /// <summary>
+    /// Handles the user's choosable entry from a menu.
+    /// </summary>
+    /// <typeparam name="TMenu">The type of the menu.</typeparam>
+    /// <param name="entries">The selection prompt representing the menu entries.</param>
+    /// <returns>The chosen menu entry.</returns>
+    public TMenu HandleChoosableEntry(SelectionPrompt<string> entries) => HandleUserChoice(entries);
 
-    private static T HandleUserChoice(SelectionPrompt<string> entries) =>
-        AnsiConsole.Prompt(entries).GetValueFromDisplayName<T>();
+    private static TMenu HandleUserChoice(SelectionPrompt<string> entries) =>
+        AnsiConsole.Prompt(entries).GetValueFromDisplayName<TMenu>();
 }

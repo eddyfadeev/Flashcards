@@ -11,13 +11,15 @@ using Flashcards.Interfaces.View.Factory;
 using Flashcards.Report;
 using Flashcards.Repositories;
 using Flashcards.View;
-using Flashcards.View.Commands.StudyMenu;
 using Flashcards.View.Factory;
 using Flashcards.View.Factory.EntriesInitializers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Flashcards.Services;
 
+/// <summary>
+/// The ServicesConfigurator class is responsible for configuring the services used in the Flashcards application.
+/// </summary>
 internal static class ServicesConfigurator
 {
     internal static ServiceCollection ServiceCollection { get; } = [];

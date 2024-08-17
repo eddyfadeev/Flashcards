@@ -2,6 +2,9 @@
 
 namespace Flashcards.Models.Dto;
 
+/// <summary>
+/// Represents a data transfer object for a study session.
+/// </summary>
 public record StudySessionDto : IStudySession
 {
     public int? StackId { get; set; }

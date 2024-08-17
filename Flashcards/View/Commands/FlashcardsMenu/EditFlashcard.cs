@@ -7,6 +7,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.FlashcardsMenu;
 
+/// <summary>
+/// Represents a command that allows editing a flashcard.
+/// </summary>
 internal sealed class EditFlashcard : ICommand
 {
     private readonly IFlashcardsRepository _flashcardsRepository;

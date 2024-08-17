@@ -7,6 +7,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.StacksMenu;
 
+/// <summary>
+/// Represents a command for choosing a stack.
+/// </summary>
 internal sealed class ChooseStack : ICommand
 {
     private readonly IStacksRepository _stacksRepository;

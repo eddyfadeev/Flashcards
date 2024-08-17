@@ -6,6 +6,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.StudyMenu;
 
+/// <summary>
+/// Represents a command that displays the study history to the user and provides options to save it as a PDF.
+/// </summary>
 internal class ShowStudyHistory : ICommand
 {
     private readonly IStudySessionsRepository _studySessionsRepository;

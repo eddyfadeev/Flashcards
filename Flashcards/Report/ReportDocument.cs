@@ -5,6 +5,9 @@ using QuestPDF.Infrastructure;
 
 namespace Flashcards.Report;
 
+/// <summary>
+/// Represents a report document for generating study history reports.
+/// </summary>
 internal class ReportDocument : IDocument
 {
     private readonly List<IStudySession> _studySessions;
@@ -13,7 +16,11 @@ internal class ReportDocument : IDocument
     {
         _studySessions = studySessions;
     }
-    
+
+    /// <summary>
+    /// Composes a study history report document.
+    /// </summary>
+    /// <param name="container">The document container to compose the report in.</param>
     public void Compose(IDocumentContainer container)
     {
         container
@@ -31,6 +38,8 @@ internal class ReportDocument : IDocument
                     });
             });
     }
+    
+    public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
 
     private static void DefineColumns(TableDescriptor table)
     {
@@ -78,8 +87,6 @@ internal class ReportDocument : IDocument
         }
     }
 
-    public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
-
     private static IContainer CellStyle(IContainer container) =>
         container.Padding(5);
     
@@ -91,5 +98,4 @@ internal class ReportDocument : IDocument
         table.Cell().Element(CellStyle).Text(percentage);
         table.Cell().Element(CellStyle).Text(duration);
     }
-
 }

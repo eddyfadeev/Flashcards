@@ -8,6 +8,9 @@ using Spectre.Console;
 
 namespace Flashcards.Repositories;
 
+/// <summary>
+/// Represents a repository for managing flashcards.
+/// </summary>
 internal class FlashcardsRepository : IFlashcardsRepository
 {
     private readonly IDatabaseManager _databaseManager;
@@ -21,6 +24,11 @@ internal class FlashcardsRepository : IFlashcardsRepository
         _databaseManager = databaseManager;
     }
 
+    /// <summary>
+    /// Inserts a new entity into the Flashcards table in the database.
+    /// </summary>
+    /// <param name="entity">The <see cref="IDbEntity{TEntity}"/> object representing the entity to be inserted.</param>
+    /// <returns>The number of rows affected by the insert operation.</returns>
     public int Insert(IDbEntity<IFlashcard> entity)
     {
         var stack = entity.MapToDto();
@@ -30,6 +38,10 @@ internal class FlashcardsRepository : IFlashcardsRepository
         return _databaseManager.InsertEntity(query, stack);
     }
 
+    /// <summary>
+    /// Deletes the selected flashcard from the repository.
+    /// </summary>
+    /// <returns>The number of flashcards deleted from the repository.</returns>
     public int Delete()
     {
         if (GeneralHelperService.CheckForNull(SelectedEntry))
@@ -44,6 +56,10 @@ internal class FlashcardsRepository : IFlashcardsRepository
         return _databaseManager.DeleteEntry(deleteQuery, parameters);
     }
 
+    /// <summary>
+    /// Updates the flashcard in the repository.
+    /// </summary>
+    /// <returns>The number of rows affected (should be 1 if successful, 0 otherwise).</returns>
     public int Update()
     {
         if (GeneralHelperService.CheckForNull(SelectedEntry))
@@ -58,6 +74,12 @@ internal class FlashcardsRepository : IFlashcardsRepository
         return _databaseManager.UpdateEntry(query, flashcard);
     }
 
+    /// <summary>
+    /// Retrieves all the flashcards from the database that belong to a specific stack.
+    /// </summary>
+    /// <returns>
+    /// An IEnumerable of IFlashcard representing all the flashcards in the stack.
+    /// </returns>
     public IEnumerable<IFlashcard> GetAll()
     {
         const string query = "SELECT * FROM Flashcards WHERE StackId = @StackId;";

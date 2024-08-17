@@ -8,6 +8,9 @@ using Flashcards.View.Commands.StudyMenu;
 
 namespace Flashcards.View.Factory.EntriesInitializers;
 
+/// <summary>
+/// Initializes the menu entries for the study menu.
+/// </summary>
 internal class StudyMenuEntriesInitializer : IMenuEntriesInitializer<StudyMenuEntries>
 {
     private readonly IStudySessionsRepository _studySessionsRepository;
