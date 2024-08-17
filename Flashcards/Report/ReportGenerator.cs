@@ -45,6 +45,7 @@ internal class ReportGenerator : IReportGenerator
         var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         var filePath = Path.Combine(desktopPath, $"Study Report-{DateTime.Today.Date.ToShortDateString()}.pdf");
         pdfDocument.GeneratePdf(filePath);
+        AnsiConsole.MarkupLine($"Saved report to [bold]{ filePath }[/]");
     }
 
     private static Table GenerateReportTable(List<IStudySession> studySessions)
