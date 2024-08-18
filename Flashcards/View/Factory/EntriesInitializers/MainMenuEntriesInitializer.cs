@@ -15,22 +15,26 @@ internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntr
     private readonly IMenuHandler<FlashcardEntries> _flashcardsMenuHandler;
     private readonly IMenuHandler<StackMenuEntries> _stacksMenuHandler;
     private readonly IMenuHandler<StudyMenuEntries> _studyMenuHandler;
+    private readonly IMenuHandler<ReportsMenuEntries> _reportsMenuHandler;
 
     public MainMenuEntriesInitializer(
         IMenuHandler<FlashcardEntries> flashcardsMenuHandler,
         IMenuHandler<StackMenuEntries> stacksMenuHandler,
-        IMenuHandler<StudyMenuEntries> studyMenuHandler
+        IMenuHandler<StudyMenuEntries> studyMenuHandler,
+        IMenuHandler<ReportsMenuEntries> reportsMenuHandler
         )
     {
         _flashcardsMenuHandler = flashcardsMenuHandler;
         _stacksMenuHandler = stacksMenuHandler;
         _studyMenuHandler = studyMenuHandler;
+        _reportsMenuHandler = reportsMenuHandler;
     }
 
     public Dictionary<MainMenuEntries, Func<ICommand>> InitializeEntries(IMenuCommandFactory<MainMenuEntries> commandFactory) =>
         new()
         {
             { MainMenuEntries.StudyMenu, () => new OpenStudyMenu(_studyMenuHandler) },
+            { MainMenuEntries.StudyHistory, () => new ShowStudyHistory(_reportsMenuHandler) },
             { MainMenuEntries.ManageStacks, () => new ManageStacks(_stacksMenuHandler) },
             { MainMenuEntries.ManageFlashcards, () => new ManageFlashcards(_flashcardsMenuHandler) },
             { MainMenuEntries.Exit, () => throw new ExitApplicationException()}
