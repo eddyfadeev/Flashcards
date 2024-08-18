@@ -39,13 +39,29 @@ internal class ReportGenerator : IReportGenerator
     /// <summary>
     /// Saves the full report to a PDF file.
     /// </summary>
-    /// <param name="pdfDocument">The PDF document to save.</param>
-    public void SaveFullReportToPdf(IDocument pdfDocument)
+    /// <param name="studySessions">
+    /// A list of study sessions containing the information to be included in the report.
+    /// </param>
+    public void SaveFullReportToPdf(List<IStudySession> studySessions)
     {
+        if (!AskToSaveReport())
+        {
+            return;
+        }
+
+        var pdfDocument = GenerateReportToFile(studySessions);
         var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         var filePath = Path.Combine(desktopPath, $"Study Report-{DateTime.Today.Date.ToShortDateString()}.pdf");
+        
         pdfDocument.GeneratePdf(filePath);
         AnsiConsole.MarkupLine($"Saved report to [bold]{ filePath }[/]");
+    }
+    
+    private static bool AskToSaveReport()
+    {
+        var confirm = AnsiConsole.Confirm(Messages.Messages.SaveAsPdfMessage);
+
+        return confirm;
     }
 
     private static Table GenerateReportTable(List<IStudySession> studySessions)

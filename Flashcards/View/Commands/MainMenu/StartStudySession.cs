@@ -5,7 +5,7 @@ using Flashcards.Interfaces.View.Factory;
 using Flashcards.Models.Entity;
 using Flashcards.Services;
 
-namespace Flashcards.View.Commands.StudyMenu;
+namespace Flashcards.View.Commands.MainMenu;
 
 /// <summary>
 /// Represents a command to start a study session.

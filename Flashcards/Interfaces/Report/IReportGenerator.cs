@@ -26,6 +26,8 @@ internal interface IReportGenerator
     /// <summary>
     /// Saves the full report to a PDF file.
     /// </summary>
-    /// <param name="pdfDocument">The PDF document to save.</param>
-    internal void SaveFullReportToPdf(IDocument pdfDocument);
+    /// <param name="studySessions">
+    /// A list of study sessions containing the information to be included in the report.
+    /// </param>
+    internal void SaveFullReportToPdf(List<IStudySession> studySessions);
 }

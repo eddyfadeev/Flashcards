@@ -27,13 +27,8 @@ internal sealed class FullReport : ICommand
         var table = _reportGenerator.GetReportToDisplay(studySessions);
         AnsiConsole.Write(table);
         
-        var confirm = AnsiConsole.Confirm("Would you like to save the report as PDF?");
-
-        if (confirm)
-        {
-            var pdfDocument = _reportGenerator.GenerateReportToFile(studySessions);
-            _reportGenerator.SaveFullReportToPdf(pdfDocument);
-        }
+        _reportGenerator.SaveFullReportToPdf(studySessions);
+        
         GeneralHelperService.ShowContinueMessage();
     }
 }

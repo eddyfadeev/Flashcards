@@ -7,8 +7,8 @@ namespace Flashcards.Enums;
 /// </summary>
 internal enum MainMenuEntries
 {
-    [Display(Name = "Study Menu")] 
-    StudyMenu,
+    [Display(Name = "Start Study Session")]
+    StartStudySession,
     [Display(Name = "Study History")]
     StudyHistory,
     [Display(Name = "Manage Stacks")] 

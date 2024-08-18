@@ -37,12 +37,10 @@ internal static class ServicesConfigurator
         services.AddTransient<IMenuEntries<MainMenuEntries>, MenuEntries<MainMenuEntries>>();
         services.AddTransient<IMenuEntries<StackMenuEntries>, MenuEntries<StackMenuEntries>>();
         services.AddTransient<IMenuEntries<FlashcardEntries>, MenuEntries<FlashcardEntries>>();
-        services.AddTransient<IMenuEntries<StudyMenuEntries>, MenuEntries<StudyMenuEntries>>();
         services.AddTransient<IMenuEntries<ReportsMenuEntries>, MenuEntries<ReportsMenuEntries>>();
         services.AddTransient<IMenuEntriesInitializer<MainMenuEntries>, MainMenuEntriesInitializer>();
         services.AddTransient<IMenuEntriesInitializer<StackMenuEntries>, StacksMenuEntriesInitializer>();
         services.AddTransient<IMenuEntriesInitializer<FlashcardEntries>, FlashcardsMenuEntriesInitializer>();
-        services.AddTransient<IMenuEntriesInitializer<StudyMenuEntries>, StudyMenuEntriesInitializer>();
         services.AddTransient<IMenuEntriesInitializer<ReportsMenuEntries>, ReportsMenuEntriesInitializer>();
         services.AddTransient<IEditableEntryHandler<IStack>, EditableEntryHandler<IStack>>();
         services.AddTransient<IEditableEntryHandler<IFlashcard>, EditableEntryHandler<IFlashcard>>();
@@ -50,7 +48,6 @@ internal static class ServicesConfigurator
         services.AddTransient<IMenuCommandFactory<MainMenuEntries>, MenuCommandFactory<MainMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<StackMenuEntries>, MenuCommandFactory<StackMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<FlashcardEntries>, MenuCommandFactory<FlashcardEntries>>();
-        services.AddTransient<IMenuCommandFactory<StudyMenuEntries>, MenuCommandFactory<StudyMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<ReportsMenuEntries>, MenuCommandFactory<ReportsMenuEntries>>();
         services.AddTransient<IReportGenerator, ReportGenerator>();
         
@@ -61,7 +58,6 @@ internal static class ServicesConfigurator
         services.AddSingleton<IMenuHandler<MainMenuEntries>, MenuHandler<MainMenuEntries>>();
         services.AddSingleton<IMenuHandler<StackMenuEntries>, MenuHandler<StackMenuEntries>>();
         services.AddSingleton<IMenuHandler<FlashcardEntries>, MenuHandler<FlashcardEntries>>();
-        services.AddSingleton<IMenuHandler<StudyMenuEntries>, MenuHandler<StudyMenuEntries>>();
         services.AddSingleton<IMenuHandler<ReportsMenuEntries>, MenuHandler<ReportsMenuEntries>>();
     }
 }
