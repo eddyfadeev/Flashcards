@@ -30,14 +30,13 @@ internal sealed class AverageYearlyReport : ICommand
     {
         var years = _studySessionsRepository.GetYears().ToList();
         var selectedYear = _yearEntryHandler.HandleEditableEntry(years);
-
-        var months = _studySessionsRepository.GetMonths(selectedYear).ToList();
-        var selectedMonth = _monthEntryHandler.HandleEditableEntry(months);
         
-        var studySessions = _studySessionsRepository.GetByMonth(selectedYear, selectedMonth).ToList();
+        var studySessions = _studySessionsRepository.GetAverageYearly(selectedYear).ToList();
 
-        var table = _reportGenerator.GetReportToDisplay(studySessions);
+        var table = _reportGenerator.GetReportToDisplay(studySessions, selectedYear);
         AnsiConsole.Write(table);
+        
+        _reportGenerator.SaveReportToPdf(studySessions, selectedYear);
         
         GeneralHelperService.ShowContinueMessage();
     }

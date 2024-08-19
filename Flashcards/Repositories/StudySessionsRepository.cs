@@ -96,7 +96,7 @@ internal class StudySessionsRepository : IStudySessionsRepository
         return studySessions.Select(studySession => studySession.ToEntity());
     }
     
-    public IEnumerable<IStudySession> GetByYear(IYear year)
+    public IEnumerable<IStackMonthlySessions> GetAverageYearly(IYear year)
     {
         const string query =
             """
@@ -130,7 +130,7 @@ internal class StudySessionsRepository : IStudySessionsRepository
             { "@Year", year.ChosenYear }
         };
 
-        IEnumerable<IStudySession> studySessions = _databaseManager.GetAllEntities<StudySessionDto>(query, parameters).ToList();
+        IEnumerable<IStackMonthlySessions> studySessions = _databaseManager.GetAllEntities<StackMonthlySessionsDto>(query, parameters).ToList();
         
         return studySessions.Select(studySession => studySession.ToEntity());
     }

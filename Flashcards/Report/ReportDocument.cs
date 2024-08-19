@@ -10,11 +10,19 @@ namespace Flashcards.Report;
 /// </summary>
 internal class ReportDocument : IDocument
 {
-    private readonly List<IStudySession> _studySessions;
+    private readonly List<IStudySession>? _studySessions;
+    private readonly List<IStackMonthlySessions>? _stackMonthlySessions;
+    private readonly IYear? _year;
     
     public ReportDocument(List<IStudySession> studySessions)
     {
         _studySessions = studySessions;
+    }
+
+    public ReportDocument(List<IStackMonthlySessions> stackMonthlySessions, IYear year)
+    {
+        _stackMonthlySessions = stackMonthlySessions;
+        _year = year;
     }
 
     /// <summary>
@@ -32,16 +40,25 @@ internal class ReportDocument : IDocument
                     .Border(1)
                     .Table(table =>
                     {
-                        DefineColumns(table);
-                        DefineHeader(table);
-                        PopulateTable(table);
+                        if (_studySessions != null)
+                        {
+                            DefineStudySessionColumns(table);
+                            DefineStudySessionHeader(table);
+                            PopulateStudySessionTable(table);
+                        }
+                        else if (_stackMonthlySessions != null && _year != null)
+                        {
+                            DefineMonthlySessionColumns(table);
+                            DefineMonthlySessionHeader(table);
+                            PopulateMonthlySessionTable(table);
+                        }
                     });
             });
     }
     
     public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
 
-    private static void DefineColumns(TableDescriptor table)
+    private static void DefineStudySessionColumns(TableDescriptor table)
     {
         table
             .ColumnsDefinition(columns =>
@@ -53,8 +70,21 @@ internal class ReportDocument : IDocument
                 columns.RelativeColumn(); // Duration column
             });
     }
+
+    private static void DefineMonthlySessionColumns(TableDescriptor table)
+    {
+        table
+            .ColumnsDefinition(columns =>
+            {
+                columns.RelativeColumn(); // Stack column
+                for (int i = 0; i < 12; i++)
+                {
+                    columns.RelativeColumn(); // Month columns
+                }
+            });
+    }
     
-    private static void DefineHeader(TableDescriptor table)
+    private static void DefineStudySessionHeader(TableDescriptor table)
     {
         table.Header(header =>
         {
@@ -73,7 +103,26 @@ internal class ReportDocument : IDocument
         });
     }
 
-    private void PopulateTable(TableDescriptor table)
+    private static void DefineMonthlySessionHeader(TableDescriptor table)
+    {
+        table.Header(header =>
+        {
+            header.Cell().Padding(5).Text("Stack").Bold();
+            foreach (var month in new[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" })
+            {
+                header.Cell().Padding(5).Text(month).Bold();
+            }
+
+            header
+                .Cell()
+                .ColumnSpan(13)
+                .ExtendHorizontal()
+                .Height(1)
+                .Background(Colors.Black);
+        });
+    }
+
+    private void PopulateStudySessionTable(TableDescriptor table)
     {
         foreach (var studySession in _studySessions)
         {
@@ -84,6 +133,26 @@ internal class ReportDocument : IDocument
                 $"{ studySession.CorrectAnswers } out of { studySession.Questions }", 
                 $"{ studySession.Percentage }%", 
                 studySession.Time.ToString("g")[..7]);
+        }
+    }
+
+    private void PopulateMonthlySessionTable(TableDescriptor table)
+    {
+        foreach (var session in _stackMonthlySessions)
+        {
+            table.Cell().Element(CellStyle).Text(session.StackName);
+            table.Cell().Element(CellStyle).Text(session.January.ToString());
+            table.Cell().Element(CellStyle).Text(session.February.ToString());
+            table.Cell().Element(CellStyle).Text(session.March.ToString());
+            table.Cell().Element(CellStyle).Text(session.April.ToString());
+            table.Cell().Element(CellStyle).Text(session.May.ToString());
+            table.Cell().Element(CellStyle).Text(session.June.ToString());
+            table.Cell().Element(CellStyle).Text(session.July.ToString());
+            table.Cell().Element(CellStyle).Text(session.August.ToString());
+            table.Cell().Element(CellStyle).Text(session.September.ToString());
+            table.Cell().Element(CellStyle).Text(session.October.ToString());
+            table.Cell().Element(CellStyle).Text(session.November.ToString());
+            table.Cell().Element(CellStyle).Text(session.December.ToString());
         }
     }
 

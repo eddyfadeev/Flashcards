@@ -27,8 +27,4 @@
       </None>
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="View\Commands\StudyMenu\" />
-    </ItemGroup>
-
 </Project>

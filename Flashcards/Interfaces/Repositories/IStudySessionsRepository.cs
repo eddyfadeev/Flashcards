@@ -14,7 +14,7 @@ internal interface IStudySessionsRepository :
     IAssignableStackName
 {
     internal IEnumerable<IStudySession> GetByStackId(int stackId);
-    internal IEnumerable<IStudySession> GetByYear(IYear year);
+    internal IEnumerable<IStackMonthlySessions> GetAverageYearly(IYear year);
     internal IEnumerable<IStudySession> GetByMonth(IYear year, IMonth month);
     internal IEnumerable<IYear> GetYears();
     internal IEnumerable<IMonth> GetMonths(IYear year);
