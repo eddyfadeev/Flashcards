@@ -11,4 +11,11 @@ internal interface IStudySessionsRepository :
     IGetAllFromRepository<IStudySession>,
     ISelectableRepositoryEntry<IStudySession>,
     IAssignableStackId,
-    IAssignableStackName;
+    IAssignableStackName
+{
+    internal IEnumerable<IStudySession> GetByStackId(int stackId);
+    internal IEnumerable<IStudySession> GetByYear(IYear year);
+    internal IEnumerable<IStudySession> GetByMonth(IYear year, IMonth month);
+    internal IEnumerable<IYear> GetYears();
+    internal IEnumerable<IMonth> GetMonths(IYear year);
+}

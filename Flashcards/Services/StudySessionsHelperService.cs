@@ -61,13 +61,13 @@ internal static class StudySessionsHelperService
             {
                 correctAnswers++;
                 AnsiConsole.MarkupLine($"{ Messages.Messages.CorrectAnswerMessage }\n");
-                GeneralHelperService.ShowContinueMessage();
             }
             else
             {
                 AnsiConsole.MarkupLine($"{ Messages.Messages.IncorrectAnswerMessage } Correct answer is { flashcard.Answer }\n");
-                GeneralHelperService.ShowContinueMessage();
             }
+
+            GeneralHelperService.ShowContinueMessage();
         }
         AnsiConsole.MarkupLine($"[white]You have { correctAnswers } out of { flashcards.Count }.[/]");
         

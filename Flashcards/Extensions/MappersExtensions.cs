@@ -1,4 +1,5 @@
 ﻿using Flashcards.Interfaces.Models;
+using Flashcards.Models;
 using Flashcards.Models.Dto;
 using Flashcards.Models.Entity;
 
@@ -24,10 +25,10 @@ internal static class MappersExtensions
         };
 
     /// <summary>
-    /// Converts an instance of <see cref="IFlashcard"/> to an instance of <see cref="FlashcardDto"/>.
+    /// Converts an instance of <see cref="IStack"/> to an instance of <see cref="StackDto"/>.
     /// </summary>
-    /// <param name="flashcard">The <see cref="IFlashcard"/> to convert.</param>
-    /// <returns>An instance of <see cref="FlashcardDto"/> representing the converted <see cref="IFlashcard"/>.</returns>
+    /// <param name="stack">The <see cref="IStack"/> to convert.</param>
+    /// <returns>An instance of <see cref="StackDto"/> representing the converted <see cref="IStack"/>.</returns>
     public static StackDto ToDto(this IStack stack) =>
         new()
         {
@@ -54,6 +55,28 @@ internal static class MappersExtensions
         };
 
     /// <summary>
+    /// Converts an object that implements the IYear interface to a YearDto object.
+    /// </summary>
+    /// <param name="year">The year object to convert.</param>
+    /// <returns>A YearDto object converted from the IYear object.</returns>
+    public static YearDto ToDto(this IYear year) =>
+        new()
+        {
+            ChosenYear = year.ChosenYear
+        };
+    
+    /// <summary>
+    /// Converts an object that implements the IMonth interface to a MonthDto object.
+    /// </summary>
+    /// <param name="month">The year object to convert.</param>
+    /// <returns>A MonthDto object converted from the IMonth object.</returns>
+    public static MonthDto ToDto(this IMonth month) =>
+        new()
+        {
+            ChosenMonth = month.ChosenMonth
+        };
+
+    /// <summary>
     /// Converts an instance of <see cref="IFlashcard"/> to an instance of <see cref="Flashcard"/>.
     /// </summary>
     /// <param name="flashcard">The <see cref="IFlashcard"/> instance to convert.</param>
@@ -67,10 +90,11 @@ internal static class MappersExtensions
             StackId = flashcard.StackId
         };
 
+    /// <summary>
     /// Converts an object that implements the IStack interface to an instance of the Stack entity.
-    /// @param stack The object that implements the IStack interface.
-    /// @returns An instance of the Stack entity.
-    /// /
+    /// </summary>
+    /// <param name="stack"> The <see cref="IStack"/> instance to convert </param>
+    /// <returns> An instance of <see cref="Stack"/>.</returns>
     public static Stack ToEntity(this IStack stack) =>
         new()
         {
@@ -94,5 +118,27 @@ internal static class MappersExtensions
             Percentage = studySession.Percentage,
             Time = studySession.Time,
             StackName = studySession.StackName
+        };
+    
+    /// <summary>
+    /// Converts an instance of <see cref="IYear"/> to an instance of <see cref="Year"/> entity.
+    /// </summary>
+    /// <param name="year">The year to convert.</param>
+    /// <returns>The converted <see cref="Year"/> entity.</returns>
+    public static Year ToEntity(this IYear year) =>
+        new()
+        {
+            ChosenYear = year.ChosenYear
+        };
+    
+    /// <summary>
+    /// Converts an instance of <see cref="IMonth"/> to an instance of <see cref="Month"/> entity.
+    /// </summary>
+    /// <param name="month">The month to convert.</param>
+    /// <returns>The converted <see cref="Month"/> entity.</returns>
+    public static Month ToEntity(this IMonth month) =>
+        new()
+        {
+            ChosenMonth = month.ChosenMonth
         };
 }

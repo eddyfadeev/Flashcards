@@ -8,6 +8,7 @@ using Flashcards.Interfaces.Report;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View;
 using Flashcards.Interfaces.View.Factory;
+using Flashcards.Models.Entity;
 using Flashcards.Report;
 using Flashcards.Repositories;
 using Flashcards.View;
@@ -45,6 +46,8 @@ internal static class ServicesConfigurator
         services.AddTransient<IEditableEntryHandler<IStack>, EditableEntryHandler<IStack>>();
         services.AddTransient<IEditableEntryHandler<IFlashcard>, EditableEntryHandler<IFlashcard>>();
         services.AddTransient<IEditableEntryHandler<IStudySession>, EditableEntryHandler<IStudySession>>();
+        services.AddTransient<IEditableEntryHandler<IYear>, EditableEntryHandler<IYear>>();
+        services.AddTransient<IEditableEntryHandler<IMonth>, EditableEntryHandler<IMonth>>();
         services.AddTransient<IMenuCommandFactory<MainMenuEntries>, MenuCommandFactory<MainMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<StackMenuEntries>, MenuCommandFactory<StackMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<FlashcardEntries>, MenuCommandFactory<FlashcardEntries>>();
