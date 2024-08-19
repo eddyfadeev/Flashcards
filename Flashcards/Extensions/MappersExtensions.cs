@@ -75,6 +75,29 @@ internal static class MappersExtensions
         {
             ChosenMonth = month.ChosenMonth
         };
+    
+    /// <summary>
+    /// Converts an object that implements the IStackMonthlySessions interface to a StackMonthlySessionsDto object.
+    /// </summary>
+    /// <param name="stackMonthlySessions">The monthly sessions object to convert.</param>
+    /// <returns>A StackMonthlySessionsDto object converted from the IStackMonthlySessions object.</returns>
+    public static StackMonthlySessionsDto ToDto(this IStackMonthlySessions stackMonthlySessions) =>
+        new()
+        {
+            StackName = stackMonthlySessions.StackName,
+            January = stackMonthlySessions.January,
+            February = stackMonthlySessions.February,
+            March = stackMonthlySessions.March,
+            April = stackMonthlySessions.April,
+            May = stackMonthlySessions.May,
+            June = stackMonthlySessions.June,
+            July = stackMonthlySessions.July,
+            August = stackMonthlySessions.August,
+            September = stackMonthlySessions.September,
+            October = stackMonthlySessions.October,
+            November = stackMonthlySessions.November,
+            December = stackMonthlySessions.December,
+        };
 
     /// <summary>
     /// Converts an instance of <see cref="IFlashcard"/> to an instance of <see cref="Flashcard"/>.
@@ -140,5 +163,28 @@ internal static class MappersExtensions
         new()
         {
             ChosenMonth = month.ChosenMonth
+        };
+    
+    /// <summary>
+    /// Converts an instance of <see cref="IStackMonthlySessions"/> to an instance of <see cref="StackMonthlySessions"/> entity.
+    /// </summary>
+    /// <param name="stackMonthlySessions">The month to convert.</param>
+    /// <returns>The converted <see cref="StackMonthlySessions"/> entity.</returns>
+    public static StackMonthlySessions ToEntity(this IStackMonthlySessions stackMonthlySessions) =>
+        new()
+        {
+            StackName = stackMonthlySessions.StackName,
+            January = stackMonthlySessions.January,
+            February = stackMonthlySessions.February,
+            March = stackMonthlySessions.March,
+            April = stackMonthlySessions.April,
+            May = stackMonthlySessions.May,
+            June = stackMonthlySessions.June,
+            July = stackMonthlySessions.July,
+            August = stackMonthlySessions.August,
+            September = stackMonthlySessions.September,
+            October = stackMonthlySessions.October,
+            November = stackMonthlySessions.November,
+            December = stackMonthlySessions.December,
         };
 }

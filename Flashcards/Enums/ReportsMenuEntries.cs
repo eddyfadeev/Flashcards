@@ -8,10 +8,8 @@ public enum ReportsMenuEntries
     FullReport,
     [Display(Name = "Report By Stack")]
     ReportByStack,
-    [Display(Name = "Report By Month")]
-    ReportByMonth,
-    [Display(Name = "Report By Year")]
-    ReportByYear,
+    [Display(Name = "Average Yearly Report")]
+    AverageYearlyReport,
     [Display(Name = "Return to Main Menu")]
     ReturnToMainMenu
 }

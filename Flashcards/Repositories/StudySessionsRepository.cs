@@ -100,18 +100,29 @@ internal class StudySessionsRepository : IStudySessionsRepository
     {
         const string query =
             """
-                SELECT 
-                    ss.Date,
-                    ss.Questions,
-                    ss.CorrectAnswers,
-                    ss.Percentage,
-                    ss.Time
+                SELECT
+                    StackName,
+                    [January], [February], [March], [April], [May], [June],
+                    [July], [August], [September], [October], [November], [December]
                 FROM
+                    (SELECT
+                        s.Name AS StackName,
+                        DATENAME(MONTH, ss.Date) AS MonthName,
+                        COUNT(*) AS SessionCount
+                 FROM
                     StudySessions ss
-                INNER JOIN 
+                 JOIN
                     Stacks s ON ss.StackId = s.Id
-                WHERE
-                    YEAR(ss.Date) = @Year;
+                 GROUP BY
+                    s.Name, DATENAME(MONTH, ss.Date)
+                ) AS SourceTable
+                PIVOT
+                (
+                    SUM(SessionCount)
+                    FOR MonthName IN ([January], [February], [March], [April], [May], [June], [July], [August], [September], [October], [November], [December])
+                ) AS PivotTable
+                ORDER BY
+                    StackName;
             """;
 
         var parameters = new Dictionary<string, object>

@@ -35,8 +35,7 @@ internal class ReportsMenuEntriesInitializer : IMenuEntriesInitializer<ReportsMe
         {
             { ReportsMenuEntries.FullReport, () => new FullReport(_studySessionsRepository, _reportGenerator) },
             { ReportsMenuEntries.ReportByStack, () => new ReportByStack() },
-            { ReportsMenuEntries.ReportByMonth, () => new ReportByMonth(_studySessionsRepository, _yearEntryHandler, _monthEntryHandler, _reportGenerator) },
-            { ReportsMenuEntries.ReportByYear, () => new ReportByYear() },
+            { ReportsMenuEntries.AverageYearlyReport, () => new AverageYearlyReport(_studySessionsRepository, _yearEntryHandler, _monthEntryHandler, _reportGenerator) },
             { ReportsMenuEntries.ReturnToMainMenu, () => throw new ReturnToMainMenuException() }
         };
 }

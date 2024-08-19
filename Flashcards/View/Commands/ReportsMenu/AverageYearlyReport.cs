@@ -8,13 +8,13 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.ReportsMenu;
 
-internal sealed class ReportByMonth : ICommand
+internal sealed class AverageYearlyReport : ICommand
 {
     private readonly IStudySessionsRepository _studySessionsRepository;
     private readonly IEditableEntryHandler<IYear> _yearEntryHandler;
     private readonly IEditableEntryHandler<IMonth> _monthEntryHandler;
     private readonly IReportGenerator _reportGenerator;
-    public ReportByMonth(
+    public AverageYearlyReport(
         IStudySessionsRepository studySessionsRepository, 
         IEditableEntryHandler<IYear> yearEntryHandler,
         IEditableEntryHandler<IMonth> monthEntryHandler,
