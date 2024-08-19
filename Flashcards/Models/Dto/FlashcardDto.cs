@@ -2,6 +2,9 @@
 
 namespace Flashcards.Models.Dto;
 
+/// <summary>
+/// Represents a data transfer object for a flashcard.
+/// </summary>
 public record FlashcardDto : IFlashcard
 {
     public int Id { get; set; }

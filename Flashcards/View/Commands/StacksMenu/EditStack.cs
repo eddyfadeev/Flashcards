@@ -7,6 +7,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.StacksMenu;
 
+/// <summary>
+/// Represents a command to edit a stack.
+/// </summary>
 internal sealed class EditStack : ICommand
 {
     private readonly IStacksRepository _stacksRepository;

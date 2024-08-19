@@ -6,6 +6,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.StacksMenu;
 
+/// <summary>
+/// Represents a command for adding a new stack.
+/// </summary>
 internal sealed class AddStack : ICommand
 {
     private readonly IStacksRepository _stacksRepository;

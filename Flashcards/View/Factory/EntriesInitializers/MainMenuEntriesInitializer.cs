@@ -7,6 +7,9 @@ using Flashcards.View.Commands.MainMenu;
 
 namespace Flashcards.View.Factory.EntriesInitializers;
 
+/// <summary>
+/// Initializes the menu entries for the main menu.
+/// </summary>
 internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntries>
 {
     private readonly IMenuHandler<FlashcardEntries> _flashcardsMenuHandler;
@@ -23,7 +26,6 @@ internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntr
         _stacksMenuHandler = stacksMenuHandler;
         _studyMenuHandler = studyMenuHandler;
     }
-
 
     public Dictionary<MainMenuEntries, Func<ICommand>> InitializeEntries(IMenuCommandFactory<MainMenuEntries> commandFactory) =>
         new()

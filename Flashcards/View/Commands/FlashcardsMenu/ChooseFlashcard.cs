@@ -9,6 +9,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.FlashcardsMenu;
 
+/// <summary>
+/// Represents a command that allows the user to choose a flashcard.
+/// </summary>
 internal sealed class ChooseFlashcard : ICommand
 {
     private readonly IFlashcardsRepository _flashcardsRepository;

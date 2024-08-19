@@ -1,6 +1,4 @@
 ﻿using Flashcards.Enums;
-using Flashcards.Interfaces.Handlers;
-using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Flashcards.Interfaces.View.Factory;
@@ -9,6 +7,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.FlashcardsMenu;
 
+/// <summary>
+/// Represents a command that deletes a flashcard.
+/// </summary>
 internal sealed class DeleteFlashcard : ICommand
 {
     private readonly IFlashcardsRepository _flashcardsRepository;

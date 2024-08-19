@@ -1,5 +1,8 @@
 ﻿namespace Flashcards.Exceptions;
 
+/// <summary>
+/// Represents an exception thrown to return to the main menu.
+/// </summary>
 public class ReturnToMainMenuException : Exception
 {
     public ReturnToMainMenuException() : base("Returning to the main menu...")

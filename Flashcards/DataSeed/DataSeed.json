@@ -1,25 +1,10 @@
 {
     "Stacks": [
-        {
-            "Id": 1,
-            "Name": "French"
-        },
-        {
-            "Id": 2,
-            "Name": "Italian"
-        },
-        {
-            "Id": 3,
-            "Name": "Norwegian"
-        },
-        {
-            "Id": 4,
-            "Name": "German"
-        },
-        {
-            "Id": 5,
-            "Name": "Spanish"
-        }
+        { "Id": 1, "Name": "French" },
+        { "Id": 2, "Name": "Italian" },
+        { "Id": 3, "Name": "Norwegian" },
+        { "Id": 4, "Name": "German" },
+        { "Id": 5, "Name": "Spanish" }
     ],
     "Flashcards": [
         {

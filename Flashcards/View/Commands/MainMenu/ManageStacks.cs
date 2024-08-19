@@ -4,6 +4,9 @@ using Flashcards.Interfaces.View.Commands;
 
 namespace Flashcards.View.Commands.MainMenu;
 
+/// <summary>
+/// Represents a command for managing stacks.
+/// </summary>
 internal sealed class ManageStacks : ICommand
 {
     private readonly IMenuHandler<StackMenuEntries> _stacksMenuHandler;

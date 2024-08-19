@@ -4,9 +4,11 @@ using Flashcards.Handlers;
 using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Models;
+using Flashcards.Interfaces.Report;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View;
 using Flashcards.Interfaces.View.Factory;
+using Flashcards.Report;
 using Flashcards.Repositories;
 using Flashcards.View;
 using Flashcards.View.Factory;
@@ -15,6 +17,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Flashcards.Services;
 
+/// <summary>
+/// The ServicesConfigurator class is responsible for configuring the services used in the Flashcards application.
+/// </summary>
 internal static class ServicesConfigurator
 {
     internal static ServiceCollection ServiceCollection { get; } = [];
@@ -44,6 +49,7 @@ internal static class ServicesConfigurator
         services.AddTransient<IMenuCommandFactory<StackMenuEntries>, MenuCommandFactory<StackMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<FlashcardEntries>, MenuCommandFactory<FlashcardEntries>>();
         services.AddTransient<IMenuCommandFactory<StudyMenuEntries>, MenuCommandFactory<StudyMenuEntries>>();
+        services.AddTransient<IReportGenerator, ReportGenerator>();
         
         services.AddSingleton<IDatabaseManager, DatabaseManager>();
         services.AddSingleton<IFlashcardsRepository, FlashcardsRepository>();

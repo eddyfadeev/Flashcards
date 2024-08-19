@@ -1,5 +1,8 @@
 ﻿namespace Flashcards.Exceptions;
 
+/// <summary>
+/// Represents an exception thrown to exit the application.
+/// </summary>
 public class ExitApplicationException : Exception
 {
     public ExitApplicationException() : base("Exiting the application...")

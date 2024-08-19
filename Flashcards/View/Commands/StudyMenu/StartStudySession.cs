@@ -1,14 +1,15 @@
 ﻿using Flashcards.Enums;
-using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Flashcards.Interfaces.View.Factory;
 using Flashcards.Models.Entity;
 using Flashcards.Services;
-using Spectre.Console;
 
 namespace Flashcards.View.Commands.StudyMenu;
 
+/// <summary>
+/// Represents a command to start a study session.
+/// </summary>
 internal class StartStudySession : ICommand
 {
     private readonly IMenuCommandFactory<StackMenuEntries> _stackMenuCommandFactory;
@@ -34,7 +35,8 @@ internal class StartStudySession : ICommand
         var stack = StackChooserService.GetStacks(_stackMenuCommandFactory, _stacksRepository);
         
         StudySessionsHelperService.SetStackIdsInRepositories(stack, _flashcardsRepository, _studySessionsRepository);
-
+        GeneralHelperService.SetStackNameInRepository(_studySessionsRepository, stack);
+        
         var flashcards = FlashcardHelperService.GetFlashcards(_flashcardsRepository);
         
         if (flashcards.Count == 0)

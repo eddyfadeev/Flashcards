@@ -3,6 +3,9 @@ using Flashcards.Interfaces.Database;
 
 namespace Flashcards.Database;
 
+/// <summary>
+/// The DatabaseInitializer class is responsible for initializing the database.
+/// </summary>
 internal class DatabaseInitializer : IDatabaseInitializer
 {
     private readonly IConnectionProvider _connectionProvider;
@@ -12,6 +15,9 @@ internal class DatabaseInitializer : IDatabaseInitializer
         _connectionProvider = connectionProvider;
     }
 
+    /// <summary>
+    /// Initializes the database by creating necessary tables.
+    /// </summary>
     public void Initialize()
     {
         CreateStacks();
