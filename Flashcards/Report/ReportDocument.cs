@@ -14,6 +14,10 @@ internal class ReportDocument : IDocument
     private readonly List<IStackMonthlySessions>? _stackMonthlySessions;
     private readonly IYear? _year;
     
+    private static readonly string[] AverageYearlyReportMonthsColumnNames = [
+        "Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."
+    ];
+
     public ReportDocument(List<IStudySession> studySessions)
     {
         _studySessions = studySessions;
@@ -36,6 +40,7 @@ internal class ReportDocument : IDocument
             {
                 page.Margin(20);
                 page.Header().Text("Study History").AlignCenter();
+                page.Size(SetPageSize());
                 page.Content()
                     .Border(1)
                     .Table(table =>
@@ -48,15 +53,25 @@ internal class ReportDocument : IDocument
                         }
                         else if (_stackMonthlySessions != null && _year != null)
                         {
-                            DefineMonthlySessionColumns(table);
-                            DefineMonthlySessionHeader(table);
-                            PopulateMonthlySessionTable(table);
+                            DefineAverageYearlyReportColumns(table);
+                            DefineAverageYearlyReportHeader(table);
+                            PopulateAverageYearlyReportTable(table);
                         }
                     });
             });
     }
     
     public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
+    
+    private PageSize SetPageSize()
+    {
+        if (_stackMonthlySessions != null && _year != null)
+        {
+            return PageSizes.A4.Landscape();
+        }
+        
+        return PageSizes.A4.Portrait();
+    }
 
     private static void DefineStudySessionColumns(TableDescriptor table)
     {
@@ -71,12 +86,12 @@ internal class ReportDocument : IDocument
             });
     }
 
-    private static void DefineMonthlySessionColumns(TableDescriptor table)
+    private static void DefineAverageYearlyReportColumns(TableDescriptor table)
     {
         table
             .ColumnsDefinition(columns =>
             {
-                columns.RelativeColumn(); // Stack column
+                columns.RelativeColumn(2); // Stack column
                 for (int i = 0; i < 12; i++)
                 {
                     columns.RelativeColumn(); // Month columns
@@ -103,12 +118,12 @@ internal class ReportDocument : IDocument
         });
     }
 
-    private static void DefineMonthlySessionHeader(TableDescriptor table)
+    private static void DefineAverageYearlyReportHeader(TableDescriptor table)
     {
         table.Header(header =>
         {
             header.Cell().Padding(5).Text("Stack").Bold();
-            foreach (var month in new[] { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" })
+            foreach (var month in AverageYearlyReportMonthsColumnNames)
             {
                 header.Cell().Padding(5).Text(month).Bold();
             }
@@ -136,7 +151,7 @@ internal class ReportDocument : IDocument
         }
     }
 
-    private void PopulateMonthlySessionTable(TableDescriptor table)
+    private void PopulateAverageYearlyReportTable(TableDescriptor table)
     {
         foreach (var session in _stackMonthlySessions)
         {
