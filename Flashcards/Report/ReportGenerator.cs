@@ -47,7 +47,10 @@ namespace Flashcards.Report
         public void SaveReportToPdf(List<IStudySession> studySessions, ReportType reportType)
         {
             var reportName = reportType == ReportType.FullReport ? "Study Report" : $"Report for {studySessions[0].StackName}";
-            if (!AskToSaveReport()) return;
+            if (!AskToSaveReport())
+            {
+                return;
+            }
 
             var pdfDocument = GenerateReportToFile(studySessions, reportType);
             var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
