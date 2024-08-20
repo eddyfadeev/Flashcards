@@ -1,6 +1,5 @@
 ﻿using Flashcards.Enums;
 using Flashcards.Exceptions;
-using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Handlers;
 using Flashcards.Services;
 using Microsoft.Extensions.DependencyInjection;
