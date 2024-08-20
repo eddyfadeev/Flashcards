@@ -1,4 +1,5 @@
-﻿using Flashcards.Interfaces.Report;
+﻿using Flashcards.Enums;
+using Flashcards.Interfaces.Report;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Flashcards.Services;
@@ -31,10 +32,10 @@ internal sealed class FullReport : ICommand
             return;
         }
         
-        var table = _reportGenerator.GetReportToDisplay(studySessions);
+        var table = _reportGenerator.GetReportToDisplay(studySessions, ReportType.FullReport);
         AnsiConsole.Write(table);
         
-        _reportGenerator.SaveReportToPdf(studySessions);
+        _reportGenerator.SaveReportToPdf(studySessions, ReportType.FullReport);
         
         GeneralHelperService.ShowContinueMessage();
     }

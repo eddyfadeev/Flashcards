@@ -87,7 +87,7 @@ internal class StudySessionsRepository : IStudySessionsRepository
         return studySessions.Select(studySession => studySession.ToEntity());
     }
 
-    public IEnumerable<IStudySession> GetByStackId(int stackId)
+    public IEnumerable<IStudySession> GetByStackId(IDbEntity<IStack> stack)
     {
         const string query =
             """
@@ -96,21 +96,19 @@ internal class StudySessionsRepository : IStudySessionsRepository
                     ss.Questions,
                     ss.CorrectAnswers,
                     ss.Percentage,
-                    ss.Time
+                    ss.Time,
+                    s.Name as StackName
                 FROM
                     StudySessions ss
                 INNER JOIN 
                     Stacks s ON ss.StackId = s.Id
                 WHERE
-                    ss.StackId = @StackId;
+                    ss.StackId = @Id;
             """;
+        
+        var stackDto = stack.MapToDto();
 
-        var parameters = new Dictionary<string, object>
-        {
-            { "@StackId", stackId }
-        };
-
-        IEnumerable<IStudySession> studySessions = _databaseManager.GetAllEntities<StudySessionDto>(query, parameters).ToList();
+        IEnumerable<IStudySession> studySessions = _databaseManager.GetAllEntities<StudySessionDto>(query, stackDto);
         
         return studySessions.Select(studySession => studySession.ToEntity());
     }
@@ -164,7 +162,7 @@ internal class StudySessionsRepository : IStudySessionsRepository
     {
         const string query = "SELECT DISTINCT YEAR(Date) as ChosenYear FROM StudySessions;";
 
-        IEnumerable<IYear> years = _databaseManager.GetAllEntities<Year>(query).ToList();
+        IEnumerable<IYear> years = _databaseManager.GetAllEntities<Year>(query);
         
         return years.Select(year => year.ToEntity());
     }

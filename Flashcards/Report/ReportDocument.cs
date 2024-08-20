@@ -1,4 +1,5 @@
-﻿using Flashcards.Interfaces.Models;
+﻿using Flashcards.Enums;
+using Flashcards.Interfaces.Models;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
@@ -13,67 +14,64 @@ internal class ReportDocument : IDocument
     private readonly List<IStudySession>? _studySessions;
     private readonly List<IStackMonthlySessions>? _stackMonthlySessions;
     private readonly IYear? _year;
-    
+    private readonly ReportType _reportType;
+
+    #region Full report fields
+    private const string FullReportDocumentTitle = "Study History";
+    #endregion
+
+    #region Report by stack fields
+    private const string ReportByStackDocumentTitle = "Report for";
+    #endregion
+
+    #region Average yearly report fields
     private static readonly string[] AverageYearlyReportMonthsColumnNames = [
         "Jan.", "Feb.", "Mar.", "Apr.", "May", "June", "July", "Aug.", "Sept.", "Oct.", "Nov.", "Dec."
     ];
 
-    public ReportDocument(List<IStudySession> studySessions)
+    private const string AverageYearlyReportDocumentTitle = "Average Yearly Report";
+    #endregion
+
+    public ReportDocument(List<IStudySession> studySessions, ReportType reportType)
     {
         _studySessions = studySessions;
+        _reportType = reportType;
     }
 
-    public ReportDocument(List<IStackMonthlySessions> stackMonthlySessions, IYear year)
+    public ReportDocument(List<IStackMonthlySessions> stackMonthlySessions, IYear year, ReportType reportType)
     {
         _stackMonthlySessions = stackMonthlySessions;
         _year = year;
+        _reportType = reportType;
     }
 
-    /// <summary>
-    /// Composes a study history report document.
-    /// </summary>
-    /// <param name="container">The document container to compose the report in.</param>
     public void Compose(IDocumentContainer container)
     {
         container
             .Page(page =>
             {
                 page.Margin(20);
-                page.Header().Text("Study History").AlignCenter();
+                page.Header().Text(DefineReportDocumentTitle()).AlignCenter();
                 page.Size(SetPageSize());
                 page.Content()
                     .Border(1)
-                    .Table(table =>
-                    {
-                        if (_studySessions != null)
-                        {
-                            DefineStudySessionColumns(table);
-                            DefineStudySessionHeader(table);
-                            PopulateStudySessionTable(table);
-                        }
-                        else if (_stackMonthlySessions != null && _year != null)
-                        {
-                            DefineAverageYearlyReportColumns(table);
-                            DefineAverageYearlyReportHeader(table);
-                            PopulateAverageYearlyReportTable(table);
-                        }
-                    });
+                    .Table(ConfigureTableBasedOnReportType);
             });
     }
-    
+
     public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
-    
+
     private PageSize SetPageSize()
     {
         if (_stackMonthlySessions != null && _year != null)
         {
             return PageSizes.A4.Landscape();
         }
-        
+
         return PageSizes.A4.Portrait();
     }
 
-    private static void DefineStudySessionColumns(TableDescriptor table)
+    private static void DefineFullReportColumns(TableDescriptor table)
     {
         table
             .ColumnsDefinition(columns =>
@@ -99,7 +97,18 @@ internal class ReportDocument : IDocument
             });
     }
     
-    private static void DefineStudySessionHeader(TableDescriptor table)
+    private static void DefineReportByStackColumns(TableDescriptor table)
+    {
+        table
+            .ColumnsDefinition(columns =>
+            {
+                columns.RelativeColumn(); // SessionDate column
+                columns.RelativeColumn(); // Score column
+                columns.RelativeColumn(); // Percentage column
+            });
+    }
+
+    private static void DefineFullReportColumnsHeader(TableDescriptor table)
     {
         table.Header(header =>
         {
@@ -118,7 +127,7 @@ internal class ReportDocument : IDocument
         });
     }
 
-    private static void DefineAverageYearlyReportHeader(TableDescriptor table)
+    private static void DefineAverageYearlyReportColumnsHeader(TableDescriptor table)
     {
         table.Header(header =>
         {
@@ -136,17 +145,34 @@ internal class ReportDocument : IDocument
                 .Background(Colors.Black);
         });
     }
+    
+    private static void DefineReportByStackColumnsHeader(TableDescriptor table)
+    {
+        table.Header(header =>
+        {
+            header.Cell().Padding(5).Text("Session Date").Bold();
+            header.Cell().Padding(5).Text("Score").Bold();
+            header.Cell().Padding(5).Text("Percentage").Bold();
 
-    private void PopulateStudySessionTable(TableDescriptor table)
+            header
+                .Cell()
+                .ColumnSpan(3)
+                .ExtendHorizontal()
+                .Height(1)
+                .Background(Colors.Black);
+        });
+    }
+
+    private void PopulateFullReportTable(TableDescriptor table)
     {
         foreach (var studySession in _studySessions)
         {
             AddTableRow(
-                table, 
-                studySession.Date.ToShortDateString(), 
-                studySession.StackName!, 
-                $"{ studySession.CorrectAnswers } out of { studySession.Questions }", 
-                $"{ studySession.Percentage }%", 
+                table,
+                studySession.Date.ToShortDateString(),
+                studySession.StackName!,
+                $"{ studySession.CorrectAnswers } out of { studySession.Questions }",
+                $"{ studySession.Percentage }%",
                 studySession.Time.ToString("g")[..7]);
         }
     }
@@ -170,10 +196,64 @@ internal class ReportDocument : IDocument
             table.Cell().Element(CellStyle).Text(session.December.ToString());
         }
     }
+    
+    private void PopulateReportByStackTable(TableDescriptor table)
+    {
+        foreach (var studySession in _studySessions)
+        {
+            AddTableRow(
+                table,
+                studySession.Date.ToShortDateString(),
+                $"{ studySession.CorrectAnswers } out of { studySession.Questions }",
+                $"{ studySession.Percentage }%");
+        }
+    }
+
+    private void ConfigureTableBasedOnReportType(TableDescriptor table)
+    {
+        if (_reportType == ReportType.FullReport)
+        {
+            DefineFullReportColumns(table);
+            DefineFullReportColumnsHeader(table);
+            PopulateFullReportTable(table);
+        }
+        else if (_reportType == ReportType.AverageYearlyReport)
+        {
+            DefineAverageYearlyReportColumns(table);
+            DefineAverageYearlyReportColumnsHeader(table);
+            PopulateAverageYearlyReportTable(table);
+        }
+        else if (_reportType == ReportType.ReportByStack)
+        {
+            DefineReportByStackColumns(table);
+            DefineReportByStackColumnsHeader(table);
+            PopulateReportByStackTable(table);
+        }
+    }
+
+    private string DefineReportDocumentTitle()
+    {
+        if (_reportType == ReportType.FullReport)
+        {
+            return FullReportDocumentTitle;
+        }
+
+        if (_reportType == ReportType.AverageYearlyReport)
+        {
+            return $"{ AverageYearlyReportDocumentTitle} for the { _year?.ChosenYear }";
+        }
+
+        if (_reportType == ReportType.ReportByStack)
+        {
+            return $"{ ReportByStackDocumentTitle} { _studySessions?[0].StackName }";
+        }
+
+        return "Invalid report type";
+    }
 
     private static IContainer CellStyle(IContainer container) =>
         container.Padding(5);
-    
+
     private static void AddTableRow(TableDescriptor table, string date, string stack, string result, string percentage, string duration)
     {
         table.Cell().Element(CellStyle).Text(date);
@@ -181,5 +261,12 @@ internal class ReportDocument : IDocument
         table.Cell().Element(CellStyle).Text(result);
         table.Cell().Element(CellStyle).Text(percentage);
         table.Cell().Element(CellStyle).Text(duration);
+    }
+    
+    private static void AddTableRow(TableDescriptor table, string date, string score, string percentage)
+    {
+        table.Cell().Element(CellStyle).Text(date);
+        table.Cell().Element(CellStyle).Text(score);
+        table.Cell().Element(CellStyle).Text(percentage);
     }
 }

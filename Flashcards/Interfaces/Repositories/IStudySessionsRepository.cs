@@ -16,7 +16,7 @@ internal interface IStudySessionsRepository :
     /// </summary>
     /// <param name="stackId">The ID of the stack.</param>
     /// <returns>An enumerable collection of study sessions.</returns>
-    internal IEnumerable<IStudySession> GetByStackId(int stackId);
+    internal IEnumerable<IStudySession> GetByStackId(IDbEntity<IStack> stack);
 
     /// <summary>
     /// Gets the average yearly study sessions for a given year.
