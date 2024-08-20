@@ -23,7 +23,7 @@ internal sealed class DeleteStack : ICommand
 
     public void Execute()
     {
-        var stack = StackChooserService.GetStack(_stacksRepository, _stackEntryHandler);
+        var stack = StackChooserService.GetStackFromUser(_stacksRepository, _stackEntryHandler);
 
         if (GeneralHelperService.CheckForNull(stack))
         {

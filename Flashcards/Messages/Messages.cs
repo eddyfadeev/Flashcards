@@ -28,4 +28,5 @@ public static class Messages
     internal const string CorrectAnswerMessage = "[green]Correct![/]";
     internal const string IncorrectAnswerMessage = "[red]Incorrect![/]";
     internal const string SaveAsPdfMessage = "[white]Would you like to save the report as PDF?[/]";
+    internal const string NoYearsFoundMessage = "[red]No years found.[/]";
 }

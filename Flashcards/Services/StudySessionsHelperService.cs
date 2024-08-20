@@ -1,4 +1,6 @@
-﻿using Flashcards.Interfaces.Models;
+﻿using Flashcards.Extensions;
+using Flashcards.Interfaces.Handlers;
+using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Models.Entity;
 using Spectre.Console;
@@ -62,5 +64,30 @@ internal static class StudySessionsHelperService
         GeneralHelperService.ShowContinueMessage();
         
         return correctAnswers;
+    }
+
+    internal static IYear GetYearFromUser(
+        IStudySessionsRepository studySessionsRepository, 
+        IEditableEntryHandler<IYear> yearEntryHandler)
+    {
+        var years = studySessionsRepository.GetYears().ToList();
+        
+        if (years.Count == 0)
+        {
+            AnsiConsole.MarkupLine(Messages.Messages.NoEntriesFoundMessage);
+            GeneralHelperService.ShowContinueMessage();
+            return new Year();
+        }
+        
+        var userChoice = yearEntryHandler.HandleEditableEntry(years)?.ToEntity();
+        
+        if (userChoice is null)
+        {
+            AnsiConsole.MarkupLine(Messages.Messages.NoYearsFoundMessage);
+            GeneralHelperService.ShowContinueMessage();
+            return new Year();
+        }
+        
+        return userChoice;
     }
 }

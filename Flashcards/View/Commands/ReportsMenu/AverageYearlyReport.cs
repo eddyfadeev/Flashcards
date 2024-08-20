@@ -25,8 +25,7 @@ internal sealed class AverageYearlyReport : ICommand
 
     public void Execute()
     {
-        var years = _studySessionsRepository.GetYears().ToList();
-        var selectedYear = _yearEntryHandler.HandleEditableEntry(years);
+        var selectedYear = StudySessionsHelperService.GetYearFromUser(_studySessionsRepository, _yearEntryHandler);
         
         var studySessions = _studySessionsRepository.GetAverageYearly(selectedYear).ToList();
 

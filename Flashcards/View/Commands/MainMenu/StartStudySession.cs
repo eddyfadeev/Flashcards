@@ -35,7 +35,7 @@ internal class StartStudySession : ICommand
     
     public void Execute()
     {
-        var stack = StackChooserService.GetStack(_stacksRepository, _stackEntryHandler);
+        var stack = StackChooserService.GetStackFromUser(_stacksRepository, _stackEntryHandler);
         
         var flashcards = _flashcardsRepository.GetFlashcards(stack).ToList();
         

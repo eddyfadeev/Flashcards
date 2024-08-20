@@ -34,7 +34,7 @@ internal sealed class EditFlashcard : ICommand
 
     public void Execute()
     {
-        var flashcard = FlashcardHelperService.GetFlashcard(
+        var flashcard = FlashcardHelperService.GetFlashcardFromUser(
             _stacksRepository,
             _flashcardsRepository,
             _stackEntryHandler,

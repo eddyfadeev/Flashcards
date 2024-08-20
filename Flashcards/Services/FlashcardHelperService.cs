@@ -43,14 +43,21 @@ internal static class FlashcardHelperService
     /// <param name="stackEntryHandler">The handler for stack entries.</param>
     /// <param name="flashcardEntryHandler">The handler for flashcard entries.</param>
     /// <returns>The flashcard that the user selects.</returns>
-    internal static Flashcard GetFlashcard(
+    internal static Flashcard GetFlashcardFromUser(
         IStacksRepository stacksRepository,
         IFlashcardsRepository flashcardsRepository,
         IEditableEntryHandler<IStack> stackEntryHandler,
         IEditableEntryHandler<IFlashcard> flashcardEntryHandler)
     {
-        var stack = StackChooserService.GetStack(stacksRepository, stackEntryHandler);
+        var stack = StackChooserService.GetStackFromUser(stacksRepository, stackEntryHandler);
         var flashcards = flashcardsRepository.GetFlashcards(stack).ToList();
+
+        if (flashcards.Count == 0)
+        {
+            AnsiConsole.MarkupLine(Messages.Messages.NoEntriesFoundMessage);
+            GeneralHelperService.ShowContinueMessage();
+            return new Flashcard();
+        }
         var userChoice = flashcardEntryHandler.HandleEditableEntry(flashcards)?.ToEntity();
         
         if (userChoice is null)
