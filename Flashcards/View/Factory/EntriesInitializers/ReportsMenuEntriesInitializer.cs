@@ -36,7 +36,10 @@ internal class ReportsMenuEntriesInitializer : IMenuEntriesInitializer<ReportsMe
         IMenuCommandFactory<ReportsMenuEntries> menuCommandFactory) =>
         new()
         {
-            { ReportsMenuEntries.FullReport, () => new FullReport(_studySessionsRepository, _reportGenerator) },
+            { ReportsMenuEntries.FullReport, () => new FullReport(
+                _studySessionsRepository, 
+                _reportGenerator
+                ) },
             { ReportsMenuEntries.ReportByStack, () => new ReportByStack(_stacksRepository, _studySessionsRepository, _stackEntryHandler) },
             { ReportsMenuEntries.AverageYearlyReport, () => new AverageYearlyReport(_studySessionsRepository, _yearEntryHandler, _reportGenerator) },
             { ReportsMenuEntries.ReturnToMainMenu, () => throw new ReturnToMainMenuException() }

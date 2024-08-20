@@ -15,10 +15,7 @@ namespace Flashcards.Repositories;
 internal class FlashcardsRepository : IFlashcardsRepository
 {
     private readonly IDatabaseManager _databaseManager;
-    
-    public Stack? SelectedStack { get; set; }
-    public IFlashcard? SelectedEntry { get; set; }
-    
+   
     public FlashcardsRepository(IDatabaseManager databaseManager)
     {
         _databaseManager = databaseManager;

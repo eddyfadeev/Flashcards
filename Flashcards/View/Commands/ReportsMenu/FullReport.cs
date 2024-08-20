@@ -24,6 +24,13 @@ internal sealed class FullReport : ICommand
     {
         var studySessions = _studySessionsRepository.GetAll().ToList();
         
+        if (studySessions.Count == 0)
+        {
+            AnsiConsole.MarkupLine(Messages.Messages.NoEntriesFoundMessage);
+            GeneralHelperService.ShowContinueMessage();
+            return;
+        }
+        
         var table = _reportGenerator.GetReportToDisplay(studySessions);
         AnsiConsole.Write(table);
         

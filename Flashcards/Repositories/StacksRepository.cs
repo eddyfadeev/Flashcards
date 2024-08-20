@@ -13,8 +13,6 @@ namespace Flashcards.Repositories;
 internal class StacksRepository : IStacksRepository
 {
     private readonly IDatabaseManager _databaseManager;
-
-    public IStack? SelectedEntry { get; set; }
     
     public StacksRepository(IDatabaseManager databaseManager)
     {

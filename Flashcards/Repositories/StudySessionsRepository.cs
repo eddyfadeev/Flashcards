@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using Flashcards.Extensions;
+﻿using Flashcards.Extensions;
 using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
@@ -14,10 +13,6 @@ namespace Flashcards.Repositories;
 internal class StudySessionsRepository : IStudySessionsRepository
 {
     private readonly IDatabaseManager _databaseManager;
-    
-    public IStudySession? SelectedEntry { get; set; }
-    public int? StackId { get; set; }
-    public string? StackName { get; set; }
     
     public StudySessionsRepository(IDatabaseManager databaseManager)
     {
@@ -68,6 +63,30 @@ internal class StudySessionsRepository : IStudySessionsRepository
         return studySessions.Select(studySession => studySession.ToEntity());
     }
     
+    
+    
+    public IEnumerable<IStudySession> GetAllStudySessionsByStack(IDbEntity<IStack> stack)
+    {
+        const string query =
+            """
+                SELECT 
+                    s.Name as StackName,
+                    ss.Date,
+                    ss.Questions,
+                    ss.CorrectAnswers,
+                    ss.Percentage,
+                    ss.Time
+                FROM
+                    StudySessions ss
+                INNER JOIN 
+                    Stacks s ON ss.StackId = s.Id;
+            """;
+
+        IEnumerable<IStudySession> studySessions = _databaseManager.GetAllEntities<StudySessionDto>(query).ToList();
+        
+        return studySessions.Select(studySession => studySession.ToEntity());
+    }
+
     public IEnumerable<IStudySession> GetByStackId(int stackId)
     {
         const string query =

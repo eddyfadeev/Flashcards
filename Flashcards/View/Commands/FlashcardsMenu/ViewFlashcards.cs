@@ -33,8 +33,6 @@ internal sealed class ViewFlashcards : ICommand
     public void Execute()
     {
         var stack = StackChooserService.GetStack(_stacksRepository, _stackEntryHandler);
-        
-        _flashcardsRepository.SelectedStack = stack;
 
         var flashcards = _flashcardsRepository.GetFlashcards(stack).ToList();
 

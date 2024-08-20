@@ -8,11 +8,9 @@ namespace Flashcards.Interfaces.Repositories;
 /// </summary>
 internal interface IStudySessionsRepository :
     IInsertIntoRepository<IStudySession>,
-    IGetAllFromRepository<IStudySession>,
-    ISelectableRepositoryEntry<IStudySession>,
-    IAssignableStackId,
-    IAssignableStackName
+    IGetAllFromRepository<IStudySession>
 {
+    internal IEnumerable<IStudySession> GetAllStudySessionsByStack(IDbEntity<IStack> stack);
     /// <summary>
     /// Retrieves study sessions by stack ID.
     /// </summary>

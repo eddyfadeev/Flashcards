@@ -9,9 +9,7 @@ namespace Flashcards.Interfaces.Repositories;
 internal interface IFlashcardsRepository :
     IInsertIntoRepository<IFlashcard>,
     IDeleteFromRepository<IFlashcard>,
-    IUpdateInRepository<IFlashcard>,
-    ISelectableRepositoryEntry<IFlashcard>,
-    IAssignableStack
+    IUpdateInRepository<IFlashcard>
 {
     internal IEnumerable<IFlashcard> GetFlashcards(IDbEntity<IStack> stack);
 }

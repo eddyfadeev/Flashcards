@@ -9,7 +9,6 @@ namespace Flashcards.Interfaces.Repositories;
 internal interface IStacksRepository :
     IInsertIntoRepository<IStack>,
     IGetAllFromRepository<IStack>,
-    ISelectableRepositoryEntry<IStack>,
     IDeleteFromRepository<IStack>,
     IUpdateInRepository<IStack>
 {
