@@ -1,12 +1,13 @@
 ﻿using Flashcards.Extensions;
 using Flashcards.Interfaces.Models;
+using Flashcards.Models.Dto;
 
 namespace Flashcards.Models.Entity;
 
 /// <summary>
 /// Represents a stack.
 /// </summary>
-internal class Stack : IStack, IDbEntity<IStack>
+internal class Stack : IStack, IDbEntity<StackDto>
 {
     public int Id { get; init; }
     public string? Name { get; set; }
@@ -16,6 +17,6 @@ internal class Stack : IStack, IDbEntity<IStack>
     /// </summary>
     /// <param name="stack">The instance of <see cref="Stack"/> to convert.</param>
     /// <returns>An instance of <see cref="StackDto"/> representing the converted <see cref="Stack"/>.</returns>
-    public IStack MapToDto() => this.ToDto();
-    public override string ToString() => Name;
+    public StackDto MapToDto() => this.ToDto();
+    public override string ToString() => Name ?? "Unnamed Stack";
 }

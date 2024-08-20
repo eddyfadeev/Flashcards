@@ -29,7 +29,7 @@ internal static class MappersExtensions
     /// </summary>
     /// <param name="stack">The <see cref="IStack"/> to convert.</param>
     /// <returns>An instance of <see cref="StackDto"/> representing the converted <see cref="IStack"/>.</returns>
-    public static StackDto ToDto(this IStack stack) =>
+    public static StackDto ToDto(this Stack stack) =>
         new()
         {
             Id = stack.Id,
@@ -63,17 +63,6 @@ internal static class MappersExtensions
         new()
         {
             ChosenYear = year.ChosenYear
-        };
-    
-    /// <summary>
-    /// Converts an object that implements the IMonth interface to a MonthDto object.
-    /// </summary>
-    /// <param name="month">The year object to convert.</param>
-    /// <returns>A MonthDto object converted from the IMonth object.</returns>
-    public static MonthDto ToDto(this IMonth month) =>
-        new()
-        {
-            ChosenMonth = month.ChosenMonth
         };
     
     /// <summary>
@@ -152,17 +141,6 @@ internal static class MappersExtensions
         new()
         {
             ChosenYear = year.ChosenYear
-        };
-    
-    /// <summary>
-    /// Converts an instance of <see cref="IMonth"/> to an instance of <see cref="Month"/> entity.
-    /// </summary>
-    /// <param name="month">The month to convert.</param>
-    /// <returns>The converted <see cref="Month"/> entity.</returns>
-    public static Month ToEntity(this IMonth month) =>
-        new()
-        {
-            ChosenMonth = month.ChosenMonth
         };
     
     /// <summary>

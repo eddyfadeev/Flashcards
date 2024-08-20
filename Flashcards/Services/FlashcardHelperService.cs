@@ -1,7 +1,10 @@
 ﻿using Flashcards.Enums;
+using Flashcards.Extensions;
+using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Factory;
+using Flashcards.Models.Entity;
 using Spectre.Console;
 
 namespace Flashcards.Services;
@@ -31,32 +34,36 @@ internal static class FlashcardHelperService
         return AnsiConsole.Ask<string>(Messages.Messages.PromptArrow);
     }
 
-    /// <summary>
-    /// Gets a flashcard from the flashcard menu.
-    /// </summary>
-    /// <param name="flashcardMenuCommandFactory">The factory for creating menu commands.</param>
-    internal static void GetFlashcard(IMenuCommandFactory<FlashcardEntries> flashcardMenuCommandFactory)
-    {
-        var chooseCommand = flashcardMenuCommandFactory.Create(FlashcardEntries.ChooseFlashcard);
-        chooseCommand.Execute();
-    }
 
     /// <summary>
-    /// Retrieves all flashcards from the flashcards repository.
+    /// Retrieves a flashcard based on user input.
     /// </summary>
-    /// <param name="flashcardsRepository">The flashcards repository.</param>
-    /// <returns>A list of flashcards.</returns>
-    internal static List<IFlashcard> GetFlashcards(IFlashcardsRepository flashcardsRepository)
+    /// <param name="stacksRepository">The repository for stacks.</param>
+    /// <param name="flashcardsRepository">The repository for flashcards.</param>
+    /// <param name="stackEntryHandler">The handler for stack entries.</param>
+    /// <param name="flashcardEntryHandler">The handler for flashcard entries.</param>
+    /// <returns>The flashcard that the user selects.</returns>
+    internal static Flashcard GetFlashcard(
+        IStacksRepository stacksRepository,
+        IFlashcardsRepository flashcardsRepository,
+        IEditableEntryHandler<IStack> stackEntryHandler,
+        IEditableEntryHandler<IFlashcard> flashcardEntryHandler)
     {
-        var flashcards = flashcardsRepository.GetAll().ToList();
+        var stack = StackChooserService.GetStack(stacksRepository, stackEntryHandler);
+        var flashcards = flashcardsRepository.GetFlashcards(stack).ToList();
+        var userChoice = flashcardEntryHandler.HandleEditableEntry(flashcards)?.ToEntity();
         
-        if (flashcards.Count == 0)
+        if (userChoice is null)
         {
-            AnsiConsole.MarkupLine(Messages.Messages.NoEntriesFoundMessage);
+            AnsiConsole.MarkupLine(Messages.Messages.NoFlashcardsFoundMessage);
             GeneralHelperService.ShowContinueMessage();
-            return new List<IFlashcard>();
+            return new Flashcard
+            {
+                Question = "Error getting Flashcard",
+                Answer = "Error getting Flashcard"
+            };
         }
         
-        return flashcards;
+        return userChoice;
     }
 }

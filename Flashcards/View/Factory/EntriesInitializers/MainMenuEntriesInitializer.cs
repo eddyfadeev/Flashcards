@@ -1,6 +1,7 @@
 ﻿using Flashcards.Enums;
 using Flashcards.Exceptions;
 using Flashcards.Interfaces.Handlers;
+using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Flashcards.Interfaces.View.Factory;
@@ -20,7 +21,7 @@ internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntr
     private readonly IStudySessionsRepository _studySessionsRepository;
     private readonly IStacksRepository _stacksRepository;
     private readonly IFlashcardsRepository _flashcardsRepository;
-    private readonly IMenuCommandFactory<StackMenuEntries> _stackMenuCommandFactory;
+    private readonly IEditableEntryHandler<IStack> _stackEntryHandler;
 
     public MainMenuEntriesInitializer(
         IMenuHandler<FlashcardEntries> flashcardsMenuHandler,
@@ -29,7 +30,7 @@ internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntr
         IStudySessionsRepository studySessionsRepository, 
         IStacksRepository stacksRepository,
         IFlashcardsRepository flashcardsRepository,
-        IMenuCommandFactory<StackMenuEntries> stackMenuCommandFactory
+        IEditableEntryHandler<IStack> stackEntryHandler
         )
     {
         _flashcardsMenuHandler = flashcardsMenuHandler;
@@ -39,7 +40,7 @@ internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntr
         _studySessionsRepository = studySessionsRepository;
         _stacksRepository = stacksRepository;
         _flashcardsRepository = flashcardsRepository;
-        _stackMenuCommandFactory = stackMenuCommandFactory;
+        _stackEntryHandler = stackEntryHandler;
     }
 
     public Dictionary<MainMenuEntries, Func<ICommand>> InitializeEntries(IMenuCommandFactory<MainMenuEntries> commandFactory) =>
@@ -47,7 +48,7 @@ internal class MainMenuEntriesInitializer : IMenuEntriesInitializer<MainMenuEntr
         {
             { MainMenuEntries.StartStudySession, () => 
                 new StartStudySession(
-                    _stackMenuCommandFactory, 
+                    _stackEntryHandler, 
                     _stacksRepository, 
                     _studySessionsRepository, 
                     _flashcardsRepository) },

@@ -14,19 +14,22 @@ internal class ReportsMenuEntriesInitializer : IMenuEntriesInitializer<ReportsMe
 {
     private readonly IReportGenerator _reportGenerator;
     private readonly IStudySessionsRepository _studySessionsRepository;
+    private readonly IStacksRepository _stacksRepository;
     private readonly IEditableEntryHandler<IYear> _yearEntryHandler;
-    private readonly IEditableEntryHandler<IMonth> _monthEntryHandler;
+    private readonly IEditableEntryHandler<IStack> _stackEntryHandler;
     
     public ReportsMenuEntriesInitializer(
         IReportGenerator reportGenerator, 
         IStudySessionsRepository studySessionsRepository,
+        IStacksRepository stacksRepository,
         IEditableEntryHandler<IYear> yearEntryHandler,
-        IEditableEntryHandler<IMonth> monthEntryHandler)
+        IEditableEntryHandler<IStack> stackEntryHandler)
     {
         _reportGenerator = reportGenerator;
         _studySessionsRepository = studySessionsRepository;
+        _stacksRepository = stacksRepository;
         _yearEntryHandler = yearEntryHandler;
-        _monthEntryHandler = monthEntryHandler;
+        _stackEntryHandler = stackEntryHandler;
     }
 
     public Dictionary<ReportsMenuEntries, Func<ICommand>> InitializeEntries(
@@ -34,8 +37,8 @@ internal class ReportsMenuEntriesInitializer : IMenuEntriesInitializer<ReportsMe
         new()
         {
             { ReportsMenuEntries.FullReport, () => new FullReport(_studySessionsRepository, _reportGenerator) },
-            { ReportsMenuEntries.ReportByStack, () => new ReportByStack() },
-            { ReportsMenuEntries.AverageYearlyReport, () => new AverageYearlyReport(_studySessionsRepository, _yearEntryHandler, _monthEntryHandler, _reportGenerator) },
+            { ReportsMenuEntries.ReportByStack, () => new ReportByStack(_stacksRepository, _studySessionsRepository, _stackEntryHandler) },
+            { ReportsMenuEntries.AverageYearlyReport, () => new AverageYearlyReport(_studySessionsRepository, _yearEntryHandler, _reportGenerator) },
             { ReportsMenuEntries.ReturnToMainMenu, () => throw new ReturnToMainMenuException() }
         };
 }

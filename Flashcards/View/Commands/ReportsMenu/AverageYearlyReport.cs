@@ -12,17 +12,14 @@ internal sealed class AverageYearlyReport : ICommand
 {
     private readonly IStudySessionsRepository _studySessionsRepository;
     private readonly IEditableEntryHandler<IYear> _yearEntryHandler;
-    private readonly IEditableEntryHandler<IMonth> _monthEntryHandler;
     private readonly IReportGenerator _reportGenerator;
     public AverageYearlyReport(
         IStudySessionsRepository studySessionsRepository, 
         IEditableEntryHandler<IYear> yearEntryHandler,
-        IEditableEntryHandler<IMonth> monthEntryHandler,
         IReportGenerator reportGenerator)
     {
         _studySessionsRepository = studySessionsRepository;
         _yearEntryHandler = yearEntryHandler;
-        _monthEntryHandler = monthEntryHandler;
         _reportGenerator = reportGenerator;
     }
 

@@ -11,18 +11,6 @@ namespace Flashcards.Services;
 internal static class StudySessionsHelperService
 {
     /// <summary>
-    /// Sets the stack ID in the flashcards repository and study sessions repository.
-    /// </summary>
-    /// <param name="stack">The stack.</param>
-    /// <param name="flashcardsRepository">The flashcards repository.</param>
-    /// <param name="studySessionsRepository">The study sessions repository.</param>
-    internal static void SetStackIdsInRepositories(IStack stack, IFlashcardsRepository flashcardsRepository, IStudySessionsRepository studySessionsRepository)
-    {
-        GeneralHelperService.SetStackIdInRepository(flashcardsRepository, stack);
-        GeneralHelperService.SetStackIdInRepository(studySessionsRepository, stack);
-    }
-
-    /// <summary>
     /// Creates a new study session.
     /// </summary>
     /// <param name="flashcards">The list of flashcards to study.</param>

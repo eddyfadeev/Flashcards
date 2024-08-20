@@ -47,7 +47,6 @@ internal static class ServicesConfigurator
         services.AddTransient<IEditableEntryHandler<IFlashcard>, EditableEntryHandler<IFlashcard>>();
         services.AddTransient<IEditableEntryHandler<IStudySession>, EditableEntryHandler<IStudySession>>();
         services.AddTransient<IEditableEntryHandler<IYear>, EditableEntryHandler<IYear>>();
-        services.AddTransient<IEditableEntryHandler<IMonth>, EditableEntryHandler<IMonth>>();
         services.AddTransient<IMenuCommandFactory<MainMenuEntries>, MenuCommandFactory<MainMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<StackMenuEntries>, MenuCommandFactory<StackMenuEntries>>();
         services.AddTransient<IMenuCommandFactory<FlashcardEntries>, MenuCommandFactory<FlashcardEntries>>();
