@@ -59,7 +59,10 @@ namespace Flashcards.Report
 
         public void SaveReportToPdf(List<IStackMonthlySessions> stackMonthlySessions, IYear year, ReportType reportType)
         {
-            if (!AskToSaveReport()) return;
+            if (!AskToSaveReport())
+            {
+                return;
+            }
 
             var pdfDocument = GenerateReportToFile(stackMonthlySessions, year, reportType);
             var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
