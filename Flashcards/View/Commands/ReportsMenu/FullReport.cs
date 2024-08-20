@@ -1,20 +1,18 @@
-﻿using Flashcards.Interfaces.Report;
+﻿using Flashcards.Enums;
+using Flashcards.Interfaces.Report;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Flashcards.Services;
 using Spectre.Console;
 
-namespace Flashcards.View.Commands.StudyMenu;
+namespace Flashcards.View.Commands.ReportsMenu;
 
-/// <summary>
-/// Represents a command that displays the study history to the user and provides options to save it as a PDF.
-/// </summary>
-internal class ShowStudyHistory : ICommand
+internal sealed class FullReport : ICommand
 {
     private readonly IStudySessionsRepository _studySessionsRepository;
     private readonly IReportGenerator _reportGenerator;
     
-    public ShowStudyHistory(
+    public FullReport(
         IStudySessionsRepository studySessionsRepository,
         IReportGenerator reportGenerator
         )
@@ -27,16 +25,18 @@ internal class ShowStudyHistory : ICommand
     {
         var studySessions = _studySessionsRepository.GetAll().ToList();
         
-        var table = _reportGenerator.GetReportToDisplay(studySessions);
+        if (studySessions.Count == 0)
+        {
+            AnsiConsole.MarkupLine(Messages.Messages.NoEntriesFoundMessage);
+            GeneralHelperService.ShowContinueMessage();
+            return;
+        }
+        
+        var table = _reportGenerator.GetReportToDisplay(studySessions, ReportType.FullReport);
         AnsiConsole.Write(table);
         
-        var confirm = AnsiConsole.Confirm("Would you like to save the report as PDF?");
-
-        if (confirm)
-        {
-            var pdfDocument = _reportGenerator.GenerateReportToFile(studySessions);
-            _reportGenerator.SaveFullReportToPdf(pdfDocument);
-        }
+        _reportGenerator.SaveReportToPdf(studySessions, ReportType.FullReport);
+        
         GeneralHelperService.ShowContinueMessage();
     }
 }

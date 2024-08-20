@@ -1,7 +1,7 @@
-﻿using Flashcards.Enums;
+﻿using Flashcards.Interfaces.Handlers;
+using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
-using Flashcards.Interfaces.View.Factory;
 using Flashcards.Services;
 using Spectre.Console;
 
@@ -13,19 +13,17 @@ namespace Flashcards.View.Commands.StacksMenu;
 internal sealed class DeleteStack : ICommand
 {
     private readonly IStacksRepository _stacksRepository;
-    private readonly IMenuCommandFactory<StackMenuEntries> _menuCommandFactory;
+    private readonly IEditableEntryHandler<IStack> _stackEntryHandler;
 
-    public DeleteStack(IStacksRepository stacksRepository, IMenuCommandFactory<StackMenuEntries> menuCommandFactory)
+    public DeleteStack(IStacksRepository stacksRepository, IEditableEntryHandler<IStack> stackEntryHandler)
     {
         _stacksRepository = stacksRepository;
-        _menuCommandFactory = menuCommandFactory;
+        _stackEntryHandler = stackEntryHandler;
     }
 
     public void Execute()
     {
-        StackChooserService.GetStacks(_menuCommandFactory, _stacksRepository);
-
-        var stack = _stacksRepository.SelectedEntry;
+        var stack = StackChooserService.GetStackFromUser(_stacksRepository, _stackEntryHandler);
 
         if (GeneralHelperService.CheckForNull(stack))
         {
@@ -39,7 +37,7 @@ internal sealed class DeleteStack : ICommand
             return;
         }
         
-        var result = _stacksRepository.Delete();
+        var result = _stacksRepository.Delete(stack);
 
         AnsiConsole.MarkupLine(
             result > 0 ? 

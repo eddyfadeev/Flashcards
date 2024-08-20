@@ -3,6 +3,7 @@ using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Models.Dto;
+using Flashcards.Models.Entity;
 
 namespace Flashcards.Repositories;
 
@@ -12,10 +13,6 @@ namespace Flashcards.Repositories;
 internal class StudySessionsRepository : IStudySessionsRepository
 {
     private readonly IDatabaseManager _databaseManager;
-    
-    public IStudySession? SelectedEntry { get; set; }
-    public int? StackId { get; set; }
-    public string? StackName { get; set; }
     
     public StudySessionsRepository(IDatabaseManager databaseManager)
     {
@@ -64,5 +61,109 @@ internal class StudySessionsRepository : IStudySessionsRepository
         IEnumerable<IStudySession> studySessions = _databaseManager.GetAllEntities<StudySessionDto>(query).ToList();
         
         return studySessions.Select(studySession => studySession.ToEntity());
+    }
+    
+    
+    
+    public IEnumerable<IStudySession> GetAllStudySessionsByStack(IDbEntity<IStack> stack)
+    {
+        const string query =
+            """
+                SELECT 
+                    s.Name as StackName,
+                    ss.Date,
+                    ss.Questions,
+                    ss.CorrectAnswers,
+                    ss.Percentage,
+                    ss.Time
+                FROM
+                    StudySessions ss
+                INNER JOIN 
+                    Stacks s ON ss.StackId = s.Id;
+            """;
+
+        IEnumerable<IStudySession> studySessions = _databaseManager.GetAllEntities<StudySessionDto>(query).ToList();
+        
+        return studySessions.Select(studySession => studySession.ToEntity());
+    }
+
+    public IEnumerable<IStudySession> GetByStackId(IDbEntity<IStack> stack)
+    {
+        const string query =
+            """
+                SELECT 
+                    ss.Date,
+                    ss.Questions,
+                    ss.CorrectAnswers,
+                    ss.Percentage,
+                    ss.Time,
+                    s.Name as StackName
+                FROM
+                    StudySessions ss
+                INNER JOIN 
+                    Stacks s ON ss.StackId = s.Id
+                WHERE
+                    ss.StackId = @Id;
+            """;
+        
+        var stackDto = stack.MapToDto();
+
+        IEnumerable<IStudySession> studySessions = _databaseManager.GetAllEntities<StudySessionDto>(query, stackDto);
+        
+        return studySessions.Select(studySession => studySession.ToEntity());
+    }
+    
+    public IEnumerable<IStackMonthlySessions> GetAverageYearly(IYear year)
+    {
+        const string query =
+            """
+                SELECT
+                    StackName,
+                    [January], [February], [March], 
+                    [April], [May], [June], [July], 
+                    [August], [September], [October], 
+                    [November], [December]
+                FROM
+                    (SELECT
+                        s.Name AS StackName,
+                        DATENAME(MONTH, ss.Date) AS MonthName,
+                        COUNT(*) AS SessionCount
+                 FROM
+                    StudySessions ss
+                 JOIN
+                    Stacks s ON ss.StackId = s.Id
+                 GROUP BY
+                    s.Name, DATENAME(MONTH, ss.Date)
+                ) AS SourceTable
+                PIVOT
+                (
+                    SUM(SessionCount)
+                    FOR MonthName IN (
+                        [January], [February], [March], 
+                        [April], [May], [June], [July], 
+                        [August], [September], [October], 
+                        [November], [December]
+                    )) AS PivotTable
+                ORDER BY
+                    StackName;
+            """;
+
+        var parameters = new Dictionary<string, object>
+        {
+            { "@Year", year.ChosenYear }
+        };
+
+        IEnumerable<IStackMonthlySessions> studySessions = _databaseManager.GetAllEntities<StackMonthlySessionsDto>(query, parameters).ToList();
+        
+        return studySessions.Select(studySession => studySession.ToEntity());
+    }
+    
+    public IEnumerable<IYear> GetYears()
+    {
+        const string query = "SELECT DISTINCT YEAR(Date) as ChosenYear FROM StudySessions;";
+
+        IEnumerable<IYear> years = _databaseManager.GetAllEntities<Year>(query);
+        
+        return years.Select(year => year.ToEntity());
     }
 }

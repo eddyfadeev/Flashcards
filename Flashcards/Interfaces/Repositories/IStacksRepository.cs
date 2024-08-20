@@ -6,9 +6,11 @@ namespace Flashcards.Interfaces.Repositories;
 /// <summary>
 /// Represents a repository for managing stacks.
 /// </summary>
-internal interface IStacksRepository : 
+internal interface IStacksRepository :
     IInsertIntoRepository<IStack>,
     IGetAllFromRepository<IStack>,
-    ISelectableRepositoryEntry<IStack>,
-    IDeleteFromRepository,
-    IUpdateInRepository;
+    IDeleteFromRepository<IStack>,
+    IUpdateInRepository<IStack>
+{
+    internal IEnumerable<IStack> GetStackNames();
+}
