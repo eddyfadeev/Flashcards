@@ -34,12 +34,14 @@ internal class ReportsMenuEntriesInitializer : IMenuEntriesInitializer<ReportsMe
         {
             { ReportsMenuEntries.FullReport, () => new FullReport(
                 _studySessionsRepository
-                ) },
+                ) 
+            },
             { ReportsMenuEntries.ReportByStack, () => new ReportByStack(
                 _stacksRepository,
                 _studySessionsRepository, 
                 _stackEntryHandler
-                ) },
+                ) 
+            },
             { ReportsMenuEntries.AverageYearlyReport, () => new AverageYearlyReport(_studySessionsRepository, _yearEntryHandler) },
             { ReportsMenuEntries.ReturnToMainMenu, () => throw new ReturnToMainMenuException() }
         };
