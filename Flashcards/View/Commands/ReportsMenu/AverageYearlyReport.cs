@@ -1,5 +1,4 @@
-﻿using Flashcards.Enums;
-using Flashcards.Interfaces.Handlers;
+﻿using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Report;
 using Flashcards.Interfaces.Repositories;
@@ -27,13 +26,19 @@ internal sealed class AverageYearlyReport : ICommand
     public void Execute()
     {
         var selectedYear = StudySessionsHelperService.GetYearFromUser(_studySessionsRepository, _yearEntryHandler);
-        
         var studySessions = _studySessionsRepository.GetAverageYearly(selectedYear).ToList();
-
+        
+        if (studySessions.Count == 0)
+        {
+            AnsiConsole.MarkupLine(Messages.Messages.NoEntriesFoundMessage);
+            GeneralHelperService.ShowContinueMessage();
+            return;
+        }
+        
         var table = _reportGenerator.GetReportToDisplay(studySessions, selectedYear);
         AnsiConsole.Write(table);
         
-        _reportGenerator.SaveReportToPdf(studySessions, selectedYear, ReportType.AverageYearlyReport);
+        _reportGenerator.SaveReportToPdf(studySessions, selectedYear);
         
         GeneralHelperService.ShowContinueMessage();
     }
