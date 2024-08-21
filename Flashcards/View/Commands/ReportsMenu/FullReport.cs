@@ -1,9 +1,9 @@
 ﻿using Flashcards.Enums;
-using Flashcards.Interfaces.Report;
+using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
+using Flashcards.Report;
 using Flashcards.Report.Strategies;
-using Flashcards.Report.Strategies.Pdf;
 using Flashcards.Services;
 using Spectre.Console;
 
@@ -12,15 +12,12 @@ namespace Flashcards.View.Commands.ReportsMenu;
 internal sealed class FullReport : ICommand
 {
     private readonly IStudySessionsRepository _studySessionsRepository;
-    private readonly IReportGenerator _reportGenerator;
     
     public FullReport(
-        IStudySessionsRepository studySessionsRepository,
-        IReportGenerator reportGenerator)
+        IStudySessionsRepository studySessionsRepository)
         
     {
         _studySessionsRepository = studySessionsRepository;
-        _reportGenerator = reportGenerator;
     }
     
     public void Execute()
@@ -34,10 +31,13 @@ internal sealed class FullReport : ICommand
             return;
         }
         
-        var table = _reportGenerator.GetReportToDisplay(studySessions, ReportType.FullReport);
-        AnsiConsole.Write(table);
+        var fullReportStrategy = new FullReportStrategy(studySessions);
+        var reportGenerator = new ReportGenerator<IStudySession>(fullReportStrategy, ReportType.FullReport);
         
-        _reportGenerator.SaveReportToPdf(studySessions, ReportType.FullReport);
+        var reportTable = reportGenerator.GetReportToDisplay();
+        AnsiConsole.Write(reportTable);
+        
+        reportGenerator.SaveReportToPdf();
         
         GeneralHelperService.ShowContinueMessage();
     }

@@ -30,36 +30,6 @@ internal static class GeneralHelperService
     }
 
     /// <summary>
-    /// Sets the stack ID in the specified repository.
-    /// </summary>
-    /// <param name="repository">The repository that implements the <see cref="IAssignableStackId"/> interface.</param>
-    /// <param name="stack">The stack object from which the stack ID will be assigned.</param>
-    internal static void SetStackIdInRepository(IAssignableStackId repository, IStack stack)
-    {
-        if (CheckForNull(stack))
-        {
-            return;
-        }
-        
-        repository.StackId = stack.Id;
-    }
-
-    /// <summary>
-    /// Sets the stack name in the repository.
-    /// </summary>
-    /// <param name="repository">The repository with an assignable stack name.</param>
-    /// <param name="stack">The stack containing the name.</param>
-    internal static void SetStackNameInRepository(IAssignableStackName repository, IStack stack)
-    {
-        if (CheckForNull(stack))
-        {
-            return;
-        }
-        
-        repository.StackName = stack.Name;
-    }
-
-    /// <summary>
     /// Checks if the specified entity is null and displays a message if it is.
     /// </summary>
     /// <typeparam name="TEntity">The type of entity to check.</typeparam>

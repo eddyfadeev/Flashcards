@@ -9,26 +9,6 @@ namespace Flashcards.Interfaces.Report;
 /// </summary>
 internal interface IReportGenerator
 {
-    /// <summary>
-    /// Retrieves the report to display as a table.
-    /// </summary>
-    /// <param name="studySessions">The list of study sessions.</param>
-    /// <returns>The report as a table.</returns>
-    internal Table GetReportToDisplay(List<IStudySession> studySessions, ReportType reportType);
-    
-    /// <summary>
-    /// Retrieves the average yearly report to display as a table.
-    /// </summary>
-    /// <param name="stackMonthlySessions">The list of study sessions with the average score per month.</param>
-    /// <returns>The report as a table.</returns>
-    internal Table GetReportToDisplay(List<IStackMonthlySessions> stackMonthlySessions, IYear year);
-    /// <summary>
-    /// Saves the full report to a PDF file.
-    /// </summary>
-    /// <param name="studySessions">
-    /// A list of study sessions containing the information to be included in the report.
-    /// </param>
-    internal void SaveReportToPdf(List<IStudySession> studySessions, ReportType reportType);
-
-    internal void SaveReportToPdf(List<IStackMonthlySessions> stackMonthlySessions, IYear year);
+    internal Table GetReportToDisplay();
+    internal void SaveReportToPdf();
 }

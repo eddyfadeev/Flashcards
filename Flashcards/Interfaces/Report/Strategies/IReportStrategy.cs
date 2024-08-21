@@ -1,10 +1,12 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 
-namespace Flashcards.Interfaces.Report.Strategies.Pdf;
+namespace Flashcards.Interfaces.Report.Strategies;
 
-internal interface IPdfReportStrategy
+internal interface IReportStrategy<TEntity>
 {
+    internal List<TEntity> Data { get; }
+    internal string[] ReportColumns { get; }
     internal string DocumentTitle { get; }
     internal PageSize PageSize { get; }
     internal void ConfigureTable(TableDescriptor table);

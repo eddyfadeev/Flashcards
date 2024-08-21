@@ -2,13 +2,13 @@
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 
-namespace Flashcards.Report.Strategies.Pdf;
+namespace Flashcards.Report.Strategies;
 
-internal sealed class AverageYearlyPdfReportStrategy : PdfReportStrategyBaseClass
+internal sealed class AverageYearlyReportStrategy : ReportStrategyBaseClass<IStackMonthlySessions>
 {
-    private readonly List<IStackMonthlySessions> _monthlySessions;
+    public override List<IStackMonthlySessions> Data { get; }
 
-    private protected override string[] ReportColumns =>
+    public override string[] ReportColumns =>
         [
             "Stack", "Jan.", "Feb.", "Mar.", 
             "Apr.", "May", "June", "July", 
@@ -18,9 +18,9 @@ internal sealed class AverageYearlyPdfReportStrategy : PdfReportStrategyBaseClas
     public override string DocumentTitle { get; }
     public override PageSize PageSize => PageSizes.A4.Landscape();
 
-    public AverageYearlyPdfReportStrategy(List<IStackMonthlySessions> monthlySessions, IYear year)
+    public AverageYearlyReportStrategy(List<IStackMonthlySessions> monthlySessions, IYear year)
     {
-        _monthlySessions = monthlySessions;
+        Data = monthlySessions;
         DocumentTitle = $"Average Yearly Report for {year.ChosenYear}";
     }
     
@@ -32,7 +32,7 @@ internal sealed class AverageYearlyPdfReportStrategy : PdfReportStrategyBaseClas
 
     public override void PopulateTable(TableDescriptor table)
     {
-        foreach (var monthlySession in _monthlySessions)
+        foreach (var monthlySession in Data)
         {
             AddTableRow(
                 table,
