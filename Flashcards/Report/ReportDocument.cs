@@ -1,7 +1,7 @@
 ﻿using Flashcards.Enums;
 using Flashcards.Interfaces.Models;
-using Flashcards.Interfaces.Report.Strategies.Pdf;
-using Flashcards.Report.Strategies.Pdf;
+using Flashcards.Interfaces.Report.Strategies;
+using Flashcards.Report.Strategies;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 
@@ -12,7 +12,7 @@ namespace Flashcards.Report;
 /// </summary>
 internal class ReportDocument : IDocument
 {
-    private readonly IPdfReportStrategy _pdfReportStrategy;
+    private readonly IReportStrategy _reportStrategy;
     
     private readonly List<IStudySession>? _studySessions;
     private readonly List<IStackMonthlySessions>? _stackMonthlySessions;
@@ -20,7 +20,7 @@ internal class ReportDocument : IDocument
 
     public ReportDocument(List<IStudySession> studySessions, ReportType reportType)
     {
-        _pdfReportStrategy = SetReportStrategy(reportType);
+        _reportStrategy = SetReportStrategy(reportType);
         _studySessions = studySessions;
     }
 
@@ -28,7 +28,7 @@ internal class ReportDocument : IDocument
     {
         _stackMonthlySessions = stackMonthlySessions;
         _year = year;
-        _pdfReportStrategy = SetReportStrategy(ReportType.AverageYearlyReport);
+        _reportStrategy = SetReportStrategy(ReportType.AverageYearlyReport);
     }
 
     public void Compose(IDocumentContainer container)
@@ -37,27 +37,27 @@ internal class ReportDocument : IDocument
             .Page(page =>
             {
                 page.Margin(20);
-                page.Header().Text(_pdfReportStrategy.DocumentTitle).AlignCenter();
-                page.Size(_pdfReportStrategy.PageSize);
+                page.Header().Text(_reportStrategy.DocumentTitle).AlignCenter();
+                page.Size(_reportStrategy.PageSize);
                 page.Content()
                     .Border(1)
                     .Table(table =>
                     {
-                        _pdfReportStrategy.ConfigureTable(table);
-                        _pdfReportStrategy.PopulateTable(table);
+                        _reportStrategy.ConfigureTable(table);
+                        _reportStrategy.PopulateTable(table);
                     });
             });
     }
 
     public DocumentMetadata GetMetadata() => DocumentMetadata.Default;
     
-    private IPdfReportStrategy SetReportStrategy(ReportType reportType)
+    private IReportStrategy SetReportStrategy(ReportType reportType)
     {
-        Dictionary<ReportType, Func<IPdfReportStrategy>> reportTypeStrategies = new()
+        Dictionary<ReportType, Func<IReportStrategy>> reportTypeStrategies = new()
         {
-            { ReportType.FullReport, () => new FullPdfReportStrategy(_studySessions!) },
-            { ReportType.AverageYearlyReport, () => new AverageYearlyPdfReportStrategy(_stackMonthlySessions!, _year!) },
-            { ReportType.ReportByStack, () => new ByStackPdfReportStrategy(_studySessions!) }
+            { ReportType.FullReport, () => new FullReportStrategy(_studySessions!) },
+            { ReportType.AverageYearlyReport, () => new AverageYearlyReportStrategy(_stackMonthlySessions!, _year!) },
+            { ReportType.ReportByStack, () => new ByStackReportStrategy(_studySessions!) }
         };
         
         return reportTypeStrategies[reportType]();

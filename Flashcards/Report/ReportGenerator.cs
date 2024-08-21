@@ -1,7 +1,6 @@
 ﻿using Flashcards.Enums;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Report;
-using Flashcards.Interfaces.Report.Strategies.Pdf;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using Spectre.Console;

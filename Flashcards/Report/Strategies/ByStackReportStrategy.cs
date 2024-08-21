@@ -2,9 +2,9 @@
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 
-namespace Flashcards.Report.Strategies.Pdf;
+namespace Flashcards.Report.Strategies;
 
-internal sealed class ByStackPdfReportStrategy : PdfReportStrategyBaseClass
+internal sealed class ByStackReportStrategy : ReportStrategyBaseClass
 {
     private readonly List<IStudySession> _studySessions;
 
@@ -16,7 +16,7 @@ internal sealed class ByStackPdfReportStrategy : PdfReportStrategyBaseClass
     public override string DocumentTitle { get; }
     public override PageSize PageSize => PageSizes.A4.Portrait();
 
-    public ByStackPdfReportStrategy(List<IStudySession> studySessions)
+    public ByStackReportStrategy(List<IStudySession> studySessions)
     {
         _studySessions = studySessions;
         DocumentTitle = $"Report for {studySessions[0].StackName}";

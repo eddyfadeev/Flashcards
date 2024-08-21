@@ -2,9 +2,9 @@
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 
-namespace Flashcards.Report.Strategies.Pdf;
+namespace Flashcards.Report.Strategies;
 
-internal sealed class FullPdfReportStrategy : PdfReportStrategyBaseClass
+internal sealed class FullReportStrategy : ReportStrategyBaseClass
 {
     private readonly List<IStudySession> _studySessions;
     
@@ -16,7 +16,7 @@ internal sealed class FullPdfReportStrategy : PdfReportStrategyBaseClass
     public override string DocumentTitle => "Study History";
     public override PageSize PageSize => PageSizes.A4.Portrait();
 
-    public FullPdfReportStrategy(List<IStudySession> studySessions)
+    public FullReportStrategy(List<IStudySession> studySessions)
     {
         _studySessions = studySessions;
     }

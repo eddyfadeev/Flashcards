@@ -1,9 +1,9 @@
 ﻿using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 
-namespace Flashcards.Interfaces.Report.Strategies.Pdf;
+namespace Flashcards.Interfaces.Report.Strategies;
 
-internal interface IPdfReportStrategy
+internal interface IReportStrategy
 {
     internal string DocumentTitle { get; }
     internal PageSize PageSize { get; }

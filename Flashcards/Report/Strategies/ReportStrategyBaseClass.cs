@@ -1,12 +1,11 @@
-﻿using Flashcards.Interfaces.Report;
-using Flashcards.Interfaces.Report.Strategies.Pdf;
+﻿using Flashcards.Interfaces.Report.Strategies;
 using QuestPDF.Fluent;
 using QuestPDF.Helpers;
 using QuestPDF.Infrastructure;
 
-namespace Flashcards.Report.Strategies.Pdf;
+namespace Flashcards.Report.Strategies;
 
-internal abstract class PdfReportStrategyBaseClass : IPdfReportStrategy
+internal abstract class ReportStrategyBaseClass : IReportStrategy
 {
     private protected abstract string[] ReportColumns { get; }
     

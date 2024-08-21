@@ -3,7 +3,6 @@ using Flashcards.Interfaces.Report;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
 using Flashcards.Report.Strategies;
-using Flashcards.Report.Strategies.Pdf;
 using Flashcards.Services;
 using Spectre.Console;
 
