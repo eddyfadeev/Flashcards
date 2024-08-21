@@ -1,8 +1,10 @@
-﻿using Flashcards.Interfaces.Handlers;
+﻿using Flashcards.Enums;
+using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Models;
-using Flashcards.Interfaces.Report;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
+using Flashcards.Report;
+using Flashcards.Report.Strategies;
 using Flashcards.Services;
 using Spectre.Console;
 
@@ -12,15 +14,12 @@ internal sealed class AverageYearlyReport : ICommand
 {
     private readonly IStudySessionsRepository _studySessionsRepository;
     private readonly IEditableEntryHandler<IYear> _yearEntryHandler;
-    private readonly IReportGenerator _reportGenerator;
     public AverageYearlyReport(
         IStudySessionsRepository studySessionsRepository, 
-        IEditableEntryHandler<IYear> yearEntryHandler,
-        IReportGenerator reportGenerator)
+        IEditableEntryHandler<IYear> yearEntryHandler)
     {
         _studySessionsRepository = studySessionsRepository;
         _yearEntryHandler = yearEntryHandler;
-        _reportGenerator = reportGenerator;
     }
 
     public void Execute()
@@ -35,10 +34,13 @@ internal sealed class AverageYearlyReport : ICommand
             return;
         }
         
-        var table = _reportGenerator.GetReportToDisplay(studySessions, selectedYear);
+        var reportStrategy = new AverageYearlyReportStrategy(studySessions, selectedYear);
+        var reportGenerator = new ReportGenerator<IStackMonthlySessions>(reportStrategy, ReportType.AverageYearlyReport);
+        
+        var table = reportGenerator.GetReportToDisplay();
         AnsiConsole.Write(table);
         
-        _reportGenerator.SaveReportToPdf(studySessions, selectedYear);
+        reportGenerator.SaveReportToPdf();
         
         GeneralHelperService.ShowContinueMessage();
     }

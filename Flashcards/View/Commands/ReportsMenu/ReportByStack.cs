@@ -1,9 +1,10 @@
 ﻿using Flashcards.Enums;
 using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Models;
-using Flashcards.Interfaces.Report;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
+using Flashcards.Report;
+using Flashcards.Report.Strategies;
 using Flashcards.Services;
 using Spectre.Console;
 
@@ -14,19 +15,16 @@ internal sealed class ReportByStack : ICommand
     private readonly IStacksRepository _stacksRepository;
     private readonly IStudySessionsRepository _studySessionsRepository;
     private readonly IEditableEntryHandler<IStack> _stackEntryHandler;
-    private readonly IReportGenerator _reportGenerator;
     
     public ReportByStack(
         IStacksRepository stacksRepository,
         IStudySessionsRepository studySessionsRepository,
-        IEditableEntryHandler<IStack> stackEntryHandler,
-        IReportGenerator reportGenerator
+        IEditableEntryHandler<IStack> stackEntryHandler
         )
     {
         _stacksRepository = stacksRepository;
         _studySessionsRepository = studySessionsRepository;
         _stackEntryHandler = stackEntryHandler;
-        _reportGenerator = reportGenerator;
     }
     
     public void Execute()
@@ -41,10 +39,13 @@ internal sealed class ReportByStack : ICommand
             return;
         }
         
-        var table = _reportGenerator.GetReportToDisplay(studySessions, ReportType.ReportByStack);
+        var reportStrategy = new ByStackReportStrategy(studySessions);
+        var reportGenerator = new ReportGenerator<IStudySession>(reportStrategy, ReportType.ReportByStack);
+        
+        var table = reportGenerator.GetReportToDisplay();
         AnsiConsole.Write(table);
         
-        _reportGenerator.SaveReportToPdf(studySessions, ReportType.ReportByStack);
+        reportGenerator.SaveReportToPdf();
         
         GeneralHelperService.ShowContinueMessage();
     }

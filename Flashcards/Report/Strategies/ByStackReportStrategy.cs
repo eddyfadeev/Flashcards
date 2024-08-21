@@ -4,11 +4,11 @@ using QuestPDF.Helpers;
 
 namespace Flashcards.Report.Strategies;
 
-internal sealed class ByStackReportStrategy : ReportStrategyBaseClass
+internal sealed class ByStackReportStrategy : ReportStrategyBaseClass<IStudySession>
 {
-    private readonly List<IStudySession> _studySessions;
+    public override List<IStudySession> Data { get; }
 
-    private protected override string[] ReportColumns =>
+    public override string[] ReportColumns =>
         [
             "Session Date", "Score", "Percentage"
         ];
@@ -18,7 +18,7 @@ internal sealed class ByStackReportStrategy : ReportStrategyBaseClass
 
     public ByStackReportStrategy(List<IStudySession> studySessions)
     {
-        _studySessions = studySessions;
+        Data = studySessions;
         DocumentTitle = $"Report for {studySessions[0].StackName}";
     }
     
@@ -30,7 +30,7 @@ internal sealed class ByStackReportStrategy : ReportStrategyBaseClass
 
     public override void PopulateTable(TableDescriptor table)
     {
-        foreach (var studySession in _studySessions)
+        foreach (var studySession in Data)
         {
             AddTableRow(
                 table,

@@ -5,12 +5,11 @@ using QuestPDF.Infrastructure;
 
 namespace Flashcards.Report.Strategies;
 
-internal abstract class ReportStrategyBaseClass : IReportStrategy
+internal abstract class ReportStrategyBaseClass<TEntity> : IReportStrategy<TEntity>
 {
-    private protected abstract string[] ReportColumns { get; }
-    
+    public abstract List<TEntity> Data { get; }
+    public abstract string[] ReportColumns { get; }
     public abstract string DocumentTitle { get; }
-
     public abstract PageSize PageSize { get; }
     
     public abstract void ConfigureTable(TableDescriptor table);

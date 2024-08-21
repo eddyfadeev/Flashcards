@@ -4,11 +4,11 @@ using QuestPDF.Helpers;
 
 namespace Flashcards.Report.Strategies;
 
-internal sealed class FullReportStrategy : ReportStrategyBaseClass
+internal sealed class FullReportStrategy : ReportStrategyBaseClass<IStudySession>
 {
-    private readonly List<IStudySession> _studySessions;
-    
-    private protected override string[] ReportColumns =>
+    public override List<IStudySession> Data { get; }
+
+    public override string[] ReportColumns =>
     [
         "Date", "Stack", "Result", "Percentage", "Duration"
     ];
@@ -18,7 +18,7 @@ internal sealed class FullReportStrategy : ReportStrategyBaseClass
 
     public FullReportStrategy(List<IStudySession> studySessions)
     {
-        _studySessions = studySessions;
+        Data = studySessions;
     }
 
 
@@ -30,7 +30,7 @@ internal sealed class FullReportStrategy : ReportStrategyBaseClass
 
     public override void PopulateTable(TableDescriptor table)
     {
-        foreach (var studySession in _studySessions)
+        foreach (var studySession in Data)
         {
             AddTableRow(
                 table,
