@@ -66,6 +66,12 @@ internal static class StudySessionsHelperService
         return correctAnswers;
     }
 
+    /// <summary>
+    /// Retrieves the chosen year from the user.
+    /// </summary>
+    /// <param name="studySessionsRepository">The study sessions repository.</param>
+    /// <param name="yearEntryHandler">The handler for user input of year.</param>
+    /// <returns>The chosen year as an instance of IYear.</returns>
     internal static IYear GetYearFromUser(
         IStudySessionsRepository studySessionsRepository, 
         IEditableEntryHandler<IYear> yearEntryHandler)

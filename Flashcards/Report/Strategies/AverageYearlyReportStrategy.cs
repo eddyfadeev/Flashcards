@@ -4,6 +4,9 @@ using QuestPDF.Helpers;
 
 namespace Flashcards.Report.Strategies;
 
+/// <summary>
+/// Represents a strategy for generating an average yearly report.
+/// </summary>
 internal sealed class AverageYearlyReportStrategy : ReportStrategyBaseClass<IStackMonthlySessions>
 {
     public override List<IStackMonthlySessions> Data { get; }
@@ -14,7 +17,7 @@ internal sealed class AverageYearlyReportStrategy : ReportStrategyBaseClass<ISta
             "Apr.", "May", "June", "July", 
             "Aug.", "Sept.", "Oct.", "Nov.", "Dec."
         ];
-    
+
     public override string DocumentTitle { get; }
     public override PageSize PageSize => PageSizes.A4.Landscape();
 
@@ -23,13 +26,27 @@ internal sealed class AverageYearlyReportStrategy : ReportStrategyBaseClass<ISta
         Data = monthlySessions;
         DocumentTitle = $"Average Yearly Report for {year.ChosenYear}";
     }
-    
+
+    ///<summary>
+    /// Configures the table in the report document with the necessary column headers and formatting.
+    /// </summary>
+    /// <param name="table">The table descriptor in the report document.</param>
     public override void ConfigureTable(TableDescriptor table)
     {
         DefineReportColumnsHeader(table);
         DefineReportColumns(table);
     }
 
+    /// <summary>
+    /// Populates a table in a report with data from a list of monthly sessions.
+    /// </summary>
+    /// <param name="table">The table descriptor of the report.</param>
+    /// <remarks>
+    /// This method retrieves data from a list of monthly sessions and populates the table in a report.
+    /// It iterates through each monthly session and adds a row to the table for each session,
+    /// with the stack name and the session data for each month.
+    /// The table descriptor should be configured before calling this method.
+    /// </remarks>
     public override void PopulateTable(TableDescriptor table)
     {
         foreach (var monthlySession in Data)
@@ -52,7 +69,7 @@ internal sealed class AverageYearlyReportStrategy : ReportStrategyBaseClass<ISta
                 );
         }
     }
-    
+
     private protected override void DefineReportColumns(TableDescriptor table)
     {
         table

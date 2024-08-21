@@ -16,6 +16,10 @@ internal class ReportDocument<TEntity> : IDocument
         _reportStrategy = reportStrategy;
     }
 
+    /// <summary>
+    /// Composes the report document based on the provided report strategy.
+    /// </summary>
+    /// <param name="container">The IDocumentContainer used to compose the report.</param>
     public void Compose(IDocumentContainer container)
     {
         container

@@ -4,6 +4,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Report;
 
+/// <summary>
+/// Represents a full report view.
+/// </summary>
 internal class FullReportView : ReportViewBaseClass<IStudySession>
 {
     public FullReportView(IReportStrategy<IStudySession> reportStrategy) : base(reportStrategy)

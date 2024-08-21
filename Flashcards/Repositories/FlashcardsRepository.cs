@@ -3,9 +3,7 @@ using Flashcards.Interfaces.Database;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Models.Dto;
-using Flashcards.Models.Entity;
 using Flashcards.Services;
-using Spectre.Console;
 
 namespace Flashcards.Repositories;
 

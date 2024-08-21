@@ -10,6 +10,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.ReportsMenu;
 
+/// <summary>
+/// Represents a command to retrieve an average yearly report.
+/// </summary>
 internal sealed class AverageYearlyReport : ICommand
 {
     private readonly IStudySessionsRepository _studySessionsRepository;

@@ -4,6 +4,10 @@ using Spectre.Console;
 
 namespace Flashcards.View.Report;
 
+/// <summary>
+/// Represents a base class for report views.
+/// </summary>
+/// <typeparam name="TEntity">The type of the entity that the report is based on.</typeparam>
 internal abstract class ReportViewBaseClass<TEntity> : IReportView
 {
     private protected IReportStrategy<TEntity> ReportStrategy { get; }
@@ -13,6 +17,12 @@ internal abstract class ReportViewBaseClass<TEntity> : IReportView
         ReportStrategy = reportStrategy;
     }
 
+    /// <summary>
+    /// Retrieves a table that represents the report to be displayed.
+    /// </summary>
+    /// <returns>
+    /// The table object representing the report.
+    /// </returns>
     public Table GetReportToDisplay()
     {
         var table = InitializeReportTable();

@@ -1,6 +1,5 @@
 ﻿using Flashcards.Enums;
 using Flashcards.Interfaces.Models;
-using Flashcards.Interfaces.Report;
 using Flashcards.Interfaces.Report.Strategies;
 using Flashcards.Interfaces.View.Report;
 using Flashcards.Services;
@@ -14,7 +13,7 @@ namespace Flashcards.Report;
 /// <summary>
 /// Generates reports for study sessions.
 /// </summary>
-internal class ReportGenerator<TEntity> : IReportGenerator
+internal class ReportGenerator<TEntity> where TEntity : class
 {
     private readonly IReportStrategy<TEntity> _reportStrategy;
     private readonly ReportType _reportType;
@@ -26,6 +25,11 @@ internal class ReportGenerator<TEntity> : IReportGenerator
         SetLicence();
     }
 
+    /// <summary>
+    /// Gets the report to display based on the type of entity and report type.
+    /// </summary>
+    /// <typeparam name="TEntity">The type of entity.</typeparam>
+    /// <returns>The report to display as a table.</returns>
     public Table GetReportToDisplay()
     {
         var reportViewMappings = new Dictionary<(Type, ReportType), Func<IReportView>>
@@ -44,6 +48,14 @@ internal class ReportGenerator<TEntity> : IReportGenerator
         return reportView!().GetReportToDisplay();
     }
 
+    ///<summary>
+    /// Saves the report to a PDF file.
+    /// </summary>
+    /// <remarks>
+    /// This method asks the user if they want to save the report.
+    /// If the user confirms, it generates the report document and saves it to a PDF file on the desktop.
+    /// The file name is based on the document title and the current date.
+    /// </remarks>
     public void SaveReportToPdf()
     {
         if (!AskToSaveReport())
