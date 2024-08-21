@@ -2,6 +2,9 @@
 
 namespace Flashcards.Interfaces.Models;
 
+/// Represents a monthly session stack.
+/// It is used to store and retrieve the number of sessions for each month of the year.
+/// Inherits from the `IAssignableStackName` interface.
 internal interface IStackMonthlySessions : IAssignableStackName
 {
     public int January { get; set; }

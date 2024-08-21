@@ -4,6 +4,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Report;
 
+/// <summary>
+/// Represents an average yearly report view.
+/// </summary>
 internal class AverageYearlyReportView : ReportViewBaseClass<IStackMonthlySessions>
 {
     public AverageYearlyReportView(IReportStrategy<IStackMonthlySessions> reportStrategy) : base(reportStrategy)
@@ -15,7 +18,7 @@ internal class AverageYearlyReportView : ReportViewBaseClass<IStackMonthlySessio
         foreach (var session in ReportStrategy.Data)
         {
             table.AddRow(
-                session.StackName,
+                session.StackName!,
                 session.January.ToString(),
                 session.February.ToString(),
                 session.March.ToString(),

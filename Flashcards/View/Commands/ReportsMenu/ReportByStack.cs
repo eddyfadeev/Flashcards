@@ -10,6 +10,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.ReportsMenu;
 
+/// <summary>
+/// Represents a command to retrieve a report by stack.
+/// </summary>
 internal sealed class ReportByStack : ICommand
 {
     private readonly IStacksRepository _stacksRepository;

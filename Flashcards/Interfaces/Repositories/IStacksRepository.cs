@@ -12,5 +12,9 @@ internal interface IStacksRepository :
     IDeleteFromRepository<IStack>,
     IUpdateInRepository<IStack>
 {
+    /// <summary>
+    /// Retrieves all stack names from the repository.
+    /// </summary>
+    /// <returns>An enumerable collection of stack objects.</returns>
     internal IEnumerable<IStack> GetStackNames();
 }

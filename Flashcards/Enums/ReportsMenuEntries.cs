@@ -2,6 +2,9 @@
 
 namespace Flashcards.Enums;
 
+/// <summary>
+/// Represents the reports menu entries.
+/// </summary>
 public enum ReportsMenuEntries
 {
     [Display(Name = "Full Report")] 

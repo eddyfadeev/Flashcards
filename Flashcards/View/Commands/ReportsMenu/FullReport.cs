@@ -9,6 +9,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Commands.ReportsMenu;
 
+/// <summary>
+/// Represents a command to retrieve a full report.
+/// </summary>
 internal sealed class FullReport : ICommand
 {
     private readonly IStudySessionsRepository _studySessionsRepository;

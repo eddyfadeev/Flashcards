@@ -1,9 +1,7 @@
-﻿using Flashcards.Enums;
-using Flashcards.Interfaces.Handlers;
+﻿using Flashcards.Interfaces.Handlers;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
-using Flashcards.Interfaces.View.Factory;
 using Flashcards.Models.Entity;
 using Flashcards.Services;
 using Spectre.Console;

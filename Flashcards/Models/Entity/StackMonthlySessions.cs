@@ -4,6 +4,9 @@ using Flashcards.Models.Dto;
 
 namespace Flashcards.Models.Entity;
 
+/// <summary>
+/// Represents a stack monthly session.
+/// </summary>
 internal class StackMonthlySessions : IStackMonthlySessions, IDbEntity<StackMonthlySessionsDto>
 {
     public string? StackName { get; set; }
@@ -20,5 +23,10 @@ internal class StackMonthlySessions : IStackMonthlySessions, IDbEntity<StackMont
     public int November { get; set; }
     public int December { get; set; }
 
+    /// <summary>
+    /// Maps an instance of <see cref="StackMonthlySessions"/> to an instance of <see cref="StackMonthlySessionsDto"/>.
+    /// </summary>
+    /// <param name="stackMonthlySessions">The instance of <see cref="StackMonthlySessions"/> to convert.</param>
+    /// <returns>An instance of <see cref="StackMonthlySessionsDto"/> representing the converted <see cref="StackMonthlySessions"/>.</returns>
     public StackMonthlySessionsDto MapToDto() => this.ToDto();
 }

@@ -4,6 +4,9 @@ using Spectre.Console;
 
 namespace Flashcards.View.Report;
 
+/// <summary>
+/// Represents a report by stack view.
+/// </summary>
 internal class ReportByStackView : ReportViewBaseClass<IStudySession>
 {
     public ReportByStackView(IReportStrategy<IStudySession> reportStrategy) : base(reportStrategy)

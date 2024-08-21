@@ -62,31 +62,12 @@ internal class StudySessionsRepository : IStudySessionsRepository
         
         return studySessions.Select(studySession => studySession.ToEntity());
     }
-    
-    
-    
-    public IEnumerable<IStudySession> GetAllStudySessionsByStack(IDbEntity<IStack> stack)
-    {
-        const string query =
-            """
-                SELECT 
-                    s.Name as StackName,
-                    ss.Date,
-                    ss.Questions,
-                    ss.CorrectAnswers,
-                    ss.Percentage,
-                    ss.Time
-                FROM
-                    StudySessions ss
-                INNER JOIN 
-                    Stacks s ON ss.StackId = s.Id;
-            """;
 
-        IEnumerable<IStudySession> studySessions = _databaseManager.GetAllEntities<StudySessionDto>(query).ToList();
-        
-        return studySessions.Select(studySession => studySession.ToEntity());
-    }
-
+    /// <summary>
+    /// Retrieves a collection of study sessions associated with a specific stack.
+    /// </summary>
+    /// <param name="stack">The stack entity to retrieve study sessions for.</param>
+    /// <returns>A collection of study sessions associated with the specified stack.</returns>
     public IEnumerable<IStudySession> GetByStackId(IDbEntity<IStack> stack)
     {
         const string query =
@@ -112,7 +93,12 @@ internal class StudySessionsRepository : IStudySessionsRepository
         
         return studySessions.Select(studySession => studySession.ToEntity());
     }
-    
+
+    /// <summary>
+    /// Retrieves the average number of monthly study sessions for each stack in the specified year.
+    /// </summary>
+    /// <param name="year">The year for which to retrieve the average.</param>
+    /// <returns>A collection of stack monthly sessions containing the stack name and the average session count for each month.</returns>
     public IEnumerable<IStackMonthlySessions> GetAverageYearly(IYear year)
     {
         const string query =
@@ -157,7 +143,11 @@ internal class StudySessionsRepository : IStudySessionsRepository
         
         return studySessions.Select(studySession => studySession.ToEntity());
     }
-    
+
+    /// <summary>
+    /// Returns a collection of distinct years from the StudySessions table.
+    /// </summary>
+    /// <returns>A collection of IYear objects representing the distinct years.</returns>
     public IEnumerable<IYear> GetYears()
     {
         const string query = "SELECT DISTINCT YEAR(Date) as ChosenYear FROM StudySessions;";

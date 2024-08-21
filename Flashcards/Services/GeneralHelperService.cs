@@ -1,6 +1,4 @@
-﻿using Flashcards.Interfaces.Models;
-using Flashcards.Interfaces.Repositories.Operations;
-using Spectre.Console;
+﻿using Spectre.Console;
 
 namespace Flashcards.Services;
 

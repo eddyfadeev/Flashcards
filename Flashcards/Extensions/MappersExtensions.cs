@@ -1,5 +1,4 @@
 ﻿using Flashcards.Interfaces.Models;
-using Flashcards.Models;
 using Flashcards.Models.Dto;
 using Flashcards.Models.Entity;
 

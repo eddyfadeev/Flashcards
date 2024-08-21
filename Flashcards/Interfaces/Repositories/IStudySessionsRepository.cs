@@ -10,7 +10,6 @@ internal interface IStudySessionsRepository :
     IInsertIntoRepository<IStudySession>,
     IGetAllFromRepository<IStudySession>
 {
-    internal IEnumerable<IStudySession> GetAllStudySessionsByStack(IDbEntity<IStack> stack);
     /// <summary>
     /// Retrieves study sessions by stack ID.
     /// </summary>
