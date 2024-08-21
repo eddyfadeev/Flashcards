@@ -21,6 +21,7 @@ internal sealed class ByStackPdfReportStrategy : PdfReportStrategyBaseClass
         _studySessions = studySessions;
         DocumentTitle = $"Report for {studySessions[0].StackName}";
     }
+    
     public override void ConfigureTable(TableDescriptor table)
     {
         DefineReportColumnsHeader(table);
@@ -38,19 +39,5 @@ internal sealed class ByStackPdfReportStrategy : PdfReportStrategyBaseClass
                 $"{ studySession.Percentage }%"
                 );
         }
-    }
-
-    private protected override void DefineReportColumns(TableDescriptor table)
-    {
-        table
-            .ColumnsDefinition(columns =>
-                {
-                    columns.RelativeColumn(2); // Stack column
-                    // Subtract 1 column for the correct number of columns
-                    for (int i = 0; i < ReportColumns.Length - 1; i++)
-                    {
-                        columns.RelativeColumn(); // Month columns
-                    }
-                });
     }
 }

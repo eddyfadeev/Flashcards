@@ -23,6 +23,7 @@ internal sealed class AverageYearlyPdfReportStrategy : PdfReportStrategyBaseClas
         _monthlySessions = monthlySessions;
         DocumentTitle = $"Average Yearly Report for {year.ChosenYear}";
     }
+    
     public override void ConfigureTable(TableDescriptor table)
     {
         DefineReportColumnsHeader(table);
@@ -50,5 +51,19 @@ internal sealed class AverageYearlyPdfReportStrategy : PdfReportStrategyBaseClas
                 monthlySession.December.ToString()
                 );
         }
+    }
+    
+    private protected override void DefineReportColumns(TableDescriptor table)
+    {
+        table
+            .ColumnsDefinition(columns =>
+            {
+                columns.RelativeColumn(2); // Stack column
+                // Subtract 1 column for the correct number of columns
+                for (int i = 0; i < ReportColumns.Length - 1; i++)
+                {
+                    columns.RelativeColumn(); // Month columns
+                }
+            });
     }
 }
