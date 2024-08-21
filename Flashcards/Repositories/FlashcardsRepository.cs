@@ -15,7 +15,7 @@ namespace Flashcards.Repositories;
 internal class FlashcardsRepository : IFlashcardsRepository
 {
     private readonly IDatabaseManager _databaseManager;
-   
+    
     public FlashcardsRepository(IDatabaseManager databaseManager)
     {
         _databaseManager = databaseManager;

@@ -1,0 +1,56 @@
+﻿using Flashcards.Interfaces.Models;
+using QuestPDF.Fluent;
+using QuestPDF.Helpers;
+
+namespace Flashcards.Report.Strategies.Pdf;
+
+internal sealed class ByStackPdfReportStrategy : PdfReportStrategyBaseClass
+{
+    private readonly List<IStudySession> _studySessions;
+
+    private protected override string[] ReportColumns =>
+        [
+            "Session Date", "Score", "Percentage"
+        ];
+    
+    public override string DocumentTitle { get; }
+    public override PageSize PageSize => PageSizes.A4.Portrait();
+
+    public ByStackPdfReportStrategy(List<IStudySession> studySessions)
+    {
+        _studySessions = studySessions;
+        DocumentTitle = $"Report for {studySessions[0].StackName}";
+    }
+    public override void ConfigureTable(TableDescriptor table)
+    {
+        DefineReportColumnsHeader(table);
+        DefineReportColumns(table);
+    }
+
+    public override void PopulateTable(TableDescriptor table)
+    {
+        foreach (var studySession in _studySessions)
+        {
+            AddTableRow(
+                table,
+                studySession.Date.ToShortDateString(),
+                $"{ studySession.CorrectAnswers } out of { studySession.Questions }",
+                $"{ studySession.Percentage }%"
+                );
+        }
+    }
+
+    private protected override void DefineReportColumns(TableDescriptor table)
+    {
+        table
+            .ColumnsDefinition(columns =>
+                {
+                    columns.RelativeColumn(2); // Stack column
+                    // Subtract 1 column for the correct number of columns
+                    for (int i = 0; i < ReportColumns.Length - 1; i++)
+                    {
+                        columns.RelativeColumn(); // Month columns
+                    }
+                });
+    }
+}

@@ -2,6 +2,8 @@
 using Flashcards.Interfaces.Report;
 using Flashcards.Interfaces.Repositories;
 using Flashcards.Interfaces.View.Commands;
+using Flashcards.Report.Strategies;
+using Flashcards.Report.Strategies.Pdf;
 using Flashcards.Services;
 using Spectre.Console;
 
@@ -14,8 +16,8 @@ internal sealed class FullReport : ICommand
     
     public FullReport(
         IStudySessionsRepository studySessionsRepository,
-        IReportGenerator reportGenerator
-        )
+        IReportGenerator reportGenerator)
+        
     {
         _studySessionsRepository = studySessionsRepository;
         _reportGenerator = reportGenerator;

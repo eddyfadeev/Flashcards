@@ -1,6 +1,7 @@
 ﻿using Flashcards.Enums;
 using Flashcards.Interfaces.Models;
 using Flashcards.Interfaces.Report;
+using Flashcards.Interfaces.Report.Strategies.Pdf;
 using QuestPDF.Fluent;
 using QuestPDF.Infrastructure;
 using Spectre.Console;
@@ -19,7 +20,9 @@ namespace Flashcards.Report
             "July", "August", "September", "October", "November", "December"
         ];
         private static readonly string[] ReportByStackColumns = ["Session Date", "Score", "Percentage"];
+        
         private static readonly TableBorder ReportTableBorder = TableBorder.Rounded;
+        
 
         public ReportGenerator()
         {
@@ -32,15 +35,15 @@ namespace Flashcards.Report
         public Table GetReportToDisplay(List<IStackMonthlySessions> stackMonthlySessions, IYear year) =>
             GenerateReportTable(stackMonthlySessions, year);
 
-        public IDocument GenerateReportToFile(List<IStudySession> studySessions, ReportType reportType)
+        private static ReportDocument GenerateReportToFile(List<IStudySession> studySessions, ReportType reportType)
         {
             var document = new ReportDocument(studySessions, reportType);
             return document;
         }
 
-        public IDocument GenerateReportToFile(List<IStackMonthlySessions> stackMonthlySessions, IYear year, ReportType reportType)
+        private static ReportDocument GenerateReportToFile(List<IStackMonthlySessions> stackMonthlySessions, IYear year)
         {
-            var document = new ReportDocument(stackMonthlySessions, year, reportType);
+            var document = new ReportDocument(stackMonthlySessions, year);
             return document;
         }
 
@@ -51,7 +54,7 @@ namespace Flashcards.Report
             {
                 return;
             }
-
+            
             var pdfDocument = GenerateReportToFile(studySessions, reportType);
             var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             var filePath = Path.Combine(desktopPath, $"{reportName}-{DateTime.Today.Date.ToShortDateString()}.pdf");
@@ -60,14 +63,14 @@ namespace Flashcards.Report
             AnsiConsole.MarkupLine($"Saved report to [bold]{filePath}[/]");
         }
 
-        public void SaveReportToPdf(List<IStackMonthlySessions> stackMonthlySessions, IYear year, ReportType reportType)
+        public void SaveReportToPdf(List<IStackMonthlySessions> stackMonthlySessions, IYear year)
         {
             if (!AskToSaveReport())
             {
                 return;
             }
 
-            var pdfDocument = GenerateReportToFile(stackMonthlySessions, year, reportType);
+            var pdfDocument = GenerateReportToFile(stackMonthlySessions, year);
             var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             var filePath = Path.Combine(desktopPath, $"Average Yearly Report-{year.ChosenYear}.pdf");
 
