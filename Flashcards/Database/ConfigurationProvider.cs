@@ -15,6 +15,8 @@ internal class ConfigurationProvider : IConfigurationProvider
     /// </summary>
     /// <returns>The database connection string.</returns>
     public string GetConfiguration() => BuildConfiguration().GetSection("ConnectionStrings")["DefaultConnection"];
+    
+    public string GetDatabaseName() => BuildConfiguration().GetSection("DatabaseName")["DefaultDbName"];
 
     private static IConfiguration BuildConfiguration() =>
         new ConfigurationBuilder()
